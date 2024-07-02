@@ -1,0 +1,129 @@
+
+.spinner {
+    width:  16rem;
+    height: 16rem;
+    display: grid;
+    border: 5.8px solid #0000;
+    border-radius: 50%;
+    border-color: #a2d2ff #bde0fe;
+    animation: spinner-e04l1k 1.4s infinite linear;
+}
+
+.spinner::before,
+.spinner::after {
+    content: "";
+    grid-area: 1/1;
+    margin: 2.9px;
+    border: inherit;
+    border-radius: 50%;
+}
+
+.spinner::before {
+    border-color: #cdb4db #ffc8dd;
+    animation: inherit;
+    animation-duration: 10s;
+    animation-direction: reverse;
+}
+
+.spinner::after {
+    margin: 16.6px;
+}
+
+@keyframes spinner-e04l1k {
+    100% {
+        transform: rotate(1turn);
+    }
+}
+
+.gallery{
+    height: 100%;
+    width: 100%;
+}
+
+.itemSkills{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+}
+
+.tooltip-container {
+    padding: 0.5rem 0;
+}
+
+.tooltip {
+    width: max-content;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.3em 0.6em;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    background: #000;
+    border-radius: 8px;
+    scale: 0;
+    color: #fff;
+    transform-origin: 0 0;
+    text-transform: capitalize;
+    font-weight: 400;
+    font-size: 16px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    z-index: 9999999999;
+}
+
+.tooltip::before {
+    position: absolute;
+    content: "";
+    height: 0.6em;
+    width: 0.6em;
+    bottom: -0.2em;
+    left: 50%;
+    transform: translate(-50%) rotate(45deg);
+    background: var(--background);
+}
+
+.tooltip-container:hover .tooltip {
+    top: -50%;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    scale: 1;
+    animation: shake 0.5s ease-in-out both;
+}
+
+@keyframes shake {
+    0% {
+        rotate: 0;
+    }
+
+    25% {
+        rotate: 7deg;
+    }
+
+    50% {
+        rotate: -7deg;
+    }
+
+    75% {
+        rotate: 1deg;
+    }
+
+    100% {
+        rotate: 0;
+    }
+}
+
+@media (max-width: 600px) {
+.itemSkills{
+    width: 40px;
+    height: 40px;
+}
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+.itemSkills{
+    width: 40px;
+    height: 40px;
+}
+}

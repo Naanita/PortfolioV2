@@ -1,0 +1,50 @@
+.container-horizontal {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    min-height: 102vh;
+}
+
+.container-horizontal .panel{
+    min-height: 100vh;
+    min-width: 100vw;
+
+}
+
+.bg-flashlight>* {
+    z-index: 2;
+    position: relative;
+}
+
+.skillsbyexp{
+    width: 30px;
+}
+.skillsbyexpx2 {
+    width: 60px;
+}
+
+.svg-2 {
+    height: 130px;
+    top: 61%;
+    left: 18%;
+}
+
+@media (max-width: 600px) {
+.container-horizontal{
+    display: block;
+    overflow-x: hidden;
+    position: relative;
+}
+.svg-2{
+    top: 20%;
+    left: 18%;
+}
+}
+
+/* Estilos para tabletas */
+@media (min-width: 601px) and (max-width: 1024px) {
+.svg-2 {
+        display: none;
+    }
+}
+

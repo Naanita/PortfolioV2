@@ -1,0 +1,63 @@
+.glasg-bg{
+    border: 1px solid #dcdcdc;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(9.5px);
+    -webkit-backdrop-filter: blur(9.5px);
+    border-radius: 12px;
+    padding: 0.3rem;
+}
+
+.nav-link{
+    color: #000 !important;
+    border-radius: 12px;
+    padding: 0.3rem;
+    margin: 0 0.1rem 0 0.4rem;
+    font-family: 'Colverica';
+    font-weight: 100;
+    overflow: hidden;
+    position: relative;
+    z-index: 3;
+    transition: left 0.3s ease, width 0.3s ease;
+}
+
+.nav-link:not(.active){
+    background-color: #dcdcdc !important;
+}
+.nav-link.active{
+    color: #fff !important; 
+}
+
+.nav-indicator {
+    position: absolute;
+    top: 10;
+    background-color: #000;
+    height: 71%;
+    border-radius: 12px;
+    padding: 0.3rem;
+    margin: 0 0.1rem 0 0.4rem;
+    transition: left 0.3s ease, width 0.3s ease;
+}
+
+.dotten-bg{
+    background-image: radial-gradient(#dcdcdc 2px, transparent 2px);
+    background-size: 20px 20px;
+    background-color: transparent;
+}
+
+/* DARK MODE */
+
+@media (max-width: 600px) {
+    .nav-indicator {
+        display: none;
+    }
+    .nav-link {
+        color: #464646 !important;
+    }
+    .nav-link.active {
+        color: #000 !important;
+    }
+    .nav-link:not(.active) {
+        background-color: transparent !important;
+    }
+}
+

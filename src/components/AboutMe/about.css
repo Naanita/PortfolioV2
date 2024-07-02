@@ -1,0 +1,39 @@
+.btnAb {
+    color: #000;
+    background-color: #dcdcdc !important;
+    border-radius: 12px;
+    padding: 0.4rem;
+    font-family: 'Colverica';
+    font-weight: 100;
+    overflow: hidden;
+    position: relative;
+    z-index: 3;
+    transition: all 0.3s ease-in-out;
+}
+
+.btnAb:hover{
+    background-color: #000 !important;
+    color: #fff !important;
+}
+
+.svg-about{
+    height: 150px;
+    top: 7%;
+    left: 15%;
+}
+
+@media (max-width: 600px) {
+    .svg-about {
+            height: 100px;
+            top: -5%;
+            left: 5%;
+        }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+        .svg-about {
+                height: 120px;
+                top: -5%;
+                left: 5%;
+            }
+}
