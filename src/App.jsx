@@ -6,6 +6,7 @@ import Home from './pages/Home/home.jsx';
 import UniqExperience from './pages/Experience/uniqExperience.jsx';
 import Skills from './pages/Skills/skills.jsx';
 import Projects from './pages/Projects/projects.jsx';
+import Template1Home from './templates/template1/pages/home/home.jsx';
 
 const PageTransitionWrapper = ({ children }) => {
   const location = useLocation();
@@ -29,6 +30,7 @@ function App() {
       <Route path="/Skills" element={<PageTransitionWrapper><Skills /></PageTransitionWrapper>} />
       <Route path="/Experience/:id" element={<PageTransitionWrapper><UniqExperience /></PageTransitionWrapper>} />
       <Route path="/Projects" element={<PageTransitionWrapper><Projects /></PageTransitionWrapper>} />
+      <Route path="/Template1" element={<PageTransitionWrapper><Template1Home /></PageTransitionWrapper>} />
     </Routes>
   );
 }
