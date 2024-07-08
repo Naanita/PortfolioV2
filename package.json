@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tsparticles/react": "^3.0.0",
     "emailjs-com": "^3.2.0",
     "gsap": "^3.12.5",
     "leva": "^0.9.35",
@@ -18,7 +19,7 @@
     "react-router-dom": "^6.24.0",
     "react-transition-group": "^4.4.5",
     "split-text-js": "^1.0.3",
-    "three": "^0.165.0"
+    "tsparticles": "^3.5.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
