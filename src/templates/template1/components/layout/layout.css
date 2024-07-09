@@ -54,7 +54,7 @@
 .badgeTemp {
     display: flex;
     align-items: center;
-    background-color: #2e332e;
+    background-color: #454945;
     color: #dcdcdc;
     border-radius: 50rem;
     padding: 0.3rem 1rem;
@@ -174,4 +174,8 @@
 /* Estilos para tabletas */
 @media (min-width: 601px) and (max-width: 1024px) {
     .w-xl-60 {}
+}
+
+.text-green {
+    color: #00ff4c;
 }

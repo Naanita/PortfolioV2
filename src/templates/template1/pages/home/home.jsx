@@ -4,7 +4,6 @@ import Layout from '../../components/layout/Layout.jsx';
 const Template1Home = () => {
     return (
         <>
-            
             <Layout />
         </>
     );
