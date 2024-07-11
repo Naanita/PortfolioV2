@@ -1,0 +1,32 @@
+.btn-white{
+    background-color: #fff !important;
+    color: #000 !important;
+    border-radius: 12px !important;
+    padding: 0.5rem 1.5rem !important;
+    font-family: 'Colverica', sans-serif !important;
+    transition: all 0.3s ease;
+}
+
+.bg-dark-hover:hover{
+    background-color: #000 !important;
+    color: #fff !important;
+    transition: all 0.3s ease;
+
+}
+
+
+.iconCokie{
+    background: rgba(59, 59, 59, 0.336) !important;
+    /* padding-right: 0.5rem; */
+    color: #fff;
+    background-color: #00ff4c;
+    border-radius: 12px;
+    text-align: center;
+    height: 2.5rem;
+    width: 2.5rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: inline-flex;
+}

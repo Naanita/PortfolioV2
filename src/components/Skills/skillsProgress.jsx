@@ -90,26 +90,26 @@ const CurrentSkills = [
 
 
 
-const SkillsProgress = () => { 
+const SkillsProgress = () => {
     return (
         <>
             <h1 className='text-dark display-3 mb-3'>Current skills</h1>
             <p className='fs-5 text-dark-400 fw-light line-height-1 text-start'>This is an estimate of my experience with these tools. A numerical value does not define my capabilities, as every day I learn something new and also forget something.</p>
-                {CurrentSkills.map((skill, index) => (
-                    <div className='row w-100 g-4'>
-                        <div className='col-2'>
-                            <div className='card-img' style={{ height: '80px' }}>
-                                <img src={skill.img} alt={skill.name} className='w-100 h-100' />
-                            </div>
-                        </div>
-                        <div className='col-10 d-flex align-items-start flex-column justify-content-center'>
-                            <h5 className='mb-1 text-start fColvetica'>{skill.name}</h5>
-                            <div class="progress w-100" role="progressbar"  aria-valuenow={skill.progress} ria-valuemin="0" aria-valuemax="100">
-                                <div class="progress-bar" style={{ width: `${skill.progress}%`, background: `${skill.color}` }}>{skill.progress}%</div>
-                            </div>
+            {CurrentSkills.map((skill, index) => (
+                <div className='row w-100 g-4'>
+                    <div className='col-2'>
+                        <div className='card-img' style={{ height: '80px' }}>
+                            <img src={skill.img} alt={skill.name} className='w-100 h-100' />
                         </div>
                     </div>
-                ))}
+                    <div className='col-10 d-flex align-items-start flex-column justify-content-center'>
+                        <h5 className='mb-1 text-start fColvetica'>{skill.name}</h5>
+                        <div className="progress w-100" role="progressbar" aria-valuenow={skill.progress} ria-valuemin="0" aria-valuemax="100">
+                            <div className="progress-bar" style={{ width: `${skill.progress}%`, background: `${skill.color}` }}>{skill.progress}%</div>
+                        </div>
+                    </div>
+                </div>
+            ))}
         </>
     );
 }

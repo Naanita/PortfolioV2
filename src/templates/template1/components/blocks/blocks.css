@@ -1,0 +1,90 @@
+
+.blocks-container{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+.blocksContent{
+    background-color: #131313;
+    width: 100vw;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    overflow: hidden;
+    z-index: 10000;
+}
+.blocksContentShadow{
+    background: rgb(255, 255, 255);
+    background: radial-gradient(circle, rgba(0, 0, 0, 0) 0%, #131313 70%);
+    inset: 0;
+    position: absolute;
+    z-index: 1;
+}
+
+.GreenFollowCursor {
+    position: absolute;
+    height: 200px;
+    width: 300px;
+    border-radius: 50%;
+    background-color: #bbff0073;
+    opacity: 1;
+    filter: blur(120px);
+    z-index: 1;
+}
+
+.blocksXL {
+    background: hsl(0 0% 10%);
+    position: relative;
+    transition: background 0.5s;
+    width: 40.5vh;
+    mask: linear-gradient(white, white) 50% 0 / 100% 2px no-repeat,
+        linear-gradient(white, white) 50% 100% / 100% 2px no-repeat,
+        linear-gradient(white, white) 0 50% / 2px 100% no-repeat,
+        linear-gradient(white, white) 100% 50% / 2px 100% no-repeat;
+    height: 250px;
+}
+
+.blocksXL:nth-of-type(-n+5),
+.blocksXL:nth-of-type(11),
+.blocksXL:nth-of-type(12),
+.blocksXL:nth-of-type(13),
+.blocksXL:nth-of-type(14),
+.blocksXL:nth-of-type(15) {
+    left: -15%;
+}
+
+/* .blocksXL:after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--x) var(--y), #b3ff0048, transparent 30vmin);
+    background-attachment: fixed;
+    opacity: 1, 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+} */
+
+.blocksXL:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--x) var(--y), #00ff4c, transparent 26vmin), transparent;
+    background-attachment: fixed;
+    pointer-events: none;
+    mask:   linear-gradient(white, white) 50% 0 / 100% 2px no-repeat,
+            linear-gradient(white, white) 50% 100% / 100% 2px no-repeat,
+            linear-gradient(white, white) 0 50% / 2px 100% no-repeat,
+            linear-gradient(white, white) 100% 50% / 2px 100% no-repeat;
+}
+
+
+.highlight{
+    border-color: yellow;
+}

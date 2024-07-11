@@ -1,6 +1,9 @@
 .bg-temp1 {
     background-color: #141714;
 }
+.bg-temp1-1 {
+    background-color: #131313;
+}
 
 .bg-horizontal-lines {
     width: 100%;
@@ -41,8 +44,8 @@
     z-index: 1;
 }
 
-.gradient-Text {
-    background: linear-gradient(90deg, #ffffff 30%, #00ff4c 100%);
+.gradient-Text  *{
+    background: linear-gradient(to bottom, #ffffff 60%, #00ff4c 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -166,6 +169,8 @@
     filter: blur(120px);
     z-index: 1;
 }
+
+
 
 @media (max-width: 600px) {
     .w-xl-60 {}

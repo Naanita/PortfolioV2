@@ -37,10 +37,10 @@ const socialMedia = [
 const FollowUS = () => {
     return (
         <div className="d-flex justify-content-center align-items-center">
-            <p className="fw-bold text-white me-2 m-0 bouncecale">Follow Us:</p>
+            <p className="fw-bold text-white me-2 m-0 bouncecale4">Follow Us:</p>
             <div className="d-flex justify-content-between flex-wrap">
                 {socialMedia.map((item, index) => (
-                    <a key={item.id} href={item.url} target="_blank" className={`${index > 0 ? 'ms-1' : ''} icons bouncecale`} rel="noreferrer" dangerouslySetInnerHTML={{ __html: item.icon }}>
+                    <a key={item.id} href={item.url} target="_blank" className={`${index > 0 ? 'ms-1' : ''} icons bouncecale4`} rel="noreferrer" dangerouslySetInnerHTML={{ __html: item.icon }}>
                     </a>
                 ))}
             </div>

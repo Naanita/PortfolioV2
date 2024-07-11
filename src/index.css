@@ -12126,6 +12126,18 @@ textarea.form-control-lg {
   }
 }
 
+.display-1Plus4 {
+  font-size: calc(6rem + 18vw);
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+@media (min-width: 1200px) {
+  .display-1Plus4 {
+    font-size: 21rem;
+  }
+}
+
 .line-height-1 {
   line-height: 1 !important;
 }
@@ -12453,4 +12465,16 @@ textarea.form-control-lg {
 .fade-exit-active {
   opacity: 0;
   transition: opacity 600ms ease-in;
+}
+
+.z-4 {
+  z-index: 4;
+}
+
+.z-5 {
+  z-index: 5;
+}
+
+.text-white-800-2{
+  color: #686868;
 }

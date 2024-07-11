@@ -15,9 +15,11 @@
     "gsap": "^3.12.5",
     "leva": "^0.9.35",
     "react": "^18.3.1",
+    "react-countup": "^6.5.3",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.24.0",
     "react-transition-group": "^4.4.5",
+    "react-visibility-sensor": "^5.1.1",
     "split-text-js": "^1.0.3",
     "tsparticles": "^3.5.0"
   },

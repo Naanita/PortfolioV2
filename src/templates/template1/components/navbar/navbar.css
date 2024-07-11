@@ -1,5 +1,5 @@
 .glasgTemps-bg{
-    background: rgba(59, 59, 59, 0.336);
+    background: rgba(59, 59, 59, 0.336) !important;
     backdrop-filter: blur(9.5px);
     -webkit-backdrop-filter: blur(9.5px);
     border-radius: 12px;

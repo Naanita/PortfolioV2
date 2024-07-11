@@ -1,0 +1,8 @@
+<svg width="0" height="0">
+  <defs>
+    <mask id="maskID">
+      <rect x="0" y="0" width="100%" height="100%" fill="white"/>
+      <text x="50%" y="50%" text-anchor="middle" dy=".35em" font-size="30" fill="black">Texto</text>
+    </mask>
+  </defs>
+</svg>
