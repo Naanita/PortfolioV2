@@ -8,6 +8,7 @@ import Navbar from '../navbar/navbar.jsx';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from 'split-text-js';
+import Particles1 from '../particles/particles1.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -198,6 +199,8 @@ const Layout = () => {
             detectRetina: true,
         }
     ))
+
+
     
 
     return (
@@ -224,10 +227,10 @@ const Layout = () => {
                 </div>
                 <div className='position-relative d-flex justify-content-center align-items-center flex-column w-100 h-100'>
                     <div className='position-absolute overflow-hidden particles' style={{ width: "20%", height: "300px", top: "-20%", left: "20%", transform: "rotate(324deg)" }}>
-                        {init && <Particles id="tsparticles1" className='h-100' particlesLoaded={particlesLoaded} options={options} />}
+                        <Particles1 id="tsparticles1" />
                     </div>
                     <div className='position-absolute overflow-hidden particles' style={{ width: "20%", height: "300px", bottom: "-20%", right: "20%", transform: "rotate(135deg)" }}>
-                        {init && <Particles id="tsparticles2" className='h-100' particlesLoaded={particlesLoaded} options={options} />}
+                        <Particles1 id="tsparticles2" />
                     </div>
                     <div className='d-flex align-items-center flex-column position-relative z-3'>
                         <div className='d-flex align-items-center'>

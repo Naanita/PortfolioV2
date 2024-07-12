@@ -1,63 +1,67 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import SplitText from 'split-text-js';
+import SplitType from 'split-type';
 
 
 gsap.registerPlugin(ScrollTrigger);
 
 const HorizontalTextLeft = ({ text, container }) => {
-    const textRef = useRef(null);  
     const containerSlideLeft = useRef(null);
+    const textRef = useRef(null);
+    
     useEffect(() => {
-
-        const splitTitle = new SplitText(textRef.current, { type: "chars, words, lines" });
+        const containerWidth = textRef.current.getBoundingClientRect().width;
         gsap.set(containerSlideLeft.current, { x: "50%" })
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: container,
-                start: "top center",
-                end: "bottom center",
+                start: "-10% center",
+                end: "35% center",
                 scrub: 1,
-                markers: true,
                 onLeave: () => {
-                    console.log("onLeave");
-                },
+                    gsap.to(containerSlideLeft.current, {
+                        x: `-${containerWidth - (containerWidth / 3)}px`,
+                        duration: 5, 
+                        ease: "none",
+                    });
+                }
             }
         });
-        
-        const tl2 = gsap.timeline({
-            scrollTrigger: {
-                trigger: container,
-                start: "top center",
-                end: "center center",
-                scrub: 1,
-                markers: true,
-                onLeave: () => {
-                    console.log("onLeave");
-                },
-            }
-        });
-
         tl.to(containerSlideLeft.current, {
-            x: "-100%",
-            duration: 2,
+            x: "-10%",
+            duration: 16,
             ease: "none",
         })
-        tl2.from(splitTitle.chars, {
-            opacity: 1,
-            y: 600,
-            x: 50,
-            stagger: .05,
-        })
+
+
+        const texts = gsap.utils.toArray(".gradient-Text-radial");
+        texts.forEach((text, index) => { 
+            const splitTitle = new SplitType(text, { type: "chars, words, lines" });
+            const tl2 = gsap.timeline({
+                scrollTrigger: {
+                    trigger: container,
+                    start: "top center",
+                    end: "35% center",
+                    scrub: 1,
+                }
+            });
+            tl2.from(splitTitle.chars, {
+                opacity: 1,
+                y: 650,
+                x: 100,
+                stagger: .05,
+            })
+        });
 
 
 
     }, []);
 
+
     return (
-        <div className="bg-danger w-100" ref={containerSlideLeft}>
-            <h1 className="text-white display-1Plus4 line-height-1 m-0 p-0" ref={textRef} style={{whiteSpace: "nowrap" }}>
+        <div className="d-flex" ref={containerSlideLeft}>
+            <h1 className="gradient-Text-radial display-1Plus4 line-height-1 m-0 p-0 me-5 spaceNoWrap" ref={textRef}>
                 {text}
             </h1>
         </div>

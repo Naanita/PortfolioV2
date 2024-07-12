@@ -50,6 +50,12 @@
     -webkit-text-fill-color: transparent;
 }
 
+.gradient-Text-radial * {
+    background: radial-gradient(circle, #ffffff 20%, #00ff4c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .neon {
     text-shadow: 0 0 10px rgba(247, 251, 248, .7);
 }
@@ -57,7 +63,7 @@
 .badgeTemp {
     display: flex;
     align-items: center;
-    background-color: #454945;
+    background-color: #3d3d3d;
     color: #dcdcdc;
     border-radius: 50rem;
     padding: 0.3rem 1rem;
@@ -66,6 +72,14 @@
 .badgeTemp i {
     margin-right: 0.3rem;
     color: #00ff4c;
+}
+.badgeTemp img {
+    margin-right: 0.3rem;
+    width: 30px !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    aspect-ratio: 1/1 !important;
+    object-fit: cover !important;
 }
 
 .badgeTempnoBg {
@@ -184,3 +198,56 @@
 .text-green {
     color: #00ff4c;
 }
+
+.inset{
+    inset: 0;
+}
+
+
+
+
+.spinner2 {
+    width: 180px;
+    height: 180px;
+    transform-style: preserve-3d;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg) rotateX(-25deg) rotateY(25deg)
+}
+
+.spinner2>div {
+    background-color: #bbff0015;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    border: 2.2px solid #00ff4c;
+}
+
+.spinner2 div:nth-of-type(1) {
+    transform: translateZ(-90.4px) rotateY(180deg);
+}
+
+.spinner2 div:nth-of-type(2) {
+    transform: rotateY(-270deg) translateX(50%);
+    transform-origin: top right;
+}
+
+.spinner2 div:nth-of-type(3) {
+    transform: rotateY(270deg) translateX(-50%);
+    transform-origin: center left;
+}
+
+.spinner2 div:nth-of-type(4) {
+    transform: rotateX(90deg) translateY(-50%);
+    transform-origin: top center;
+}
+
+.spinner2 div:nth-of-type(5) {
+    transform: rotateX(-90deg) translateY(50%);
+    transform-origin: bottom center;
+}
+
+.spinner2 div:nth-of-type(6) {
+    transform: translateZ(90.4px);
+}
+

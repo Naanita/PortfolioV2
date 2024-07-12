@@ -1,0 +1,102 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-inline: auto;
+  position: relative;
+  overflow: hidden;
+  mask-image: linear-gradient(to right,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 1) 20%,
+      rgba(0, 0, 0, 1) 80%,
+      rgba(0, 0, 0, 0));
+}
+
+@keyframes scrollLeft {
+  to {
+    left: -200px;
+  }
+}
+
+@keyframes scrollRight {
+  to {
+    right: -300px;
+  }
+}
+
+.itemLeft,
+.itemRight {
+  width: 300px;
+  height: auto;
+  position: absolute;
+  animation-timing-function: linear;
+  animation-duration: 40s;
+  animation-iteration-count: infinite;
+}
+
+.itemLeft img,
+.itemRight img{
+    height:100%;
+    width: 80%;
+    aspect-ratio: 3/1;
+    object-fit: contain;
+
+  }
+  
+.itemLeft {
+  left: max(calc(300px * 12), 100%);
+  animation-name: scrollLeft;
+}
+
+.itemRight {
+  right: max(calc(300px * 12), calc(100% + 200px));
+  animation-name: scrollRight;
+}
+
+.item1 {
+  animation-delay: calc(40s / 12 * (12 - 1) * -1);
+}
+
+.item2 {
+  animation-delay: calc(40s / 12 * (12 - 2) * -1);
+}
+
+.item3 {
+  animation-delay: calc(40s / 12 * (12 - 3) * -1);
+}
+
+.item4 {
+  animation-delay: calc(40s / 12 * (12 - 4) * -1);
+}
+
+.item5 {
+  animation-delay: calc(40s / 12 * (12 - 5) * -1);
+}
+
+.item6 {
+  animation-delay: calc(40s / 12 * (12 - 6) * -1);
+}
+
+.item7 {
+  animation-delay: calc(40s / 12 * (12 - 7) * -1);
+}
+
+.item8 {
+  animation-delay: calc(40s / 12 * (12 - 8) * -1);
+}
+.item9 {
+  animation-delay: calc(40s / 12 * (12 - 9) * -1);
+}
+.item10 {
+  animation-delay: calc(40s / 12 * (12 - 10) * -1);
+}
+.item11 {
+  animation-delay: calc(40s / 12 * (12 - 11) * -1);
+}
+.item12 {
+  animation-delay: calc(40s / 12 * (12 - 12) * -1);
+}
+.wrapper:hover .itemLeft,.wrapper:hover .itemRight {
+    animation-play-state: paused;
+}

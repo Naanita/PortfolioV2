@@ -11,9 +11,6 @@ const Template1Home = () => {
             <Layout />
             <Blocks />
             <WhatIs />
-            <div className='bg-primary vh-100 position-relative z-4'>
-
-            </div>
         </>
     );
 }
