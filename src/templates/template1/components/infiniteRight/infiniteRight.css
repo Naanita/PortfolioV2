@@ -97,6 +97,6 @@
 .item12 {
   animation-delay: calc(40s / 12 * (12 - 12) * -1);
 }
-.wrapper:hover .itemLeft,.wrapper:hover .itemRight {
+/* .wrapper:hover .itemLeft,.wrapper:hover .itemRight {
     animation-play-state: paused;
-}
+} */

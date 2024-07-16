@@ -14,7 +14,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 const WhatIs = () => {
     const mainContainer = useRef(null);
-    const textRef = useRef(null);
+    const titleref = useRef(null);
+    const descriptionref = useRef(null);
+    const textRef1 = useRef(null);
+    const textRef2 = useRef(null);
+    const badge = useRef(null);
     const [container, setContainer] = useState(null);
 
     useEffect(() => {
@@ -87,48 +91,51 @@ const WhatIs = () => {
         }
     ]    
 
-    useEffect(() => { 
-        const splitTitle = new SplitType(textRef.current, { type: "chars, words, lines" });
-        console.log(splitTitle);
-
+    useEffect(() => {
+        const splitTitle1 = new SplitType(titleref.current, { type: "chars, words, lines" });
+        const splitTitle2 = new SplitType(descriptionref.current, { type: "chars, words, lines" });
+        gsap.set(textRef1.current, { x: "100%", opacity: 0 });
+        gsap.set(textRef2.current, { x: "-100%", opacity: 0 });
+        gsap.set(badge.current, { scale: 0, opacity: 0 });
+        
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: mainContainer.current,
                 start: "35% center",
-                end: "85% center",
+                end: "60% center",
                 scrub: 1,
-                markers: true,
-            }   
+            }
         });
+        const tl2 = gsap.timeline({
+            scrollTrigger: {
+                trigger: mainContainer.current,
+                start: "35% center",
+                end: "90% center",
+                scrub: 1,
+            }
+        });
+
+        tl2.from(splitTitle2.lines, {
+            opacity: 0,
+            y: 80,
+            stagger: .03,
+        },)
+
+        tl.from(splitTitle1.chars, {
+            opacity: 0,
+            y: 80,
+            rotateX: 90,
+            stagger: .03,
+        })
+        .to([textRef1.current, textRef2.current], { x: "0%", opacity: 1, duration:5, ease: "none" }, '<')
+        .to(badge.current, { scale: 1, opacity: 1, duration: 5, ease: "none" }, '<');
+        
     }, []);
 
-    useEffect(() => {
-        const handleMouseMove = (event) => {
-            const { clientX, clientY } = event;
-            const { left, top, width, height } = mainContainer.current.getBoundingClientRect();
-            const xPosition = (clientX - left) / width - 0.5;
-            const yPosition = (clientY - top) / height - 0.5;
 
-            const spinner = mainContainer.current.querySelector('.parallax');
-            const depth = 20;
-
-            gsap.to(spinner, {
-                duration: 3,
-                x: xPosition * depth + '%',
-                y: yPosition * depth + '%',
-                ease: 'power1.out', 
-            });
-        };
-
-        mainContainer.current.addEventListener('mousemove', handleMouseMove);
-
-        return () => {
-            mainContainer.current.removeEventListener('mousemove', handleMouseMove);
-        };
-    }, []);
 
     return (
-        <div className="min-vh-100 bg-temp1-1 position-relative z-4 overflow-hidden" ref={mainContainer}>
+        <div className="min-vh-100 bg-temp1-1 position-relative z-4 overflow-hidden py-5" ref={mainContainer}>
             <div style={{marginBottom:"15rem"}}>
                 {container && <HorizontalTextLeft
                     text="Swap-free for 28 pairs and all metals!"
@@ -143,33 +150,36 @@ const WhatIs = () => {
                             <div className='position-absolute item-center overflow-hidden' style={{ width: "80%", height: "100%", borderRadius:'50%'}}>
                                 <Particles1 id="3" />
                             </div>
-                            <div className='position-absolute  h-100 w-100 parallax'>
+                            <div className='position-absolute  h-100 w-100'>
                                 <div class="spinner2 position-absolute"><div></div><div></div><div></div><div></div><div></div><div></div></div>
                             </div>
                         </div>
                         <div className='d-flex align-items-center justify-content-center w-100 flex-column  position-relative z-1'>
-                            <h1 className='display-1 text-white me-auto line-height-1'>Our Capital</h1>
-                            <h1 className='display-1 text-white ms-auto line-height-1'>Your Success</h1>
+                            <h1 className='display-1 text-white me-auto line-height-1' ref={textRef1}>Our Capital</h1>
+                            <h1 className='display-1 text-white ms-auto line-height-1' ref={textRef2}>Your Success</h1>
                         </div>
                     </div>
                     <div className='col-12 col-md-6 position-relative d-flex align-items-start justify-content-center flex-column'>
-                            <span className='badgeTemp mb-4'>
+                            <span className='badgeTemp mb-4' ref={badge}>
                                 <p className='text-white spaceNoWrap me-2'>What is <span className='text-green'>FX</span>ology?</p>
                             </span>
                             <div className='text-white w-100'>
-                                <h1 className='line-height-1 mb-4'>Trade on Forex and other markets with capital yp to 640,00 USD!</h1>
+                            <h1 className='line-height-1 mb-4' ref={titleref}>Trade on Forex and other markets with capital yp to 640,00 USD!</h1>
                                 <div>
-                                <p className='small' ref={textRef}>Swap-free is a service that is available for traders who are unable to use the swap account type. This service is available for 28 pairs and all metals. The swap-free service is not available for CFDs and cryptocurrencies. Swap-free accounts are not available for all account types. Please see the account types that are available for swap-free service.</p>
-                                    <p className='small'>Swap-free is a service that is available for traders who are unable to use the swap account type. This service is available for 28 pairs and all metals. The swap-free service is not available for CFDs and cryptocurrencies. Swap-free accounts are not available for all account types. Please see the account types that are available for swap-free service.</p>
+                                <p className='small' ref={descriptionref}>Swap-free is a service that is available for traders who are unable to use the swap account type. This service is available for 28 pairs and all metals. The swap-free service is not available for CFDs and cryptocurrencies. Swap-free accounts are not available for all account types. Please see the account types that are available for swap-free service. 
+                                    <br />
+                                    <br />
+                                    Swap-free is a service that is available for traders who are unable to use the swap account type. This service is available for 28 pairs and all metals. The swap-free service is not available for CFDs and cryptocurrencies. Swap-free accounts are not available for all account types. Please see the account types that are available for swap-free service.
+                                </p>
                                 </div>
                             </div>
                     </div>
                 </div>
             </div>
-                <div className='mx-auto' style={{marginTop:"8rem", width:"85vw"}}>
+                <div className='mx-auto mb-5' style={{marginTop:"8rem", width:"85vw"}}>
                     <InfiniteRight>
                         {Coins.map((coin, index) => (
-                            <span className='badgeTemp' key={index}>
+                            <span className='badgeTemp justify-content-center align-items-center' key={index}>
                                 <img src={coin.image} alt={coin.name} />
                                 <p className='text-white spaceNoWrap me-2'>{coin.symbol}</p>
                                 <p className='text-white-800-3 spaceNoWrap me-2'>{coin.currentPrice}</p>
@@ -179,7 +189,7 @@ const WhatIs = () => {
                     </InfiniteRight>
                     <InfiniteLeft>
                         {Coins.map((coin, index) => (
-                            <span className='badgeTemp' key={index}>
+                            <span className='badgeTemp justify-content-center align-items-center' key={index}>
                                 <img src={coin.image} alt={coin.name} />
                                 <p className='text-white spaceNoWrap me-2'>{coin.symbol}</p>
                                 <p className='text-white-800-3 spaceNoWrap me-2'>{coin.currentPrice}</p>

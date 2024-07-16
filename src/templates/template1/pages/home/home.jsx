@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Layout from '../../components/layout/Layout.jsx';
 import Blocks from '../../components/blocks/Blocks.jsx';
 import WhatIs from '../../components/whatIs/whatIs.jsx';
+import Start from '../../components/start/start.jsx';
 
 const Template1Home = () => {
     
@@ -11,6 +12,7 @@ const Template1Home = () => {
             <Layout />
             <Blocks />
             <WhatIs />
+            <Start />
         </>
     );
 }
