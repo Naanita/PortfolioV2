@@ -58,7 +58,7 @@ const Start = () => {
                 let distanceY = Math.abs(ballCenterY - holeCenterY);
                 let threshold = 150;
                 if (distanceX < threshold * 3 && distanceY < threshold * 3) {
-                    gsap.to(entryHole.current, { scale: 1 }, "-=3");
+                    gsap.to(entryHole.current, { scale: 1 });
                 } else {
                     gsap.to(entryHole.current, { scale: 0 });
                 }
