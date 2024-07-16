@@ -23,7 +23,6 @@ const Start = () => {
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
         gsap.set(ball.current, { top: "-30%", right: "3%", zIndex: 5 });
-
         let tl = gsap.timeline({
             scrollTrigger: {
                 trigger: main.current,
