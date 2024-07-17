@@ -184,6 +184,17 @@
     z-index: 1;
 }
 
+.circle-yellow {
+    position: absolute;
+    height: 200px;
+    width: 300px;
+    border-radius: 50%;
+    background-color: #d0ff00;
+    opacity: 0.5;
+    filter: blur(120px);
+    z-index: 1;
+}
+
 
 
 @media (max-width: 600px) {
