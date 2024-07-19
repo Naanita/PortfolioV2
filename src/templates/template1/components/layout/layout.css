@@ -210,6 +210,10 @@
     color: #00ff4c;
 }
 
+.bg-green {
+    background-color: #a6ff00 !important;
+}
+
 .inset{
     inset: 0;
 }

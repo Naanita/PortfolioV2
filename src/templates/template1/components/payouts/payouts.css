@@ -1,0 +1,51 @@
+.skertImg{
+    z-index: 1;
+    position: relative;
+    border-radius: 12px;
+    border: 2px solid #00ff4c;
+    background: #001a08;
+    width: 450px;
+    overflow: hidden;
+    height: 300px;
+}
+.leftSide{
+    width: 50vw;
+    height: 100vh;
+    position: absolute;
+    left: 0%;
+}
+
+.rightSide{
+    width: 50vw;
+    height: 100vh;
+    position: absolute;
+    right: 0%;
+}
+
+.topStar-center{
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(0%, -50%);
+    transition: all 0.3s ease; 
+}
+
+.topLeft-center{
+    position: absolute;
+    top: 50%;
+    right: 0%;
+    transform: translate(0%, -50%);
+    transition: all 0.3s ease; 
+}
+
+.leftSide:hover .topStar-center{ 
+    color: #fff !important;
+}
+
+.rightSide:hover .topLeft-center{ 
+    color: #fff !important;
+}
+
+/* .leftSide:hover .skertImg{
+    transform: translate(-50%, -50%) perspective(200px) rotate3D(0, 1, 0, 6deg);
+}  */

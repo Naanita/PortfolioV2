@@ -5012,7 +5012,7 @@ textarea.form-control-lg {
 .progress-stacked {
   --bs-progress-height: 1rem;
   --bs-progress-font-size: 0.75rem;
-  --bs-progress-bg: #DCDCDC;
+  --bs-progress-bg: #3d3d3d;
   --bs-progress-border-radius: var(--bs-border-radius);
   --bs-progress-box-shadow: var(--bs-box-shadow-inset);
   --bs-progress-bar-color: #fff;
@@ -12135,6 +12135,18 @@ textarea.form-control-lg {
 @media (min-width: 1200px) {
   .display-1Plus4 {
     font-size: 21rem;
+  }
+}
+
+.display-1Plus3 {
+  font-size: calc(3rem + 18vw);
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+@media (min-width: 1200px) {
+  .display-1Plus3 {
+    font-size: 14rem;
   }
 }
 

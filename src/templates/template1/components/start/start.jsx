@@ -10,7 +10,6 @@ import SplitType from 'split-type';
 
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
-gsap.registerPlugin(ScrollTrigger);
 
 
 
@@ -25,7 +24,6 @@ const Start = () => {
 
 
     useEffect(() => {
-        gsap.registerPlugin(ScrollTrigger);
         const splitTitle = new SplitType(StartEarning.current, { type: "chars, words, lines" });
         const splitTitle2 = new SplitType(title.current, { type: "chars, words, lines" });
         gsap.set(ball.current, { top: "-30%", right: "3%", zIndex: 5 });
@@ -120,7 +118,7 @@ const Start = () => {
                 <div className="row px-5 g-4  position-relative h-100">
                     <div className="col-md-6 col-12 d-flex align-items-center position-relative">
                         <div className='circle-green'></div>
-                        <div className='circle-yellow position-absolute item-center' style={{}}></div>
+                        <div className='circle-yellow position-absolute item-center'></div>
                         <div className="w-xl-75 z-1">
                             <h1 className="text-white display-2 line-height-1" ref={title}>Stop losing your own money, join us and start earnig!</h1>
                             <div className='d-flex flex-wrap  align-items-center mt-4'>
@@ -172,7 +170,7 @@ const Start = () => {
                         </div>
                         <div className='position-absolute entry-hole' style={{ scale: "0", width: "210px", right: "1%", height: '30px', top: "-0.1%", borderRadius: "100%" }} ref={entryHole}></div>
                         <div className='position-absolute entry-hole' style={{ scale: "1", width: "210px", right: "36%", height: '30px', bottom: "-0.1%", borderRadius: "100%" }} ref={exitHole}></div>
-                        <svg className='position-absolute' width="100%" height="100%" style={{scale:"1.1", top:"1%", left:"1%"}} viewBox="0 0 234 467" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg className='position-absolute' width="100%" height="100%" style={{scale:"1.1", top:"1%", left:"0.5%"}} viewBox="0 0 234 467" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path ref={line} d="M232.5 0.5C232.5 0.5 233 118 232.5 142.5C232 167 206 167 206 167H25C25 167 1.00003 167 1.00003 191C1.00003 215 1.00003 235 1.00003 258.5C1.00003 282 25 282 25 282C25 282 73.5 282 98.5 282C123.5 282 123.5 306.5 123.5 306.5L125.5 466.5" />
                         </svg>
                         <img src={cil} className='h-auto w-100' alt=""/>

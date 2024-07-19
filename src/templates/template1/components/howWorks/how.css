@@ -1,0 +1,46 @@
+.border-shapeGradient {
+    position: absolute;
+    overflow: hidden;
+    height: 2px;
+    width: 100% !important;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0) 0%, #ffafcc 50%, rgba(0, 0, 0, 0) 100%);
+}
+
+.border-shapeGradient.animated-true::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 3%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0) 0%, rgba(111, 100, 233, 0.6) 50%, rgba(0, 0, 0, 0) 100%);
+    backdrop-filter: blur(20px);
+    animation: separateline 20s ease-in-out infinite;
+}
+
+
+
+.cardGradientBorder {
+    overflow: hidden;
+    border: solid 5px transparent;
+    background-clip: padding-box;
+
+}
+
+.cardGradientBorder {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    border: 5px solid transparent;
+    border-radius: 12px;
+}
+
+[data-pick-step].active::before{
+    content: "[";
+}
+
+[data-pick-step].active::after {
+    content: "]";
+}
+
