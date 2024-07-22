@@ -211,6 +211,12 @@ body {
   font-family: 'Colverica';
   src: url('./assets/fonts/coolvetica.otf') format('woff2');
 }
+
+@font-face {
+  font-family: 'Jersey';
+  src: url('./assets/fonts/Jersey M54.ttf') format('truetype');
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@300;400;500;600;700&family=Rosarivo:ital@0;1&display=swap');
 
 h1,
@@ -12507,3 +12513,10 @@ textarea.form-control-lg {
         inset -5px -5px 10px rgba(255, 255, 255, 0.5);
   background-color: #00FF4C;
 }
+
+.fontJersey {
+  font-family: 'Jersey';
+}
+
+
+
