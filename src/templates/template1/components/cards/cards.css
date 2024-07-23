@@ -3,26 +3,28 @@
     background-image: url('../../assets/svg/lines.svg');
     position: relative;
     transition: background 0.5s;
-    width: 40.5vh;
-    height: 250px;
+    width: 45.5vh;
+    height: 300px;
+    margin: 0 auto;
 }
 
 .cardShape:after {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at var(--x) var(--y), #b3ff0048, transparent 15vmin);
+    background: radial-gradient(circle at var(--x) var(--y), var(--c2), transparent 20vmin);
     background-attachment: fixed;
     opacity: 1, 0;
     transition: opacity 0.2s;
     pointer-events: none;
+    z-index: 1;
 }
 
 .cardShape:before {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at var(--x) var(--y), #00ff4c, transparent 26vmin), transparent;
+    background: radial-gradient(circle at var(--x) var(--y), var(--c1), transparent 26vmin), transparent;
     background-attachment: fixed;
     pointer-events: none;
     mask: linear-gradient(white, white) 50% 0 / 100% 2px no-repeat,
@@ -33,6 +35,7 @@
 }
 
 .cardShape .icon {
+    z-index: 1;
     position: relative;
     font-size: 1.5rem;
     top: 0%;
@@ -45,8 +48,25 @@
     background: linear-gradient(180deg, #fff 0%, #1A1A1A 50%) border-box border-box;
     background-clip: padding-box;
     font-family: 'Jersey';
-    color: #fff;
-    text-shadow: #fff 1px 0 10px
+    color: var(--c1);
+    text-shadow: var(--c1) 1px 0 5px
+}
+.cardShape .iconXL,
+.cardShape .icon{
+    color: var(--c2);
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: var(--c1);
+    font-family: 'Jersey';
+}
+
+.cardShape .iconXL{
+    position: absolute;
+    bottom:0%;
+    right: 10%;
+    z-index: 1;
+    font-size: 13rem;
+    line-height: 1;
+
 }
 
 .cardShape .icon div{
@@ -64,6 +84,7 @@
 }
 
 .cardShape .forCategory{
+    z-index: 1;
     position: relative;
     display: flex;
     align-items: center;
@@ -79,6 +100,7 @@
     background-clip: padding-box;
     font-family: 'Jersey';
     color: #fff;
+    
 }
 
 .cardShape .forCategory .itemco{
@@ -115,12 +137,13 @@
     bottom: 0;
     left: 0;
     position: absolute;
+    z-index: 9;
 }
 
 .cardShape .contentC .title{
     color: #fff;
     font-size: 2rem;
-    font-family: 'colverica';
+        font-family: 'Jersey';
     font-weight: 500;
     margin-bottom: 14px;
     line-height: 1;
@@ -129,6 +152,7 @@
 .cardShape .contentC .description{
     color: #fff;
     font-size: 1rem;
+    font-family: 'colverica';
     font-weight: 100;
     line-height: 1;
     margin-bottom: 16px;
@@ -137,7 +161,7 @@
 .cardShape .contentC .linkTo{
     color: #fff;
     font-size: 1rem;
-    font-family: 'colverica';
+    font-family: 'Jersey';
     font-weight: 100;
     line-height: 1;
     text-transform: uppercase;
@@ -150,33 +174,18 @@
 .cardShape .contentC .linkTo i{
     margin-left: 8px;
 }
-.splide__slide{
-    transition: all 0.5s;
 
-}
 
-.splide__slide:not(.is-active) {
-    opacity: 0.1;
-    transform: scale(0.8);
-}
-
-.slider {
-    display: flex;
-    align-items: center;
-}
-
-.slider-images {
-    overflow: hidden;
-    display: flex;
-}
-
-.slide {
-    width: 100%;
-    transition: transform 0.5s ease;
-    flex-shrink: 0;
+.cardShape .particlesC{
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
     opacity: 0;
+    transition: opacity 0.2s ease-in-out;
 }
 
-.slide.active {
+.cardShape:hover .particlesC{
     opacity: 1;
 }
+

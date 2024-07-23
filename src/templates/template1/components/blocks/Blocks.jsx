@@ -62,19 +62,22 @@ const Blocks = () => {
             }
         }
 
-        const updateCursor = (e) => {
-            const x = `${e.clientX}px`;
-            const y = `${e.clientY}px`;
-            document.documentElement.style.setProperty('--x', x);
-            document.documentElement.style.setProperty('--y', y);
-        };
+const updateCursor = (e) => {
+    // Utiliza requestAnimationFrame para optimizar las actualizaciones
+    requestAnimationFrame(() => {
+        const x = `${e.clientX}px`;
+        const y = `${e.clientY}px`;
+        document.documentElement.style.setProperty('--x', x);
+        document.documentElement.style.setProperty('--y', y);
+    });
+};
 
-        document.body.addEventListener('pointermove', updateCursor);
-        createBlock();
+document.body.addEventListener('pointermove', updateCursor);
+createBlock();
 
-        return () => {
-            document.body.removeEventListener('pointermove', updateCursor);
-        };
+return () => {
+    document.body.removeEventListener('pointermove', updateCursor);
+};
     }, []);
 
 
