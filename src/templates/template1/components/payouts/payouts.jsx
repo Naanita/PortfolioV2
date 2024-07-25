@@ -30,8 +30,15 @@ const Payouts = () => {
     }, []);
 
     return (
-        <div className="min-vh-100 bg-temp1-1 position-relative z-4 overflow-hidden" ref={main}>
-            <div className='d-flex justify-content-center align-items-center position-absolute inset flex-column'>
+        <div className="min-vh-100 bg-temp1-1 position-relative z-4 overflow-hidden pb-5" ref={main}>
+
+            <div className='blocksDiv' style={{ height: "250px", width: "250px", left: "70%", transform: "translateX(-50%)" }}>
+                <div className='blocksContentShadow'></div>
+            </div>
+            <div className='blocksDiv' style={{ height: "250px", width: "250px", top:"70%", left: "30%", transform: "translateX(-50%)" }}>
+                <div className='blocksContentShadow'></div>
+            </div>
+            <div className='d-flex justify-content-center align-items-center position-absolute inset flex-column my-5'>
                 <div className='circle-green position-absolute z-n1' style={{ height: "250px", width: "250px" }}></div>
                 <div className='position-absolute' style={{top:"20%", left:"30%"}}>
                     <Particles1 />

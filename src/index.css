@@ -12519,4 +12519,16 @@ textarea.form-control-lg {
 }
 
 
-
+.blocksDiv {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -10;
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
+  background-image: linear-gradient(to right, #323232 1px, transparent 1px), linear-gradient(to bottom, #323232 1px, transparent 1px);
+  background-size: 3rem 3rem;
+}

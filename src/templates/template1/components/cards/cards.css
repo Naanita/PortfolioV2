@@ -1,11 +1,14 @@
 .cardShape {
-    /* background: #1A1A1A; */
+    background: #1A1A1A;
     background-image: url('../../assets/svg/lines.svg');
+    background-position: bottom;
+    background-size: contain;
+    background-repeat: no-repeat;
     position: relative;
     transition: background 0.5s;
     width: 45.5vh;
     height: 300px;
-    margin: 0 auto;
+    margin: 1rem auto;
 }
 
 .cardShape:after {
@@ -62,9 +65,9 @@
 .cardShape .iconXL{
     position: absolute;
     bottom:0%;
-    right: 10%;
-    z-index: 1;
-    font-size: 13rem;
+    right: 0%;
+    z-index: 3;
+    font-size: 15rem;
     line-height: 1;
 
 }
@@ -168,7 +171,7 @@
     padding: 10px 15px;
     border-radius: 5px;
     text-decoration: none;
-    background: linear-gradient(0deg, #ffffff62 0%, #1A1A1A 80%) border-box border-box;
+    background: linear-gradient(0deg, var(--c2) 0%, #1A1A1A 80%) border-box border-box;
 }
 
 .cardShape .contentC .linkTo i{
