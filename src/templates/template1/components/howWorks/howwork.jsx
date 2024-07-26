@@ -21,7 +21,6 @@ const HowWork = () => {
 
         const animateStep = (index) => {
             gsap.killTweensOf(progressBars);
-
             gsap.to(steps, { opacity: 0, duration: 1 });
             gsap.to(images, { opacity: 0, duration: 1 });
 
@@ -42,16 +41,10 @@ const HowWork = () => {
             gsap.set(progressBars, { width: '0%', opacity: 0 });
             gsap.to(progressBars[index], {
                 width: '100%', opacity: 1, duration: 5, ease: 'linear',
-                scrollTrigger: {
-                    trigger: main.current,
-                    start: "top center",
-                    end: "bottom top",
-                    toggleActions: "play none none reverse",
-                },
             });
 
-            gsap.to(steps[index], { opacity: 1, duration: 1, scrollTrigger: main.current });
-            gsap.to(images[index], { opacity: 1, duration: 1, x: 0, scrollTrigger: main.current });
+            gsap.to(steps[index], { opacity: 1, duration: 1 });
+            gsap.to(images[index], { opacity: 1, duration: 1, x: 0 });
 
             const title = steps[index].querySelector('[data-title-step]');
             const description = steps[index].querySelector('[data-descrip-step]');
@@ -63,14 +56,12 @@ const HowWork = () => {
                 rotateX: 90,
                 stagger: .03,
                 duration: 1,
-                scrollTrigger: main.current,
             })
             gsap.from(splitDescrip.lines, {
                 opacity: 0,
                 y: 80,
                 stagger: .03,
                 duration: 1,
-                scrollTrigger: main.current,
             })
             stepPickers.forEach((picker, idx) => {
                 picker.classList.remove('active');
@@ -80,21 +71,34 @@ const HowWork = () => {
             });
         };
 
-        stepPickers.forEach((picker, index) => {
-            picker.addEventListener('click', () => {
-                clearInterval(interval);
-                currentStep = index;
-                animateStep(currentStep);
+        const initSlider = () => {
+            stepPickers.forEach((picker, index) => {
+                picker.addEventListener('click', () => {
+                    clearInterval(interval);
+                    currentStep = index;
+                    animateStep(currentStep);
+                });
             });
-        });
 
-        const nextStep = () => {
-            currentStep = (currentStep + 1) % steps.length;
+            const nextStep = () => {
+                currentStep = (currentStep + 1) % steps.length;
+                animateStep(currentStep);
+            };
             animateStep(currentStep);
+            const interval = setInterval(nextStep, 6000);
+            return () => clearInterval(interval);
         };
-        animateStep(currentStep);
-        const interval = setInterval(nextStep, 6000);
-        return () => clearInterval(interval);
+
+        gsap.to({}, {
+            scrollTrigger: {
+                trigger: main.current,
+                start: "top center",
+                end: "bottom top",
+                toggleActions: "play none none reverse",
+                onEnter: initSlider,
+                onLeave: () => clearInterval(interval),
+            }
+        });
     }, []);
     
     return (

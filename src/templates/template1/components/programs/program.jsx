@@ -1,6 +1,16 @@
 import './program.css';
+import { useEffect, useRef } from 'react';
 import Card1 from '../cards/card1.jsx';
+import gsap from 'gsap';
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SplitType from 'split-type';
+
+gsap.registerPlugin(ScrollTrigger);
+
 const programs = () => { 
+    const mainContainer = useRef(null);
+    const titleref = useRef(null);
+    const descriptionref = useRef(null);
 
     const programs = [
         {
@@ -47,14 +57,45 @@ const programs = () => {
         
     ]
 
+    useEffect(() => { 
+        const splitTitle1 = new SplitType(titleref.current, { type: "chars, words, lines" });
+        const splitTitle2 = new SplitType(descriptionref.current, { type: "chars, words, lines" });
+
+
+
+        gsap.from(splitTitle2.lines, {
+            scrollTrigger: {
+                trigger: mainContainer.current,
+                start: "top center",
+                end: "bottom top",
+                toggleActions: "play none none none",
+            },
+            opacity: 0,
+            y: 80,
+            stagger: .03,
+        },)
+
+        gsap.from(splitTitle1.chars, {
+            scrollTrigger: {
+                trigger: mainContainer.current,
+                start: "top center",
+                end: "bottom top",
+                toggleActions: "play none none none",
+            },
+            opacity: 0,
+            y: 80,
+            rotateX: 90,
+            stagger: .03,
+        })
+    }, []);
 
     return (
-        <div className='min-vh-100 bg-temp1-1 position-relative z-4 overflow-hidden'>
+        <div className='min-vh-100 bg-temp1-1 position-relative z-4' ref={mainContainer}>
                         <div className='blocksDiv' style={{ height: "30vh", width: "60vw", left:"50%", transform:"translateX(-50%)" }}>
                 <div className='blocksContentShadow'></div>
             </div>
-            <h1 className="display-1 line-height-1 text-white m-0 text-center mt-5" style={{ paddingTop: "3rem" }}>choose one of our programs</h1>
-            <p className="fs-5 text-white text-center mb-5">What is your experice and what you prefer?</p>
+            <h1 className="display-1 line-height-1 text-white m-0 text-center" style={{ paddingTop: "3rem" }} ref={titleref}>choose one of our programs</h1>
+            <p className="fs-5 text-white text-center mb-5" ref={descriptionref}>What is your experice and what you prefer?</p>
             <div className='circle-green position-absolute z-n1' style={{ top: "0%", left:'50%', transform:'translateX(-50%)', opacity:"0.5" }}></div>
             <div className='row g-4 justify-content-center align-items-center flex-wrap carsaw mb-5'>
                 {programs.map((program, index) => (

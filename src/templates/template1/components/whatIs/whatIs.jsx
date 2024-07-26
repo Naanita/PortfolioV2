@@ -5,12 +5,75 @@ import InfiniteRight from '../infiniteRight/infiniteRight.jsx';
 import InfiniteLeft from '../infiniteLeft/infiniteLeft.jsx';
 import gsap from 'gsap';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
 import SplitType from 'split-type';
-
 
 gsap.registerPlugin(ScrollTrigger);
 
+const Coins = [
+    {
+        name: "Bitcoin",
+        symbol: "BTC",
+        currentPrice: '62699 USD',
+        image: "https://www.cryptocompare.com/media/19633/btc.png",
+        upordown: "-1%",
+    },
+    {
+        name: "Ethereum",
+        symbol: "ETH",
+        currentPrice: '62699 USD',
+        image: "https://www.cryptocompare.com/media/20646/eth_logo.png",
+        upordown: "+25%",
+    },
+    {
+        name: "Litecoin",
+        symbol: "LTC",
+        currentPrice: '62699 USD',
+        image: "https://www.cryptocompare.com/media/35309662/ltc.png",
+        upordown: "+0.002%",
+    },
+    {
+        name: "solana",
+        symbol: "SOL",
+        currentPrice: '62699 USD',
+        image: "https://www.cryptocompare.com/media/37747734/sol.png",
+        upordown: "-0.0021%",
+    },
+    {
+        name: "Cardano",
+        symbol: "ADA",
+        currentPrice: '62699 USD',
+        image: "https://www.cryptocompare.com/media/12318177/ada.png",
+        upordown: "+16.2156%",
+    },
+    {
+        name: "Polkadot",
+        symbol: "DOT",
+        currentPrice: '62699 USD',
+        image: "https://resources.cryptocompare.com/asset-management/20/1662461067977.png?width=200",
+        upordown: "+12.5%",
+    },
+    {
+        name: "Dogecoin",
+        symbol: "DOGE",
+        currentPrice: '62699 USD',
+        image: "https://resources.cryptocompare.com/asset-management/26/1662541306654.png?width=200",
+        upordown: "-52%",
+    },
+    {
+        name: "Ripple",
+        symbol: "XRP",
+        currentPrice: '62699 USD',
+        image: "https://www.cryptocompare.com/media/34477776/xrp.png",
+        upordown: "+14.5%",
+    },
+    {
+        name: "Pepe",
+        symbol: "PEPE",
+        currentPrice: '62699 USD',
+        image: "https://resources.cryptocompare.com/asset-management/3010/1709049889749.png?width=200",
+        upordown: "+2%",
+    }
+]   
 
 const WhatIs = () => {
     const mainContainer = useRef(null);
@@ -25,71 +88,7 @@ const WhatIs = () => {
         setContainer(mainContainer.current);
     }, []);
 
-    const Coins = [
-        {
-            name: "Bitcoin",
-            symbol: "BTC",
-            currentPrice: '62699 USD',
-            image: "https://www.cryptocompare.com/media/19633/btc.png",
-            upordown: "-1%",
-        },
-        {
-            name: "Ethereum",
-            symbol: "ETH",
-            currentPrice: '62699 USD',
-            image: "https://www.cryptocompare.com/media/20646/eth_logo.png",
-            upordown: "+25%",
-        },
-        {
-            name: "Litecoin",
-            symbol: "LTC",
-            currentPrice: '62699 USD',
-            image: "https://www.cryptocompare.com/media/35309662/ltc.png",
-            upordown: "+0.002%",
-        },
-        {
-            name: "solana",
-            symbol: "SOL",
-            currentPrice: '62699 USD',
-            image: "https://www.cryptocompare.com/media/37747734/sol.png",
-            upordown: "-0.0021%",
-        },
-        {
-            name: "Cardano",
-            symbol: "ADA",
-            currentPrice: '62699 USD',
-            image: "https://www.cryptocompare.com/media/12318177/ada.png",
-            upordown: "+16.2156%",
-        },
-        {
-            name: "Polkadot",
-            symbol: "DOT",
-            currentPrice: '62699 USD',
-            image: "https://resources.cryptocompare.com/asset-management/20/1662461067977.png?width=200",
-            upordown: "+12.5%",
-        },
-        {
-            name: "Dogecoin",
-            symbol: "DOGE",
-            currentPrice: '62699 USD',
-            image: "https://resources.cryptocompare.com/asset-management/26/1662541306654.png?width=200",
-            upordown: "-52%",
-        },
-        {
-            name: "Ripple",
-            symbol: "XRP",
-            currentPrice: '62699 USD',
-            image: "https://www.cryptocompare.com/media/34477776/xrp.png",
-            upordown: "+14.5%",
-        },
-        {
-            name: "Pepe",
-            symbol: "PEPE",
-            currentPrice: '62699 USD',
-            image: "https://resources.cryptocompare.com/asset-management/3010/1709049889749.png?width=200",
-            upordown: "+2%",
-        }
-    ]    
+ 
 
     useEffect(() => {
         const splitTitle1 = new SplitType(titleref.current, { type: "chars, words, lines" });
@@ -98,38 +97,52 @@ const WhatIs = () => {
         gsap.set(textRef2.current, { x: "-100%", opacity: 0 });
         gsap.set(badge.current, { scale: 0, opacity: 0 });
         
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: mainContainer.current,
-                start: "35% center",
-                end: "60% center",
-                scrub: 1,
-            }
-        });
-        const tl2 = gsap.timeline({
-            scrollTrigger: {
-                trigger: mainContainer.current,
-                start: "35% center",
-                end: "90% center",
-                scrub: 1,
-            }
-        });
 
-        tl2.from(splitTitle2.lines, {
+
+        gsap.from(splitTitle2.lines, {
+            scrollTrigger: {
+                trigger: mainContainer.current,
+                start: "35% center",
+                end: "bottom top",
+                toggleActions: "play none none reverse",
+            },
             opacity: 0,
             y: 80,
             stagger: .03,
         },)
 
-        tl.from(splitTitle1.chars, {
+        gsap.from(splitTitle1.chars, {
+            scrollTrigger: {
+                trigger: mainContainer.current,
+                start: "35% center",
+                end: "bottom top",
+                toggleActions: "play none none reverse",
+            },
             opacity: 0,
             y: 80,
             rotateX: 90,
             stagger: .03,
         })
-        .to([textRef1.current, textRef2.current], { x: "0%", opacity: 1, duration:5, ease: "none" }, '<')
-        .to(badge.current, { scale: 1, opacity: 1, duration: 5, ease: "none" }, '<');
-        
+            
+        gsap.to([textRef1.current, textRef2.current], {
+            scrollTrigger: {
+                trigger: mainContainer.current,
+                start: "35% center",
+                end: "bottom top",
+                toggleActions: "play none none reverse",
+            },
+            x: "0%", opacity: 1, duration: 1, ease: "none"
+        })
+
+        gsap.to(badge.current, {
+            scrollTrigger: {
+                trigger: mainContainer.current,
+                start: "35% center",
+                end: "bottom top",
+                toggleActions: "play none none reverse",
+            },
+            scale: 1, opacity: 1, duration: 1, ease: "none"
+        })
     }, []);
 
 
