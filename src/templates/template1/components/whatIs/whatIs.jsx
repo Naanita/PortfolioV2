@@ -104,7 +104,7 @@ const WhatIs = () => {
                 trigger: mainContainer.current,
                 start: "35% center",
                 end: "bottom top",
-                toggleActions: "play none none reverse",
+                toggleActions: "play none none none",
             },
             opacity: 0,
             y: 80,
@@ -116,7 +116,7 @@ const WhatIs = () => {
                 trigger: mainContainer.current,
                 start: "35% center",
                 end: "bottom top",
-                toggleActions: "play none none reverse",
+                toggleActions: "play none none none",
             },
             opacity: 0,
             y: 80,
@@ -129,7 +129,7 @@ const WhatIs = () => {
                 trigger: mainContainer.current,
                 start: "35% center",
                 end: "bottom top",
-                toggleActions: "play none none reverse",
+                toggleActions: "play none none none",
             },
             x: "0%", opacity: 1, duration: 1, ease: "none"
         })
@@ -139,7 +139,7 @@ const WhatIs = () => {
                 trigger: mainContainer.current,
                 start: "35% center",
                 end: "bottom top",
-                toggleActions: "play none none reverse",
+                toggleActions: "play none none none",
             },
             scale: 1, opacity: 1, duration: 1, ease: "none"
         })

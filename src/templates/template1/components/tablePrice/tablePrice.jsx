@@ -138,16 +138,16 @@ const TablePrice = () => {
                         <ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
                             <div className='navIntercont'>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Copper</button>
+                                <button class="nav-link pilTable active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Copper</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Bronze</button>
+                                <button class="nav-link pilTable" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Bronze</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Silver</button>
+                                <button class="nav-link pilTable" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Silver</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#pills-disabled" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false">Diamond</button>
+                                <button class="nav-link pilTable" id="pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#pills-disabled" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false">Diamond</button>
                             </li>
                             </div>
                         </ul>
@@ -155,7 +155,7 @@ const TablePrice = () => {
                 </div>
                 <div className='container-fluid px-xl-13' ref={tableRef}>
                     <div class="tab-content" id="pills-tabContent">
-                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabIndex="0">
                             <div className='table-responsive-md borderTable overflow-hidden px-4 mt-5 bg-table'>
                                 <table className='table w-100 position-relative z-1 bg-transparentAll table-borderless border-columns m-0 bg-table'>
                                     <tbody className=''>

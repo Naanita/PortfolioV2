@@ -19,7 +19,7 @@ const programs = () => {
             category: 'For beginners and advanced traders',
             icon:'4',
             stars: 1,
-            hexColor: '#8E644B',
+            hexColor: '#ff006e',
         },
         {
             title: 'Bronze 3',
@@ -27,7 +27,7 @@ const programs = () => {
             category: 'For moderately and advanced traders',
             icon: '3',
             stars: 2,
-            hexColor: '#803518',
+            hexColor: '#fb5607',
         },
         {
             title: 'Silver 2',
@@ -35,7 +35,7 @@ const programs = () => {
             category: 'For more advanced traders',
             icon: '2',
             stars: 3,
-            hexColor: '#C0C0C0',
+            hexColor: '#3a86ff',
         },
         {
             title: 'Gold 1',
@@ -43,7 +43,7 @@ const programs = () => {
             category: 'For advanced traders',
             icon: '1',
             stars: 4,
-            hexColor: ' #FFD700',
+            hexColor: ' #ffbe0b',
         },
         {
             title: 'Diamond',
@@ -51,7 +51,7 @@ const programs = () => {
             category: 'For experienced traders',
             icon: '<i class="fa-regular fa-gem"></i>',
             stars: 5,
-            hexColor: ' #694F8E',
+            hexColor: ' #8338ec',
         }
 
         

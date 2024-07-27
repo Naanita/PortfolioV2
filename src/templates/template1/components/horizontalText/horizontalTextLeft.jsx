@@ -23,7 +23,7 @@ const HorizontalTextLeft = ({ text, container }) => {
                 onLeave: () => {
                     gsap.to(containerSlideLeft.current, {
                         x: `-${containerWidth - (containerWidth / 3)}px`,
-                        duration: 5,
+                        duration: 12,
                         ease: "none",
                     });
                 }
@@ -44,7 +44,7 @@ const HorizontalTextLeft = ({ text, container }) => {
                     trigger: container,
                     start: "top center",
                     end: "35% center",
-                    scrub: 1,
+                    scrub: 2,
                 }
             }).from(splitTitle.chars, {
                 opacity: 1,

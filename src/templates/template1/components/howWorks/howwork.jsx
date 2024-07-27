@@ -18,6 +18,7 @@ const HowWork = () => {
         const stepPickers = document.querySelectorAll('[data-pick-step]');
         let currentStep = 0;
         let whereAreValue = { position: "41%" };
+        let interval; // Mover la declaración de interval aquí
 
         const animateStep = (index) => {
             gsap.killTweensOf(progressBars);
@@ -85,7 +86,7 @@ const HowWork = () => {
                 animateStep(currentStep);
             };
             animateStep(currentStep);
-            const interval = setInterval(nextStep, 6000);
+            interval = setInterval(nextStep, 6000); 
             return () => clearInterval(interval);
         };
 
@@ -96,7 +97,7 @@ const HowWork = () => {
                 end: "bottom top",
                 toggleActions: "play none none reverse",
                 onEnter: initSlider,
-                onLeave: () => clearInterval(interval),
+                onLeave: () => clearInterval(interval), 
             }
         });
     }, []);

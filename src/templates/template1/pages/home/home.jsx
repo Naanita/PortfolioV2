@@ -8,6 +8,8 @@ import HowWork from '../../components/howWorks/howwork.jsx';
 import Payouts from '../../components/payouts/payouts.jsx';
 import Programs from '../../components/programs/program.jsx';
 import TablePrice from '../../components/tablePrice/tablePrice.jsx';
+import WorldTrader from '../../components/worldTrader/worldTrader.jsx';
+import Prop from '../../components/propTrading/prop.jsx';
 
 const Template1Home = () => {
     
@@ -21,6 +23,9 @@ const Template1Home = () => {
             <Payouts />
             <TablePrice/>
             <Programs />
+            <WorldTrader />
+            <Prop />
+
         </>
     );
 }
