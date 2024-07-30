@@ -5,7 +5,10 @@ export default defineConfig({
   plugins: [react()],
   build: {
     rollupOptions: {
-      external: ["split-type"],
+      external: [],
     },
+  },
+  optimizeDeps: {
+    include: ["split-type"],
   },
 });
