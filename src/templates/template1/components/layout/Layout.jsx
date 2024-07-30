@@ -1,7 +1,5 @@
 import './layout.css';
 import { useEffect, useState, useMemo, useRef } from 'react';
-import { loadFull } from "tsparticles";
-import Particles, { initParticlesEngine } from "@tsparticles/react";
 import FollowUS from '../socialMedia/followUs.jsx';
 import Cookies from '../cookie/cookies.jsx';
 import Navbar from '../navbar/navbar.jsx';
@@ -14,19 +12,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 
 const Layout = () => {
-    const [init, setInit] = useState(false);
     const titleRef = useRef(null);
-
-
-    useEffect(() => {
-        initParticlesEngine(async (engine) => {
-            await loadFull(engine);
-        }).then(() => {
-            setInit(true);
-        });
-    }, []);
-    const particlesLoaded = (container) => {
-    };
     
     useEffect(() => {
         gsap.set(".glasgTemps-bg:not(.noAnipo)", { clipPath: "polygon(0 100%, 0 0, 0 0, 0 100%)", opacity: 0 });
@@ -126,83 +112,6 @@ const Layout = () => {
         
     }, []);
     
-    const options = useMemo(() => (
-        {
-            fullScreen: {
-                enable: false,
-            },
-            interactivity: {
-                events: {
-                    onClick: {
-                        enable: false,
-                    },
-                    onHover: {
-                        enable: false,
-                    },
-                    resize: true,
-                },
-                modes: {
-                    bubble: {
-                        distance: 400,
-                        duration: 2,
-                        opacity: 0.8,
-                        size: 40,
-                    },
-                    push: {
-                        quantity: 4,
-                    },
-                    repulse: {
-                        distance: 200,
-                        duration: 0.4,
-                    },
-                },
-            },
-            particles: {
-                color: {
-                    value: "#edfff2",
-                },
-                collisions: {
-                    enable: false,
-                },
-                move: {
-                    enable: true,
-                    random: false,
-                    speed: 3,
-                    straight: false,
-                    direction: "top",
-                    out_mode: "enter", 
-                },
-                number: {
-                    density: {
-                        enable: true,
-                        area: 800,
-                    },
-                    value: 600,
-                },
-                opacity: {
-                    value: 1,
-                },
-                size: {
-                    value: { min: 1, max: 3},
-                },
-                shape: {
-                    type: "polygon", // Forma de las partículas: "circle", "edge", "triangle", "polygon", "star", "image"
-                },
-                shadow: {
-                    enable: true,
-                    blur: 10,
-                    color: {
-                        value: "#fff",
-                    },
-                }
-            },
-            detectRetina: true,
-        }
-    ))
-
-
-    
-
     return (
         <div className='position-sticky top-0'>
             <Navbar />

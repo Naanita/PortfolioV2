@@ -10,7 +10,8 @@ import Programs from '../../components/programs/program.jsx';
 import TablePrice from '../../components/tablePrice/tablePrice.jsx';
 import WorldTrader from '../../components/worldTrader/worldTrader.jsx';
 import Prop from '../../components/propTrading/prop.jsx';
-
+import Timeline from '../../components/timeline/timeline.jsx';
+import Footer from '../../components/footer/footer.jsx';
 const Template1Home = () => {
     
     return (
@@ -25,7 +26,8 @@ const Template1Home = () => {
             <Programs />
             <WorldTrader />
             <Prop />
-
+            <Timeline />
+            <Footer />
         </>
     );
 }

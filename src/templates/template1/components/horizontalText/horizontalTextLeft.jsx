@@ -50,7 +50,7 @@ const HorizontalTextLeft = ({ text, container }) => {
                 opacity: 1,
                 y: 650,
                 x: 100,
-                stagger: 0.05,
+                stagger: 0.03,
             });
         });
 

@@ -91,7 +91,7 @@ const programs = () => {
 
     return (
         <div className='min-vh-100 bg-temp1-1 position-relative z-4' ref={mainContainer}>
-                        <div className='blocksDiv' style={{ height: "30vh", width: "60vw", left:"50%", transform:"translateX(-50%)" }}>
+            <div className='blocksDiv' style={{ height: "30vh", width: "60vw", left:"50%", transform:"translateX(-50%)" }}>
                 <div className='blocksContentShadow'></div>
             </div>
             <h1 className="display-1 line-height-1 text-white m-0 text-center" style={{ paddingTop: "3rem" }} ref={titleref}>choose one of our programs</h1>

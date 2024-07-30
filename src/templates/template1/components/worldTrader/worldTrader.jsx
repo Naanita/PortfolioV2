@@ -22,32 +22,31 @@ const WorldTrader = () => {
             scrollTrigger: {
                 trigger: mainElement,
                 start: "top top",
-                end: "150% top", // Extiende el tiempo de pin
+                end: "100% top",
                 pin: true,
                 scrub: 2,
-                markers: true
             }
         })
             .to(titleElement, {
                 scale: 0,
                 opacity: 0,
-                duration: 2, // Extiende la duración de la animación del titleElement
+                duration: 1.5,
                 ease: "power1.inOut"
             })
-
+ 
             .from(circleElement, {
                 y: 100,
                 opacity: 0,
                 duration: 1,
                 ease: "power1.inOut"
-            }, "-=1.5") // Ajusta el tiempo de inicio relativo
-
+            }, "-=5") 
+            
             .from(timerElement, {
                 y: 100,
                 opacity: 0,
                 duration: 1,
                 ease: "power1.inOut"
-            }, "-=0.5"); // Ajusta el tiempo de inicio relativo
+            }, "-=1");
 
     }, []);
 

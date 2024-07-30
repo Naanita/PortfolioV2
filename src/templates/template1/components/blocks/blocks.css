@@ -28,6 +28,15 @@
     z-index: 1;
 }
 
+.blocksContentShadowBlack {
+    background: rgb(255, 255, 255);
+    background-position: center;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0) 0%, #070707 80%);
+    inset: 0;
+    position: absolute;
+    z-index: 1;
+}
+
 .GreenFollowCursor {
     position: absolute;
     height: 200px;

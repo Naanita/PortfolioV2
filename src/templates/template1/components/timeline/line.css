@@ -1,0 +1,21 @@
+
+.lineTimes{
+    background-color: #fff;
+    width: 3px;
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.lineTimes::before{
+    content: '';
+    position: absolute;
+    top: -1%;
+    transform: translateX(-45%);
+    border-radius: 50%;
+    background-color: #e7ffee;
+    width: 20px;
+    box-shadow: 0px 0px 105px 35px #00ff4c;
+    height: 20px;
+}
