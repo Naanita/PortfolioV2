@@ -39,7 +39,7 @@ const Timer1 = ({ dateMMDDYY }) => {
     }, [dateMMDDYY]);
 
     if (message) {
-        return <div className="display-1 m-0 line-height-1 text-white">{message}</div>;
+        return <h1 className="display-1 m-0 line-height-1 text-white">{message}</h1>;
     }
 
     return (

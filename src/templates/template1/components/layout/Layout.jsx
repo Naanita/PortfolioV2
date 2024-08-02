@@ -23,7 +23,7 @@ const Layout = () => {
         gsap.set('.bouncecale4', { scale: 0.1, opacity: 0 })
         gsap.set('.bouncecale5', { scale: 0.1, opacity: 0 })
         gsap.set('.bouncecale6', { scale: 0.1, opacity: 0 })
-        gsap.set('.particles', { scale: 0.1, opacity: 0})
+        gsap.set('.zommpartani', { scale: 0.1, opacity: 0})
         gsap.set('.greenLight', { clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)", opacity: 0 })
         gsap.set('.circle-green', { scale: 1, opacity: 0 })
         const splitTitle = new SplitText(titleRef.current, { type: "chars, words, lines" });
@@ -103,7 +103,7 @@ const Layout = () => {
             stagger: 0.2,
             ease: "back.out(1)",
         }, "-=1.5")
-        .to(".particles", {
+        .to(".zommpartani", {
             scale: 1,
             duration: 1,
             opacity: 1,
@@ -135,10 +135,10 @@ const Layout = () => {
                     </div>
                 </div>
                 <div className='position-relative d-flex justify-content-center align-items-center flex-column w-100 h-100'>
-                    <div className='position-absolute overflow-hidden particles' style={{ width: "20%", height: "300px", top: "-20%", left: "20%", transform: "rotate(324deg)" }}>
+                    <div className='position-absolute overflow-hidden particles zommpartani' style={{ width: "20%", height: "300px", top: "-20%", left: "20%", transform: "rotate(324deg)" }}>
                         <Particles1 id="tsparticles1" />
                     </div>
-                    <div className='position-absolute overflow-hidden particles' style={{ width: "20%", height: "300px", bottom: "-20%", right: "20%", transform: "rotate(135deg)" }}>
+                    <div className='position-absolute overflow-hidden particles zommpartani' style={{ width: "20%", height: "300px", bottom: "-20%", right: "20%", transform: "rotate(135deg)" }}>
                         <Particles1 id="tsparticles2" />
                     </div>
                     <div className='d-flex align-items-center flex-column position-relative z-3'>

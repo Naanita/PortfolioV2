@@ -9,6 +9,7 @@ import Skills from '../../components/Skills/skills';
 import Experience from '../../components/Experience/experience';
 import Projects from '../../components/Projects/projects';
 import Contact from '../../components/Contact/contact';
+import Templates from '../../components/Templates/templates';
 
 const Home = () => {
     const location = useLocation();
@@ -62,10 +63,11 @@ const Home = () => {
     const skillsRef = useRef(null);
     const aboutRef = useRef(null);
     const expRef = useRef(null);
+    const templatesRef = useRef(null);
     const contactRef = useRef(null);
     const projectsRef = useRef(null);
     const firstLay  = useRef(null);
-    const sectionRefs = [firstLay, aboutRef, skillsRef, expRef , projectsRef, contactRef];
+    const sectionRefs = [firstLay, aboutRef, skillsRef, expRef, templatesRef, projectsRef, contactRef];
 
     return (
         <>
@@ -102,7 +104,10 @@ const Home = () => {
                 <Skills />
             </section>
             <section ref={expRef} id='experience'>
-                <Experience  />
+                <Experience />
+            </section>
+            <section ref={templatesRef} id='templates'>
+                <Templates  />
             </section>
             <section ref={projectsRef} id='projects'>
                 <Projects  />

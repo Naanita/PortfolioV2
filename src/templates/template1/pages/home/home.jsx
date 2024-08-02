@@ -23,9 +23,9 @@ const Template1Home = () => {
             <HowWork />
             <Payouts />
             <TablePrice/>
-            <Programs />
+            {/* <Programs /> */}
             <WorldTrader />
-            <Prop />
+            {/* <Prop /> */}
             <Timeline />
             <Footer />
         </>

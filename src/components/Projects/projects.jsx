@@ -56,7 +56,7 @@ const projects = [
     {
         title: 'Game Atlas',
         img: game,
-        type: ['HTML', 'Node', 'REST', 'CSS3', 'React', 'Redux', 'PostgreSQL', 'Express', 'API', 'JavaScript', 'Git'],
+        type: 0,
         link: 'https://proyecto-individual-chi.vercel.app/',
         id: 1
     },

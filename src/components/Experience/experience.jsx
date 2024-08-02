@@ -184,10 +184,11 @@ const imgRef3 = useRef(null);
                 ease: "none",
                 scrollTrigger: {
                     trigger: containerRef.current,
+                    start: "top top",
                     pin: true,
                     scrub: 2,
                     end: () =>
-                        `+=${document.querySelector(".container-horizontal").offsetWidth}`,
+                        `+=${document.querySelector(".container-horizontal").offsetWidth} top`,
                 },
             });
         }

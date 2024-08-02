@@ -87,10 +87,10 @@ const Prop = () => {
                     </div>
                 </div>  
             </div>
-            <HorizontalTextLeft
+            {/* <HorizontalTextLeft
                 text="Traders from more than 150 countries around the world have registered!"
                 container=".Forx4x4"
-            />
+            /> */}
         </div>
     )
 }

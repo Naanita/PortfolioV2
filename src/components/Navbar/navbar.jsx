@@ -56,7 +56,7 @@ const Navbar = ({ sectionRefs }) => {
 
     useEffect(() => {
         const setActiveIndexBasedOnPathname = () => {
-            const paths = ['about-me', 'skills', 'experience', 'projects', 'contact'];
+            const paths = ['about-me', 'skills', 'experience', 'templates', 'projects', 'contact'];
             const currentPath = location.pathname.replace(/^\//, '').toLowerCase().replace(/\/$/, '');
             const activeIndex = paths.findIndex(path => currentPath.startsWith(path.toLowerCase()));
             setActiveIndex(activeIndex >= 0 ? activeIndex : 0);
@@ -135,21 +135,31 @@ const Navbar = ({ sectionRefs }) => {
                     </ul>
                     {location.pathname === '/' ?
                         <ul className="navbar-nav mb-2 mb-lg-0 glasg-bg py-2" ref={navRef}>
-                            {['', 'About Me', 'Skills', 'Experience', 'Projects', 'Contact'].map((item, index) => (
+                            {['', 'About Me', 'Skills', 'Experience', 'Templates', 'Projects', 'Contact'].map((item, index) => (
                                 <li className="nav-item" key={index} onClick={() => setActiveIndex(index)}>
-                                    <a className={`nav-link hoverEffect-1  ${index === activeIndex ? 'active' : ''}`} href={`/#${item.toLowerCase().replace(' ', '-')}`} role="button">
-                                        <span>
-                                            <div className="group-hover">{item}</div>
-                                            <div className="group-hover">{item}</div>
+                                    <a
+                                        className={`nav-link hoverEffect-1 ${index === activeIndex ? 'active' : ''}`}
+                                        href={
+                                            item.toLowerCase() === 'about me' ||
+                                            item.toLowerCase() === 'experience' ||
+                                            item.toLowerCase() === 'contact'||
+                                            item.toLowerCase() === 'templates' 
+                                                ? '#'
+                                                : `/${item.toLowerCase().replace(' ', '-')}`
+                                        }
+                                    >
+                                        <span className="group-hover">
+                                            {item}
                                         </span>
                                     </a>
+
                                 </li>
                             ))}
                             <div className="nav-indicator" ref={indicatorRef}></div>
                         </ul>
                         :
                         <ul className="navbar-nav mb-2 mb-lg-0 glasg-bg py-2" ref={navRef}>
-                            {['About Me', 'Skills', 'Experience', 'Projects', 'Contact'].map((item, index) => (
+                            {['About Me', 'Skills', 'Experience', 'Projects', 'templates', 'Contact'].map((item, index) => (
                                 <li className="nav-item" key={index} onClick={() => setActiveIndex(index)}>
                                     <a className={`nav-link hoverEffect-1  ${index === activeIndex ? 'active' : ''}`} href={`/${item.toLowerCase() === 'about me' ? '#' : `${item.toLowerCase() === 'experience' ? '#' : ''}` ? '#' : `${item.toLowerCase() === 'contact' ? '#' : ''}` ? '#' : ''}${item.toLowerCase().replace(' ', '-')}`}>
                                         <span>

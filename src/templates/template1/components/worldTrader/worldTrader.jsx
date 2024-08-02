@@ -65,7 +65,7 @@ const WorldTrader = () => {
                     <div className='position-absolute item-center'>
                         <p className="text-uppercase  text-white">Registration ends:</p>
                         <Timer1
-                            dateMMDDYY='7/30/2024'
+                            dateMMDDYY='12/24/2024'
                         />
                         <div className='d-flex justify-content-center align-items-center'>
                             <div className='btn-table me-2'>Try for free</div>
