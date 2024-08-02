@@ -41,9 +41,9 @@ const Card1 = ({ icon, title, description, hexColor, category, starts }) => {
                     Learn more <i className="fa-solid fa-angles-right"></i>
                 </a>
             </div>
-            <div className='particlesC'>
+            {/* <div className='particlesC'>
                 <Particles1 id={title} />
-            </div>
+            </div> */}
             <div className='iconXL' dangerouslySetInnerHTML={{ __html: icon }}></div>
         </StyledCard>
     )
