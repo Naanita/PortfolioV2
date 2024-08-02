@@ -14,6 +14,7 @@ import Timeline from '../../components/timeline/timeline.jsx';
 import Footer from '../../components/footer/footer.jsx';
 const Template1Home = () => {
     
+    
     return (
         <>
             <Layout />
@@ -23,7 +24,7 @@ const Template1Home = () => {
             <HowWork />
             <Payouts />
             <TablePrice/>
-            {/* <Programs /> */}
+            <Programs />
             <WorldTrader />
             {/* <Prop /> */}
             <Timeline />
