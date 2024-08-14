@@ -3,6 +3,7 @@ import './contact.css';
 import linkedin from '../../assets/svg/linkedIn.svg';
 import wp from '../../assets/svg/wp.svg';
 import cv from '../../assets/svg/cv.svg';
+import cvpdf from '../../assets/doc/CV.pdf';
 
 
 
@@ -65,7 +66,7 @@ const Contact = () => {
                                     <span className="tooltip">WhatsApp</span>
                                     <img src={wp} alt='WhatsApp' className="skillsbyexp" />
                                 </a>
-                                <a className="position-relative tooltip-container" href='' download>
+                                <a className="position-relative tooltip-container" href={cvpdf} download>
                                     <span className="tooltip">CV</span>
                                     <img src={cv} alt='CV' className="skillsbyexp" />
                                 </a>
