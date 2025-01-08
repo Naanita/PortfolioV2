@@ -5,6 +5,7 @@ import UniqExperience from './pages/Experience/uniqExperience.jsx';
 import Skills from './pages/Skills/skills.jsx';
 import Projects from './pages/Projects/projects.jsx';
 import Template1Home from './templates/template1/pages/home/home.jsx';
+import MapStore from './pages/StoreLocator/mapStore.jsx';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/Experience/:id" element={<UniqExperience />} />
       <Route path="/Projects" element={<Projects />} />
       <Route path="/Template/1" element={<Template1Home />} />
+      <Route path="/StoreLocator" element={<MapStore />} />
     </Routes>
   );
 }

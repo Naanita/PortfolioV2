@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect,  useState } from "react";
 import { useParams} from "react-router-dom";
 import Navbar from "../../components/Navbar/navbar";
-import ScrollTrigger from "gsap/ScrollTrigger";
 import bootstrap from "../../assets/svg/bootstrap.svg";
 import css from "../../assets/svg/css.svg";
 import ejs from "../../assets/svg/ejs.svg";
@@ -17,7 +16,6 @@ import express from "../../assets/svg/express.svg";
 import postgresql from "../../assets/svg/postgreSQL.svg";
 import henry from "../../assets/svg/henry.svg";
 import emp from "../../assets/svg/emp.svg";
-import Projects from "../../components/Projects/projects";
 import book from '../../assets/img/bookBrewery.png';
 import creatrs from '../../assets/img/creatrs.png';
 import creatrsAi from '../../assets/img/creatrsai.png';
