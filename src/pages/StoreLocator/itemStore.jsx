@@ -75,6 +75,7 @@ const ItemStore = ({ name, position, address, hours, phone, website, images, use
                     </SplideSlide>
                 ))}
             </Splide>
+            
             <div className='d-flex justify-content-between align-items-center pt-2'>
                 <div>
                     <h1 className='fs-3 m-0 p-0'>{name}</h1>

@@ -14,7 +14,7 @@ function App() {
       <Route path="/Skills" element={<Skills />} />
       <Route path="/Experience/:id" element={<UniqExperience />} />
       <Route path="/Projects" element={<Projects />} />
-      <Route path="/Template/1" element={<Template1Home />} />
+      <Route path="/Template/1" element={<Template1Home />} /> 
       <Route path="/StoreLocator" element={<MapStore />} />
     </Routes>
   );
