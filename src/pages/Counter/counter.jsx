@@ -44,7 +44,8 @@ const Counter = ({ targetDate }) => {
     });
 
     return (
-        <div className=' container vh-100 vw-100 d-flex justify-content-center align-items-center bg-black flex-column'>
+        
+        <div className='container-fluid vh-100 vw-100 d-flex justify-content-center align-items-center bg-black flex-column'>
             <h1 className='display-4 text-white text-center'>
                 ¿Cuanto tiempo tiene COS para pagar la tarjeta Pluxxe hoy 16 de Enero 2025? 
             </h1>
