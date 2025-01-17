@@ -17,7 +17,7 @@ function App() {
       <Route path="/Projects" element={<Projects />} />
       <Route path="/Template/1" element={<Template1Home />} /> 
       <Route path="/StoreLocator" element={<MapStore />} />
-      <Route path='/counter' element={<Counter targetDate={new Date(2025, 0, 15, 0, 0, 0, 0)} />} />
+      {/* <Route path='/counter' element={<Counter targetDate={new Date(2025, 0, 15, 0, 0, 0, 0)} />} /> */}
     </Routes>
   );
 }
