@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from 'react';
 
 const Counter = ({ targetDate }) => {
-    const calculateTimeLeft = () => {
-        const difference = +new Date(targetDate) - +new Date();
-        let timeLeft = {};
+    const calculateTimeElapsed = () => {
+        const difference = +new Date() - +new Date(targetDate);
+        let timeElapsed = {};
 
         if (difference > 0) {
-            timeLeft = {
-                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-                minutes: Math.floor((difference / 1000 / 60) % 60),
+            timeElapsed = {
+                hours: Math.floor(difference / (1000 * 60 * 60)),
+                minutes: Math.floor((difference / (1000 * 60)) % 60),
                 seconds: Math.floor((difference / 1000) % 60),
             };
         }
 
-        return timeLeft;
+        return timeElapsed;
     };
 
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+    const [timeElapsed, setTimeElapsed] = useState(calculateTimeElapsed());
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            setTimeLeft(calculateTimeLeft());
+            setTimeElapsed(calculateTimeElapsed());
         }, 1000);
 
         return () => clearTimeout(timer);
@@ -29,8 +28,8 @@ const Counter = ({ targetDate }) => {
 
     const timerComponents = [];
 
-    Object.keys(timeLeft).forEach((interval) => {
-        if (!timeLeft[interval] && timeLeft[interval] !== 0) {
+    Object.keys(timeElapsed).forEach((interval) => {
+        if (!timeElapsed[interval] && timeElapsed[interval] !== 0) {
             return;
         }
 
@@ -38,19 +37,18 @@ const Counter = ({ targetDate }) => {
 
         timerComponents.push(
             <span key={interval}>
-                {timeLeft[interval]} {label}{" "}
+                {timeElapsed[interval]} {label}{" "}
             </span>
         );
     });
 
     return (
-        
         <div className='container-fluid vh-100 vw-100 d-flex justify-content-center align-items-center bg-black flex-column'>
             <h1 className='display-4 text-white text-center'>
-                ¿Cuanto tiempo tiene COS para pagar la tarjeta Pluxxe hoy 16 de Enero 2025? 
+                Tiempo transcurrido desde que COS no ha pagado la Pluxxe
             </h1>
             <h3 className='text-white display-4 mt-5 text-center'>
-            {timerComponents.length ? timerComponents : <span>Time's up!</span>}
+                {timerComponents.length ? timerComponents : <span>Time's up!</span>}
             </h3>
         </div>
     );
