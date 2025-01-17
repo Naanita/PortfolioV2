@@ -53,5 +53,5 @@ const Counter = ({ targetDate }) => {
         </div>
     );
 };
-
+ 
 export default Counter;
