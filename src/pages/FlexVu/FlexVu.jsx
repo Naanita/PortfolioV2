@@ -62,7 +62,6 @@ const FlexVu = () => {
                 start: "top top",
                 end: "bottom top",
                 scrub: 0.5,
-                markers: true,
                 onUpdate: (self) => {
                     const frameIndex = Math.floor(self.progress * (totalFrames - 1));
                     console.log(`Current frame: ${frameIndex}`);
