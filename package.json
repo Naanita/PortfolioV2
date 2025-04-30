@@ -17,6 +17,7 @@
     "gsap": "^3.12.5",
     "leaflet": "^1.9.4",
     "leva": "^0.9.35",
+    "lottie-web": "^5.12.2",
     "react": "^19.0.0",
     "react-countup": "^6.5.3",
     "react-dom": "^19.0.0",
