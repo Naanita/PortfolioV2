@@ -98,8 +98,8 @@ const HorizontalScroller = () => {
                 {images.map((image, index) => (
                     <div key={index} className="section-horizontal-scroller-flexvu">
                         <img src={image} alt={`Image ${index + 1}`} />
-                        <div className="position-absolute top-100 start-50">
-                            <a href="https://www.youtube.com/" className="btn btn-success">Click here test</a>
+                        <div className="position-absolute top-50 ">
+                            <a href="https://www.youtube.com/" className="btn btn-success" target="_blank">Click here test</a>
                         </div>
                     </div>
                 ))}

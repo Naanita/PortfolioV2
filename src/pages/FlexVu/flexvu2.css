@@ -21,6 +21,7 @@
     height: 100%;
     object-fit: contain;
     object-position:left; 
+    position: relative;
 }
 
 .overlay {
