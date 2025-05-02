@@ -38,6 +38,7 @@
     opacity: 1; 
     filter: blur(0);
     transition: none; 
+    cursor: pointer;
 }
 
 .overlay-content {
