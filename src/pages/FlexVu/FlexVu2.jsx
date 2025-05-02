@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
-import "./flexvu2.css"; // Import your CSS file for styles  
+import "./flexvu2.css"; // Import your CSS file for styles
 import img1 from "../../assets/img/flexvu/1.jpg";
 import img2 from "../../assets/img/flexvu/2.jpg";
 import img3 from "../../assets/img/flexvu/3.jpg";
@@ -49,10 +49,10 @@ const HorizontalScroller = () => {
     const handleOverlayClick = () => {
         const overlay = document.querySelector(".overlay");
         gsap.to(overlay, {
-            opacity: 0, 
-            filter: "blur(20px)", 
-            duration: 0.8, 
-            ease: "power2.out", 
+            opacity: 0,
+            filter: "blur(20px)",
+            duration: 0.8,
+            ease: "power2.out",
             onComplete: () => setShowOverlay(false),
         });
     };
@@ -98,9 +98,6 @@ const HorizontalScroller = () => {
                 {images.map((image, index) => (
                     <div key={index} className="section-horizontal-scroller-flexvu">
                         <img src={image} alt={`Image ${index + 1}`} />
-                        <div className="position-absolute top-50 ">
-                            <a href="https://www.youtube.com/" className="btn btn-success" target="_blank">Click here test</a>
-                        </div>
                     </div>
                 ))}
             </div>
