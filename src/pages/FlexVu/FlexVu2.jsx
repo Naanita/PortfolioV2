@@ -97,6 +97,7 @@ const handleOverlayClick = () => {
                 gsap.to(content, { duration: 0.2, ease: "power1.out", cursor: "grab" });
             },
             onPress: () => {
+                    console.log("Hola  ")
                 if (typeof window.gtag === "function") {
                 window.gtag("event", "inicio_grabbing", {
                     event_category: "Interacción",
@@ -104,6 +105,13 @@ const handleOverlayClick = () => {
                     value: 1,
                 });
                 }
+                    window.parent.postMessage({
+                    type: "analytics-event",
+                    event: "inicio_grabbing",
+                    category: "Interacción",
+                    label: "Scroll horizontal Flexvu",
+                    value: 1
+                }, "*");
             },
         });
 
