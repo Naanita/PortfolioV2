@@ -47,6 +47,7 @@ const HorizontalScroller = () => {
     const contentRef = useRef(null);
 
 const handleOverlayClick = () => {
+  // Google Analytics (solo funcionará si no está embebido)
   if (typeof window.gtag === "function") {
     window.gtag("event", "clic_inicio_exploracion", {
       event_category: "Interacción",
@@ -54,6 +55,15 @@ const handleOverlayClick = () => {
       value: 1
     });
   }
+
+  // 🔁 Enviar evento al sitio padre vía postMessage
+  window.parent.postMessage({
+    type: "analytics-event",
+    event: "clic_inicio_exploracion",
+    category: "Interacción",
+    label: "Overlay Flexvu",
+    value: 1
+  }, "*");
 
   const overlay = document.querySelector(".overlay");
   gsap.to(overlay, {
@@ -64,6 +74,7 @@ const handleOverlayClick = () => {
     onComplete: () => setShowOverlay(false),
   });
 };
+
 
 
     useEffect(() => {
