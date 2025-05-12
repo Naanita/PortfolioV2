@@ -47,7 +47,7 @@ const HorizontalScroller = () => {
     const contentRef = useRef(null);
 
 const handleOverlayClick = () => {
-    console.log("Hola  ")
+
   // Google Analytics (solo funcionará si no está embebido)
   if (typeof window.gtag === "function") {
     window.gtag("event", "clic_inicio_exploracion", {
