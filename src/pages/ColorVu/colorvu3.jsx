@@ -8,14 +8,13 @@ const ColorVu3 = () => {
     const [position, setPosition] = useState(0.5);
     const [dragging, setDragging] = useState(false);
     const [containerWidth, setContainerWidth] = useState(0);
-    const [containerHeight, setContainerHeight] = useState(0);
+    const sliderWidth = 60; // ancho del slider en px
 
     // Actualizar dimensiones del contenedor al montar y en resize
     useEffect(() => {
         const updateSize = () => {
             if (containerRef.current) {
                 setContainerWidth(containerRef.current.offsetWidth);
-                setContainerHeight(containerRef.current.offsetHeight);
             }
         };
         updateSize();
@@ -30,7 +29,9 @@ const ColorVu3 = () => {
         const move = (e) => {
             const rect = containerRef.current.getBoundingClientRect();
             let clientX = e.touches?.[0].clientX ?? e.clientX;
-            let x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+            let x = clientX - rect.left;
+            // Limitar para que el centro del slider no salga del contenedor
+            x = Math.max(sliderWidth / 2, Math.min(x, rect.width - sliderWidth / 2));
             setPosition(x / rect.width);
         };
 
@@ -102,7 +103,7 @@ const ColorVu3 = () => {
             <div
                 className="img-comp-slider"
                 style={{
-                    left: `calc(${position * 100}% - 30px)`,
+                    left: `calc(${position * 100}% - ${sliderWidth / 2}px)`,
                     top: "calc(50% - 30px)"
                 }}
                 onMouseDown={() => setDragging(true)}
