@@ -9,6 +9,7 @@ import MapStore from './pages/StoreLocator/mapStore.jsx';
 import Counter from './pages/Counter/counter.jsx';
 import FlexVu from './pages/FlexVu/FlexVu.jsx';
 import FlexVu2 from './pages/FlexVu/FlexVu2.jsx';
+import ColorVu3 from './pages/ColorVu/colorvu3.jsx'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <Route path="/StoreLocator" element={<MapStore />} />
       {/* <Route path="/FlexVu" element={<FlexVu />} /> */}
       <Route path="/FlexVu2" element={<FlexVu2 />} />
+      <Route path='/ColorVu3' element={<ColorVu3/>} />
       {/* <Route path='/counter' element={<Counter targetDate={new Date(2025, 0, 15, 0, 0, 0, 0)} />} /> */}
     </Routes>
   );
