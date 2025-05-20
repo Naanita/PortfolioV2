@@ -10,6 +10,8 @@ import Counter from './pages/Counter/counter.jsx';
 import FlexVu from './pages/FlexVu/FlexVu.jsx';
 import FlexVu2 from './pages/FlexVu/FlexVu2.jsx';
 import ColorVu3 from './pages/ColorVu/colorvu3.jsx'
+import FlexVu3D from './pages/FlexVu/flexVu3D.jsx'
+import TilemapGrid from './pages/SMB/homeScenario.jsx'
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
       {/* <Route path="/FlexVu" element={<FlexVu />} /> */}
       <Route path="/FlexVu2" element={<FlexVu2 />} />
       <Route path='/ColorVu3' element={<ColorVu3/>} />
+      <Route path='/FlexVu3D' element={<FlexVu3D/>} />
+      <Route path='/smb/home' element={<TilemapGrid/>} />
       {/* <Route path='/counter' element={<Counter targetDate={new Date(2025, 0, 15, 0, 0, 0, 0)} />} /> */}
     </Routes>
   );
