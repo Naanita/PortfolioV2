@@ -64,3 +64,24 @@
         transform: translateY(-10px);
     }
 }
+
+.mountContainer{
+    width: 100dvw;
+    height: 100dvh;
+    overflow: hidden;
+    position: relative;
+    touch-action: none;
+}
+
+.InterTextContainer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #6d6e71;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    font-size: 16px;
+    z-index: 10;
+    pointer-events: none;
+}

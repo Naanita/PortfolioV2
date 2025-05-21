@@ -120,7 +120,7 @@ const handleOverlayClick = () => {
         };
     }, []);
 
-    return (
+    return (    
         <div ref={containerRef} className="container-horizontal-scroller-flexvu">
             {showOverlay && (
                 <div className="overlay" onClick={handleOverlayClick}>

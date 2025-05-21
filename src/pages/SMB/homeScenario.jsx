@@ -5,6 +5,7 @@ import img1 from "../../assets/img/smb/home/1.png";
 import img2 from "../../assets/img/smb/home/2.png";
 import img3 from "../../assets/img/smb/home/3.png";
 import img4 from "../../assets/img/smb/home/4.png";
+import '../SMB/tilemapp.css'
 
 gsap.registerPlugin(Draggable);
 
