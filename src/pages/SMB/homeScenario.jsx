@@ -5,13 +5,56 @@ import img1 from "../../assets/img/smb/home/1.png";
 import img2 from "../../assets/img/smb/home/2.png";
 import img3 from "../../assets/img/smb/home/3.png";
 import img4 from "../../assets/img/smb/home/4.png";
-import '../SMB/tilemapp.css'
+import AT from "../../assets/img/mapImages/K1T323.png";
+import CT from "../../assets/img/mapImages/DS-2CE78.png";
+import '../SMB/exploreScenario.css';
+
 
 gsap.registerPlugin(Draggable);
 
 const pinsData = [
-    { id: "pin1", x: 400, y: 300, label: "Café" },
-    { id: "pin2", x: 1000, y: 600, label: "Oficina" },
+    {
+        id: "pin1",
+        x: 2290,
+        y: 630,
+        name: "Terminal de reconocimiento facial",
+        model: "Serie DS-K1T323",
+        icon: "fa-solid fa-door-closed",
+        img: AT,
+        descriptionList: [
+            "Pantalla de 2,4 pulgadas, objetivo gran angular de 2 megapíxeles",
+            "Capacidad para 1.000 caras y 3.000 tarjetas",
+            "DAdmite autenticación por cara, tarjeta y código QR",
+            "Audio bidireccional con software cliente, estación interior y estación principal.",
+            "Admite modo AP. Admite Web móvil y Web de PC para configuración",
+            "Admite alimentación por 12 V CC o PoE y admite alimentación para dispositivo y cerradura de puerta",
+            "Admite tarjeta EM",
+            "Admite WDR",
+        ],
+
+
+    },
+    {
+        id: "pin2",
+        x: 1480,
+        y: 38,
+        name: "Cámara Turbo HD",
+        model: "DS-2CE78D0T-LXTS",
+        icon: "fa-solid fa-camera",
+        img: CT,
+        descriptionList: [
+            "Imágenes de alta calidad con 2 MP, resolución 1920 × 1080",
+            "Lente focal fija de 2,8 mm, 3,6 mm",
+            "Hasta 40 m de distancia IR para imágenes nocturnas brillantes",
+            "Hasta 40 m de distancia de luz blanca para imágenes nocturnas brillantes",
+            "Luz híbrida inteligente, optimice su seguridad con opciones de iluminación flexibles",
+            "Luz estroboscópica activa y alarma sonora",
+            "Audio de alta calidad con audio a través de cable coaxial, micrófono integrado y altavoz integrado",
+            "Proporcione comunicación en tiempo real mediante audio bidireccional integrado",
+            "Resistente al agua y al polvo (IP67)",
+        ],
+
+    }
 ];
 
 const TilemapGrid = () => {
@@ -47,10 +90,13 @@ const TilemapGrid = () => {
         if (!pin || !containerRef.current) return;
 
         const pinRect = pin.getBoundingClientRect();
-        const containerRect = containerRef.current.parentNode.getBoundingClientRect();
 
-        const offsetX = pinRect.left - containerRect.width / 2 + pinRect.width / 2;
-        const offsetY = pinRect.top - containerRect.height / 2 + pinRect.height / 2;
+
+        const targetX = window.innerWidth * 0.30;
+        const targetY = window.innerHeight / 2;
+
+        const offsetX = pinRect.left - targetX + pinRect.width / 2;
+        const offsetY = pinRect.top - targetY + pinRect.height / 2;
 
         gsap.to(containerRef.current, {
             x: `-=${offsetX}`,
@@ -80,98 +126,125 @@ const TilemapGrid = () => {
     };
 
     return (
-        <div
-            style={{
-                width: "100vw",
-                height: "100vh",
-                overflow: "hidden",
-                position: "relative",
-                userSelect: "none",
-            }}
-        >
+        <div className="containerTileMap">
+            {/* Card flotante */}
+            {pinsData.map((pin) =>
+                activeCard === pin.id ? (
+                    <div key={`card-${pin.id}`} className="floatingCard">
+                        <div className="floatingCardHeader">
+                            <div className="d-flex align-items-center">
+                                <i className={`${pin.icon} me-2 text-danger`}></i>
+                                <div>
+                                    <h1 className="m-0 fs-3">{pin.name}</h1>
+                                    <p className="m-0">{pin.model}</p>
+                                </div>
+                            </div>
+                            <a onClick={() => setActiveCard(null)} className="btn">
+                                <i className="fa-solid fa-xmark fs-4"></i>
+                            </a>
+                        </div>
+                        <div className="floatingCardBody">
+                            <div className="floatingImgCard mb-3">
+                                <img src={pin.img} alt={`${pin.name}, ${pin.model}`} />
+                            </div>
+                            <ul className="mb-5">
+                                {pin.descriptionList.map((item, index) => (
+                                    <li key={index}>{item}</li>
+                                ))}
+                            </ul>
+                            <div className="accordion p-1" id="InstallationMaterials">
+                                <div className="accordion-item p-2">
+                                    <h2 className="accordion-header border-0">
+                                        <button className="StoreAccordion accordion-button fs-5 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            Materiales de instalación
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" className="accordion-collapse collapse text-dark border-0" data-bs-parent="#InstallationMaterials">
+                                        <div className="accordion-body store-paddingCard border-0">
+                                            <div className="contentDownloadCard">
+                                                <div>
+                                                    <p className="m-0">Quick Start Guide</p>
+                                                    <p className="m-0">17Kb</p>
+                                                </div>
+                                                <a href="">
+                                                    <i className="fa-solid fa-download fsw-10"></i>
+                                                </a>
+                                            </div>
+                                            <div className="contentDownloadCard">
+                                                <div>
+                                                    <p className="m-0">Quick Start Guide</p>
+                                                    <p className="m-0">17Kb</p>
+                                                </div>
+                                                <a href="">
+                                                    <i className="fa-solid fa-download fsw-10"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="accordion p-1" id="Configuration">
+                                <div className="accordion-item p-2">
+                                    <h2 className="accordion-header">
+                                        <button className="StoreAccordion accordion-button fs-5 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                            Configuración
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwo" className="accordion-collapse collapse text-dark border-0" data-bs-parent="#Configuration">
+                                        <div className="accordion-body store-paddingCard border-0">
+                                            <div className="contentDownloadCard">
+                                                <div>
+                                                    <p className="m-0">Quick Start Guide</p>
+                                                    <p className="m-0">17Kb</p>
+                                                </div>
+                                                <a href="">
+                                                    <i className="fa-solid fa-download fsw-10"></i>
+                                                </a>
+                                            </div>
+                                            <div className="contentDownloadCard">
+                                                <div>
+                                                    <p className="m-0">Quick Start Guide</p>
+                                                    <p className="m-0">17Kb</p>
+                                                </div>
+                                                <a href="">
+                                                    <i className="fa-solid fa-download fsw-10"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="cardFooter">
+                                <a href="#" className="btn bgHik me-1"> Contacto de ventas</a>
+                                <a href="" className="btn btn-outline-dark">Más Información</a>
+                        </div>
+                    </div>
+                ) : null
+            )}
             <div
                 ref={containerRef}
-                style={{
-                    display: "grid",
-                    gridTemplateColumns: "auto auto",
-                    gridAutoRows: "auto",
-                    gap: "0px",
-                    position: "absolute",
+                className="containerGridImg"
+                onClick={(e) => {
+                    console.log("Coordenadas absolutas en la ventana:");
+                    console.log("clientX:", e.clientX, "clientY:", e.clientY);
+
+                    // Si quieres la posición relativa al contenedor:
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    console.log("Coordenadas relativas al contenedor:", x, y);
                 }}
             >
                 {images.map((src, index) => (
-                    <img
-                        key={index}
-                        src={src}
-                        alt={`Tile ${index + 1}`}
-                        style={{
-                            display: "block",
-                            objectFit: "none",
-                            imageRendering: "pixelated",
-                            userSelect: "none",
-                            pointerEvents: "none",
-                            width: "auto",
-                            height: "auto",
-                        }}
-                        draggable={false}
-                    />
+                    <img key={index} src={src} alt={`Tile ${index + 1}`} draggable={false} />
                 ))}
-
                 {/* Pins principales */}
                 {pinsData.map((pin) => (
-                    <div
-                        key={pin.id}
-                        ref={(el) => (pinRefs.current[pin.id] = el)}
-                        onClick={() => {
-                            setActiveCard(pin.id);
-                            focusOnPin(pin.id);
-                        }}
-                        style={{
-                            position: "absolute",
-                            top: `${pin.y}px`,
-                            left: `${pin.x}px`,
-                            transform: "translate(-50%, -100%)",
-                            width: "3vw",
-                            height: "3vw",
-                            minWidth: "20px",
-                            minHeight: "20px",
-                            maxWidth: "50px",
-                            maxHeight: "50px",
-                            backgroundColor: "purple",
-                            borderRadius: "50%",
-                            zIndex: 3,
-                            cursor: "pointer",
-                        }}
-                    />
+                    <div key={pin.id} ref={(el) => (pinRefs.current[pin.id] = el)} onClick={() => { setActiveCard(pin.id); focusOnPin(pin.id); }} className="principalPin" style={{ top: `${pin.y}px`, left: `${pin.x}px`, }} >
+                        <i className={pin.icon}></i>
+                    </div>
                 ))}
-
-                {/* Card flotante */}
-                {pinsData.map((pin) =>
-                    activeCard === pin.id ? (
-                        <div
-                            key={`card-${pin.id}`}
-                            style={{
-                                position: "absolute",
-                                top: `${pin.y - 80}px`,
-                                left: `${pin.x}px`,
-                                transform: "translate(-50%, -100%)",
-                                background: "white",
-                                padding: "1rem",
-                                borderRadius: "10px",
-                                boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
-                                zIndex: 5,
-                            }}
-                        >
-                            <strong>{pin.label}</strong>
-                            <button
-                                style={{ marginLeft: 10 }}
-                                onClick={() => setActiveCard(null)}
-                            >
-                                Cerrar
-                            </button>
-                        </div>
-                    ) : null
-                )}
             </div>
 
             {/* Indicadores flotantes dinámicos */}
@@ -205,23 +278,19 @@ const TilemapGrid = () => {
                 }
 
                 return (
-                    <div
-                        key={`floating-${pinId}`}
+                    <div key={`floating-${pinId}`}
                         onClick={() => {
                             setActiveCard(pinId);
                             focusOnPin(pinId);
                         }}
+                        className="SecondaryPin"
                         style={{
                             ...positionStyle,
-                            width: 20,
-                            height: 20,
-                            backgroundColor: "purple",
-                            borderRadius: "50%",
-                            cursor: "pointer",
-                            border: "2px solid white",
-                            boxShadow: "0 0 5px rgba(0,0,0,0.3)",
                         }}
-                    />
+                    >
+                        <i className={pinsData.find(p => p.id === pinId).icon}></i>
+                    </div>
+                    
                 );
             })}
         </div>

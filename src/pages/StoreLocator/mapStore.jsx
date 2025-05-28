@@ -207,7 +207,6 @@ const MapStore = () => {
           <i className="fa-solid fa-xmark fs-3 pb-4 cursor-pointer" onClick={toggleSidebar}></i>
         </div>
         <div className="sidebar-content">
-
           <div className="pb-3 store-BorderBottomGray">
             <h4 className="py-3">Nearby Location</h4>
             <label className="d-flex justify-content-between align-items-center">

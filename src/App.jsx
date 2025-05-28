@@ -12,6 +12,7 @@ import FlexVu2 from './pages/FlexVu/FlexVu2.jsx';
 import ColorVu3 from './pages/ColorVu/colorvu3.jsx'
 import FlexVu3D from './pages/FlexVu/flexVu3D.jsx'
 import TilemapGrid from './pages/SMB/homeScenario.jsx'
+import Test from './pages/SMB/test.jsx'; // Importa el componente Test
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
       <Route path='/ColorVu3' element={<ColorVu3/>} />
       <Route path='/FlexVu3D' element={<FlexVu3D/>} />
       <Route path='/smb/home' element={<TilemapGrid/>} />
+      <Route path='/smb/test' element={<Test/>} />
       {/* <Route path='/counter' element={<Counter targetDate={new Date(2025, 0, 15, 0, 0, 0, 0)} />} /> */}
     </Routes>
   );
