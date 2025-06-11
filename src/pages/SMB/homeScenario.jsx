@@ -225,16 +225,16 @@ const TilemapGrid = () => {
             <div
                 ref={containerRef}
                 className="containerGridImg"
-                onClick={(e) => {
-                    console.log("Coordenadas absolutas en la ventana:");
-                    console.log("clientX:", e.clientX, "clientY:", e.clientY);
+                // onClick={(e) => {
+                //     console.log("Coordenadas absolutas en la ventana:");
+                //     console.log("clientX:", e.clientX, "clientY:", e.clientY);
 
-                    // Si quieres la posición relativa al contenedor:
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    console.log("Coordenadas relativas al contenedor:", x, y);
-                }}
+                //     // Si quieres la posición relativa al contenedor:
+                //     const rect = e.currentTarget.getBoundingClientRect();
+                //     const x = e.clientX - rect.left;
+                //     const y = e.clientY - rect.top;
+                //     console.log("Coordenadas relativas al contenedor:", x, y);
+                // }}
             >
                 {images.map((src, index) => (
                     <img key={index} src={src} alt={`Tile ${index + 1}`} draggable={false} />
