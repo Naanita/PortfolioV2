@@ -13,9 +13,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 COOKIE_FILE = os.path.join(BASE_DIR, "cookies.json")
 
 def ajustar_ruta_local_filename(ruta_absoluta, base_dir_unix='/src/pages'):
-    # Normaliza la ruta a formato Unix
     ruta_unix = ruta_absoluta.replace('\\', '/')
-    # Busca la posición de la carpeta base en la ruta
     pos = ruta_unix.find(base_dir_unix)
     if pos != -1:
         ruta_relativa = ruta_unix[pos:]
@@ -176,7 +174,6 @@ async def load_cookies(context):
     logging.info("Cookies cargadas desde cookies.json")
 
 async def scrape_tiktok_profile(username):
-    videos = []
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=False)
         context = await browser.new_context(
@@ -185,7 +182,6 @@ async def scrape_tiktok_profile(username):
         )
 
         cookies_exist = os.path.exists(COOKIE_FILE)
-
         if cookies_exist:
             await load_cookies(context)
 
@@ -216,27 +212,23 @@ async def scrape_tiktok_profile(username):
             with open(json_file, 'r', encoding='utf-8') as f:
                 previous_data = json.load(f)
 
-        processed_urls = {v['url'] for v in previous_data}
+        # Diccionario para acceso rápido y actualización por URL
+        videos_dict = {v['url']: v for v in previous_data}
 
         for video_url, views in video_urls:
-            if video_url in processed_urls:
-                logging.info(f"Video ya procesado: {video_url}")
-                continue
-
             video_info = await extract_video_info(page, video_url, views)
             if DOWNLOAD_VIDEOS:
                 save_path = os.path.join(BASE_DIR, username)
                 os.makedirs(save_path, exist_ok=True)
                 filename = download_tiktok_video(video_url, save_path)
                 if filename:
-                    # AJUSTE: Aplica la función para ajustar la ruta antes de guardar en el JSON
                     video_info['local_filename'] = ajustar_ruta_local_filename(filename)
-            videos.append(video_info)
+            # Actualiza o agrega el video por su URL
+            videos_dict[video_url] = video_info
 
         await browser.close()
-
-        updated_data = previous_data + videos
-
+        # Convierte el diccionario actualizado a lista para guardar
+        updated_data = list(videos_dict.values())
         return updated_data
 
 async def main():

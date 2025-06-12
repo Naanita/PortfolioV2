@@ -6,8 +6,8 @@ import Skills from './pages/Skills/skills.jsx';
 import Projects from './pages/Projects/projects.jsx';
 import Template1Home from './templates/template1/pages/home/home.jsx';
 import MapStore from './pages/StoreLocator/mapStore.jsx';
-import Counter from './pages/Counter/counter.jsx';
-import FlexVu from './pages/FlexVu/FlexVu.jsx';
+// import Counter from './pages/Counter/counter.jsx';
+// import FlexVu from './pages/FlexVu/FlexVu.jsx';
 import FlexVu2 from './pages/FlexVu/FlexVu2.jsx';
 import ColorVu3 from './pages/ColorVu/colorvu3.jsx'
 import FlexVu3D from './pages/FlexVu/flexVu3D.jsx'

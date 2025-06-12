@@ -16,6 +16,12 @@
 }
 
 .innerVideo .contentBottom {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    /* Contenido siempre abajo */
+    align-items: stretch;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -26,12 +32,10 @@
     border-bottom-left-radius: 24px;
     border-bottom-right-radius: 24px;
     overflow: hidden;
-    border-top: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
     background: none;
 }
 
-.innerVideo .contentBottom > div {
+.innerVideo .contentBottom>div {
     position: absolute;
     inset: 0;
     border-bottom-left-radius: 24px;
@@ -39,56 +43,42 @@
     pointer-events: none;
 }
 
-/* Capas de blur tipo gradient */
-.innerVideo .contentBottom > div:nth-of-type(1) {
+/* Capas de blur: fade solo en la mitad inferior */
+.innerVideo .contentBottom>div:nth-of-type(1) {
     z-index: 2;
-    backdrop-filter: blur(1px);
-    -webkit-backdrop-filter: blur(1px);
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 12.5%, rgba(0,0,0,1) 25%, rgba(0,0,0,1) 37.5%, rgba(0,0,0,0) 50%);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 12.5%, rgba(0,0,0,1) 25%, rgba(0,0,0,1) 37.5%, rgba(0,0,0,0) 50%);
-}
-.innerVideo .contentBottom > div:nth-of-type(2) {
-    z-index: 3;
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 25%, rgba(0,0,0,1) 37.5%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 62.5%);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 25%, rgba(0,0,0,1) 37.5%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 62.5%);
-}
-.innerVideo .contentBottom > div:nth-of-type(3) {
-    z-index: 4;
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 37.5%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 62.5%, rgba(0,0,0,0) 75%);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 37.5%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 62.5%, rgba(0,0,0,0) 75%);
-}
-.innerVideo .contentBottom > div:nth-of-type(4) {
-    z-index: 5;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 62.5%, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 87.5%);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 62.5%, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 87.5%);
-}
-.innerVideo .contentBottom > div:nth-of-type(5) {
-    z-index: 6;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 62.5%, rgba(0,0,0,1) 75%, rgba(0,0,0,1) 87.5%, rgba(0,0,0,0) 100%);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 62.5%, rgba(0,0,0,1) 75%, rgba(0,0,0,1) 87.5%, rgba(0,0,0,0) 100%);
-}
-.innerVideo .contentBottom > div:nth-of-type(6) {
-    z-index: 7;
-    backdrop-filter: blur(32px);
-    -webkit-backdrop-filter: blur(32px);
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 75%, rgba(0,0,0,1) 87.5%, rgba(0,0,0,1) 100%);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 75%, rgba(0,0,0,1) 87.5%, rgba(0,0,0,1) 100%);
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Tono oscuro */
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
 }
 
+.innerVideo .contentBottom>div:nth-of-type(2) {
+    z-index: 3;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Tono más oscuro */
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
+}
+
+.innerVideo .contentBottom>div:nth-of-type(3) {
+    z-index: 4;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background-color: rgba(0, 0, 0, 0.6);
+    /* Tono aún más oscuro */
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 1) 100%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 1) 100%);
+}
 /* El contenido real debe estar por encima de las capas de blur */
-.innerVideo .contentBottom .head,
-.innerVideo .contentBottom button {
+.innerVideo .contentBottom .head {
     position: relative;
-    z-index: 10;    
+    z-index: 10;
     pointer-events: auto;
+    margin-bottom: 8px;
 }
 
 .innerVideo .contentBottom .head {
@@ -101,3 +91,127 @@
     margin: 0;
     font-size: 14px;
 }
+
+.innerVideo .contentBottom .head i{
+    color: #fff;
+    margin: 0;
+    font-size: 18px;
+}
+
+
+/* Botones TikTok */
+.botones-tiktok {
+    width: 100%;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.btn-ver-tiktok {
+    background: #fff !important;
+    color: #111 !important;
+    font-weight: bold;
+    flex: 2 1 0%;
+    font-size: 1rem;
+    border-radius: 8px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.btn-mute {
+    background: rgba(30, 30, 30, 0.7) !important;
+    color: #fff !important;
+    flex: 1 1 0%;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-circle {
+    background: rgba(0, 0, 0, 0.4) !important;
+    color: #fff !important;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 0%;
+    font-size: 1.3rem;
+    margin-left: 4px;
+    transition: background 0.2s;
+}
+
+.btn-circle:hover {
+    background: rgba(66, 165, 245, 0.7) !important;
+    color: #fff !important;
+}
+
+@media (max-width: 768px) {
+    .innerVideo {
+        max-width: 95vw;
+        max-height: 70vh;
+    }
+
+    .botones-tiktok {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .btn-ver-tiktok,
+    .btn-mute,
+    .btn-circle {
+        width: 100%;
+        margin: 0;
+    }
+}
+
+/* Botón play/pause centrado y solo visible en hover/tap */
+.innerVideo .btn-playpause-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 20;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+.innerVideo:hover .btn-playpause-overlay,
+.innerVideo:focus-within .btn-playpause-overlay,
+.innerVideo .btn-playpause-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Opcional: para mejorar experiencia táctil en mobile */
+@media (hover: none) and (pointer: coarse) {
+    .innerVideo .btn-playpause-overlay {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+.btn-playpause-overlay:hover{
+    background: rgba(0, 0, 0, 0.65) !important;
+    color: #fff !important;
+}
+
+.btn-playpause-overlay:focus {
+    outline: none;
+}
+
