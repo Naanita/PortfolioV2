@@ -121,16 +121,23 @@ const TikHikLatam = () => {
                 >
                     {videos.filter(video => video.local_filename).map((video, idx) => (
                         <SplideSlide key={idx}>
-                            <div className="d-flex flex-column align-items-center text-center video-container" style={{ transition: 'transform 0.4s' }}>
+                            <a
+                                href={video.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="d-flex flex-column align-items-center text-center video-container"
+                                style={{ transition: 'transform 0.4s', textDecoration: 'none', color: 'inherit' }}
+                                tabIndex={-1}
+                            >
                                 <div
                                     className='innerVideo'
                                     onMouseEnter={() => setHoveredIndex(idx)}
                                     onMouseLeave={() => setHoveredIndex(null)}
+                                    onClick={e => e.stopPropagation()}
                                 >
                                     <video
                                         ref={el => (videoRefs.current[idx] = el)}
                                         src={video.local_filename}
-                                        // className="mb-3"
                                         muted={mutedStates[idx] !== false}
                                         playsInline
                                         controls={false}
@@ -141,7 +148,7 @@ const TikHikLatam = () => {
                                     <button
                                         className={`btn btn-playpause-overlay${(hoveredIndex === idx) ? ' visible' : ''}`}
                                         onMouseUp={e => e.currentTarget.blur()}
-                                        onClick={() => handlePlayPause(idx)}
+                                        onClick={e => { e.preventDefault(); handlePlayPause(idx); }}
                                         tabIndex={-1}
                                         type="button"
                                     >
@@ -177,13 +184,13 @@ const TikHikLatam = () => {
                                                 <button
                                                     className="btn btn-white btn-ver-tiktok"
                                                     style={{ color: 'black' }}
-                                                    onClick={() => window.open(video.url, '_blank')}
+                                                    onClick={e => { e.preventDefault(); window.open(video.url, '_blank'); }}
                                                 >
                                                     Ver en TikTok
                                                 </button>
                                                 <button
                                                     className="btn btn-secondary btn-mute"
-                                                    onClick={() => handleToggleMute(idx)}
+                                                    onClick={e => { e.preventDefault(); handleToggleMute(idx); }}
                                                 >
                                                     <i className={mutedStates[idx] !== false ? "fa-solid fa-volume-xmark" : "fa-solid fa-volume-high"}></i>
                                                 </button>
@@ -191,7 +198,7 @@ const TikHikLatam = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </SplideSlide>
                     ))}
                 </Splide>
