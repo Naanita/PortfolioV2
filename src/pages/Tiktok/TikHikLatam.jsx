@@ -130,7 +130,7 @@ const TikHikLatam = () => {
                                     <video
                                         ref={el => (videoRefs.current[idx] = el)}
                                         src={video.local_filename}
-                                        className="mb-3"
+                                        // className="mb-3"
                                         muted={mutedStates[idx] !== false}
                                         playsInline
                                         controls={false}
