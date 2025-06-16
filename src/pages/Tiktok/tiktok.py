@@ -12,14 +12,24 @@ DOWNLOAD_VIDEOS = True
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 COOKIE_FILE = os.path.join(BASE_DIR, "cookies.json")
 
-def ajustar_ruta_local_filename(ruta_absoluta, base_dir_unix='/src/pages'):
+def ajustar_ruta_local_filename(ruta_absoluta, username='hikvisionlatam'):
+    """
+    Ajusta la ruta absoluta para que sea del tipo /hikvisionlatam/7514458485820640517.mp4
+    """
+    # Normaliza separadores
     ruta_unix = ruta_absoluta.replace('\\', '/')
-    pos = ruta_unix.find(base_dir_unix)
-    if pos != -1:
-        ruta_relativa = ruta_unix[pos:]
-    else:
-        ruta_relativa = ruta_unix
-    return ruta_relativa
+    # Busca el nombre de usuario y el nombre del archivo
+    idx = ruta_unix.rfind(f"/{username}/")
+    if idx != -1:
+        # Extrae solo /hikvisionlatam/filename.mp4
+        return ruta_unix[idx:]
+    # Si no encuentra, intenta buscar el nombre de usuario en la ruta
+    idx2 = ruta_unix.find(username)
+    if idx2 != -1:
+        return '/' + ruta_unix[idx2:]
+    # Si no, retorna solo el nombre de archivo con prefijo username
+    filename = os.path.basename(ruta_unix)
+    return f"/{username}/{filename}"
 
 async def random_sleep(min_seconds, max_seconds):
     import random
