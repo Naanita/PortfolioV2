@@ -6,101 +6,129 @@ import './tiktok.css';
 
 const TikHikLatam = () => {
     const [videos, setVideos] = useState([]);
-    const [hoveredIndex, setHoveredIndex] = useState(null);
-    const [playingStates, setPlayingStates] = useState([]);
-    const [mutedStates, setMutedStates] = useState([]);
+    const [activeIndex, setActiveIndex] = useState(0);
     const videoRefs = useRef([]);
+    const [mutedStates, setMutedStates] = useState({});
+    const [playingStates, setPlayingStates] = useState({});
+    const [hoveredIndex, setHoveredIndex] = useState(null);
 
     useEffect(() => {
-        // Cargar los datos de los videos desde el archivo JSON
-        const fetchData = async () => {
-            setVideos(videosData);
-        };
-
-        fetchData();
+        setVideos(videosData);
     }, []);
 
-    const handleVideoClick = (index) => {
-        const newPlayingStates = Array(videos.length).fill(false);
-        newPlayingStates[index] = !playingStates[index];
-        setPlayingStates(newPlayingStates);
-
-        if (newPlayingStates[index]) {
-            videoRefs.current[index].play();
-        } else {
-            videoRefs.current[index].pause();
+    // Inicializa mute y playing por video
+    useEffect(() => {
+        if (videos.length > 0) {
+            const initialMuted = {};
+            const initialPlaying = {};
+            videos.forEach((_, idx) => {
+                initialMuted[idx] = true;
+                initialPlaying[idx] = false;
+            });
+            setMutedStates(initialMuted);
+            setPlayingStates(initialPlaying);
         }
+    }, [videos]);
+
+    // AJUSTE: Elimina el reinicio de currentTime
+    useEffect(() => {
+        videoRefs.current.forEach((video, idx) => {
+            if (video) {
+                video.muted = mutedStates[idx] !== false;
+                if (playingStates[idx]) {
+                    video.play();
+                } else {
+                    video.pause();
+                }
+                // No reiniciar currentTime aquí
+            }
+        });
+    }, [mutedStates, playingStates, activeIndex, videos]);
+
+    const handleToggleMute = (idx) => {
+        setMutedStates((prev) => ({
+            ...prev,
+            [idx]: !prev[idx],
+        }));
     };
 
-    const handleVideoEnded = (index) => {
-        const newPlayingStates = [...playingStates];
-        newPlayingStates[index] = false;
-        setPlayingStates(newPlayingStates);
+    // AJUSTE: Solo un video puede estar en play, los demás quedan pausados en su posición
+    const handlePlayPause = (idx) => {
+        setPlayingStates((prev) => {
+            const newStates = {};
+            Object.keys(prev).forEach((key) => {
+                newStates[key] = Number(key) === idx ? !prev[idx] : false;
+            });
+            return newStates;
+        });
+        setActiveIndex(idx);
+        setMutedStates((prev) => ({
+            ...prev,
+            [idx]: playingStates[idx] ? true : false,
+        }));
     };
 
-    const handlePlayPause = (index) => {
-        const newPlayingStates = [...playingStates];
-        newPlayingStates[index] = !newPlayingStates[index];
-        setPlayingStates(newPlayingStates);
-
-        if (newPlayingStates[index]) {
-            videoRefs.current[index].play();
-        } else {
-            videoRefs.current[index].pause();
-        }
+    const handleVideoEnded = (idx) => {
+        setPlayingStates((prev) => ({
+            ...prev,
+            [idx]: false,
+        }));
+        setMutedStates((prev) => ({
+            ...prev,
+            [idx]: true,
+        }));
     };
 
-    const handleToggleMute = (index) => {
-        const newMutedStates = [...mutedStates];
-        newMutedStates[index] = !newMutedStates[index];
-        setMutedStates(newMutedStates);
+    // Para mostrar el botón en touch (mobile)
+    const handleVideoClick = (idx) => {
+        setHoveredIndex(idx);
+        setTimeout(() => setHoveredIndex(null), 2000);
     };
 
+    // Función para formatear números (ej: 1434 -> +1.4k)
     const formatNumber = (num) => {
-        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        if (num >= 1_000_000) return `+${(num / 1_000_000).toFixed(1)}M`;
+        if (num >= 1_000) return `+${(num / 1_000).toFixed(1)}k`;
+        return num;
     };
 
     return (
-        <section
-            className="container d-flex flex-column align-items-center justify-content-center min-vh-100"
-            aria-label="Videos populares de Hikvision Latam en TikTok"
-        >
-            <header className="mb-4 text-center">
-                <h1 className="display-5 fw-bold" style={{ color: '#42A5F5' }}>
-                    Videos Destacados de Hikvision Latam en TikTok
-                </h1>
-                <p className="lead">
-                    Descubre los videos más populares, vistos y comentados de nuestra cuenta oficial de TikTok. ¡Explora tendencias, innovaciones y más!
-                </p>
-            </header>
+        <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100">
             <div className="w-100 d-flex justify-content-center">
                 <Splide
                     options={{
-                        type       : 'loop',
-                        perPage    : 3,
-                        perMove    : 1,
-                        autoplay   : true,
-                        interval   : 3000,
-                        pauseOnHover: false,
-                        arrows     : true,
-                        pagination : false,
-                        breakpoints : {
-                            640: {
-                                perPage: 1,
-                            },
-                            1024: {
-                                perPage: 2,
-                            },
-                        },
+                        type: 'slide',
+                        perPage: 4,
+                        focus: 'center',
+                        gap: '1rem',
+                        padding: { left: '0px', right: '10%' },
+                        arrows: true,
+                        pagination: false,
+                        autoplay: false,
+                        height: 'auto',
+                        dragMinThreshold: { mouse: 120, touch: 80 },
+                        speed: 600,
+                        flickPower: 100,
+                        flickMaxPages: 1,
+                        breakpoints: {
+                            1200: { perPage: 3 },
+                            768: { perPage: 1 }
+                        }
                     }}
+                    onMoved={(_, newIndex) => setActiveIndex(newIndex)}
+                    className="w-100"
+                    style={{ maxWidth: 1200 }}
                 >
                     {videos.filter(video => video.local_filename).map((video, idx) => (
                         <SplideSlide key={idx}>
-                            <article
+                            <a
+                                href={video.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="d-flex flex-column align-items-center text-center video-container"
                                 style={{ transition: 'transform 0.4s', textDecoration: 'none', color: 'inherit' }}
                                 tabIndex={-1}
-                                aria-label={`Video de TikTok: ${video.description}`}
+                                title={`Ver video de ${video.description} en TikTok`}
                             >
                                 <div
                                     className='innerVideo'
@@ -116,9 +144,6 @@ const TikHikLatam = () => {
                                         controls={false}
                                         onEnded={() => handleVideoEnded(idx)}
                                         onClick={() => handleVideoClick(idx)}
-                                        poster={video.thumbnail || undefined}
-                                        title={video.description}
-                                        aria-label={video.description}
                                     />
                                     {/* Botón Play/Pause centrado y visible solo en hover */}
                                     <button
@@ -127,8 +152,6 @@ const TikHikLatam = () => {
                                         onClick={e => { e.preventDefault(); handlePlayPause(idx); }}
                                         tabIndex={-1}
                                         type="button"
-                                        aria-label={playingStates[idx] ? "Pausar video" : "Reproducir video"}
-                                        title={playingStates[idx] ? "Pausar video" : "Reproducir video"}
                                     >
                                         <i className={`fa-solid ${playingStates[idx] ? 'fa-pause' : 'fa-play'}`}></i>
                                     </button>
@@ -138,45 +161,37 @@ const TikHikLatam = () => {
                                         <div />
                                         <div className='head'>
                                             <div className='d-flex align-items-center'>
-                                                <h2 className='fs-6 text-white me-1 my-0' style={{ fontWeight: 700 }}>
-                                                    Hikvisionlatam
-                                                </h2>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#42A5F5" className="bi bi-patch-check-fill" viewBox="0 0 16 16" aria-label="Cuenta verificada">
+                                                <h1 className='fs-6 text-white me-1 my-0'>Hikvisionlatam</h1>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#42A5F5" className="bi bi-patch-check-fill" viewBox="0 0 16 16">
                                                     <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708" />
                                                 </svg>
                                             </div>
-                                            <p className='text-suspensory-2lines col' title={video.description}>{video.description}</p>
-                                            <div className='row mt-1' aria-label="Estadísticas del video">
+                                            <p className='text-suspensory-2lines col'>{video.description}</p>
+                                            <div className='row mt-1'>
                                                 <div className='col-4 d-flex flex-column justify-content-center align-items-center'>
-                                                    <i className="fa-solid fa-eye" aria-label="Vistas"></i>
+                                                    <i className="fa-solid fa-eye"></i>
                                                     <p className='fw-bold'>{formatNumber(video.views)}</p>
                                                 </div>
                                                 <div className='col-4 border-start border-end border-1 border-white d-flex flex-column justify-content-center align-items-center'>
-                                                    <i className="fa-solid fa-comment" aria-label="Comentarios"></i>
+                                                    <i className="fa-solid fa-comment"></i>
                                                     <p className='fw-bold'>{formatNumber(video.comments)}</p>
                                                 </div>
                                                 <div className='col-4 d-flex flex-column justify-content-center align-items-center'>
-                                                    <i className="fa-solid fa-heart" aria-label="Me gusta"></i>
+                                                    <i className="fa-solid fa-heart"></i>
                                                     <p className='fw-bold'>{formatNumber(video.likes)}</p>
                                                 </div>
                                             </div>
                                             <div className="d-flex justify-content-between align-items-center botones-tiktok">
-                                                <a
+                                                <button
                                                     className="btn btn-white btn-ver-tiktok"
                                                     style={{ color: 'black' }}
-                                                    href={video.url}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    title="Ver video en TikTok"
-                                                    aria-label="Ver video en TikTok"
+                                                    onClick={e => { e.preventDefault(); window.open(video.url, '_blank'); }}
                                                 >
                                                     Ver en TikTok
-                                                </a>
+                                                </button>
                                                 <button
                                                     className="btn btn-secondary btn-mute"
                                                     onClick={e => { e.preventDefault(); handleToggleMute(idx); }}
-                                                    aria-label={mutedStates[idx] !== false ? "Activar sonido" : "Silenciar video"}
-                                                    title={mutedStates[idx] !== false ? "Activar sonido" : "Silenciar video"}
                                                 >
                                                     <i className={mutedStates[idx] !== false ? "fa-solid fa-volume-xmark" : "fa-solid fa-volume-high"}></i>
                                                 </button>
@@ -184,12 +199,12 @@ const TikHikLatam = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </article>
+                            </a>
                         </SplideSlide>
                     ))}
                 </Splide>
             </div>
-        </section>
+        </div>
     );
 };
 
