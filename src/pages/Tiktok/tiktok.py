@@ -141,14 +141,8 @@ async def extract_video_info(page, video_url, views):
         vid_id = video_url.rstrip('/').split('/video/')[1].split('?')[0]
         thumb_src = await page.evaluate("""
         () => {
-            const picWrapper = document.querySelector('div.css-sq145r picture');
-            if (picWrapper) {
-                const img = picWrapper.querySelector('img');
-                if (img && img.src) return img.src;
-            }
-            // fallback genérico
-            const anyImg = document.querySelector('picture img');
-            return anyImg ? anyImg.src : null;
+            const pic = document.querySelector('div.css-sq145r picture img');
+            return pic ? pic.src : null;
         }
         """)
         if thumb_src:
@@ -229,39 +223,47 @@ async def scrape_tiktok_profile(username):
             await handle_captcha(page, os.path.exists(COOKIE_FILE))
 
         elems = await page.query_selector_all('div[data-e2e="user-post-item"]')
-        elems = elems[3:11]
-        urls = []
+        elems = elems[3:11]  # tomamos 8 videos
+        logging.info(f"Procesando {len(elems)} videos...")
+
+        video_urls = []
         for el in elems:
             href = await el.evaluate('e => e.querySelector("a").href')
             vws = await hover_and_get_views(page, el)
-            urls.append((href, vws))
+            video_urls.append((href, vws))
 
+        # Cargar datos anteriores
         json_file = os.path.join(BASE_DIR, f"{username}_tiktok_videos.json")
-        prev = []
+        previous = []
         if os.path.exists(json_file):
             with open(json_file, 'r', encoding='utf-8') as f:
-                prev = json.load(f)
-        vids = {v['url']: v for v in prev}
+                previous = json.load(f)
+        videos_dict = {v['url']: v for v in previous}
 
-        for link, vws in urls:
-            info = await extract_video_info(page, link, vws)
+        # Extraer y descargar
+        for url, vws in video_urls:
+            info = await extract_video_info(page, url, vws)
             if DOWNLOAD_VIDEOS:
                 dst = os.path.join(BASE_DIR, username)
                 os.makedirs(dst, exist_ok=True)
-                fn = download_tiktok_video(link, dst)
+                fn = download_tiktok_video(url, dst)
                 if fn:
                     info['local_filename'] = ajustar_ruta_local_filename(fn)
-            vids[link] = info
+            videos_dict[url] = info
 
         await browser.close()
-        return list(vids.values())
+
+        # === Ajuste de orden para que el video que salió primero vaya al inicio ===
+        ordered = [videos_dict[url] for url, _ in video_urls]
+        ordered.reverse()
+        return ordered
 
 async def main():
-    user = "hikvisionlatam"
-    data = await scrape_tiktok_profile(user)
-    out = os.path.join(BASE_DIR, f"{user}_tiktok_videos.json")
+    username = "hikvisionlatam"
+    videos = await scrape_tiktok_profile(username)
+    out = os.path.join(BASE_DIR, f"{username}_tiktok_videos.json")
     with open(out, 'w', encoding='utf-8') as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
+        json.dump(videos, f, indent=2, ensure_ascii=False)
     print(f"Guardado en {out}")
 
 if __name__ == "__main__":
