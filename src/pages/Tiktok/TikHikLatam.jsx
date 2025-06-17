@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import videosData from './hikvisionlatam_tiktok_videos.json';
 import '@splidejs/react-splide/css';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
@@ -16,7 +16,6 @@ const TikHikLatam = () => {
         setVideos(videosData);
     }, []);
 
-    // Inicializa mute y playing por video
     useEffect(() => {
         if (videos.length > 0) {
             const initialMuted = {};
@@ -30,17 +29,17 @@ const TikHikLatam = () => {
         }
     }, [videos]);
 
-    // AJUSTE: Elimina el reinicio de currentTime
     useEffect(() => {
         videoRefs.current.forEach((video, idx) => {
             if (video) {
                 video.muted = mutedStates[idx] !== false;
                 if (playingStates[idx]) {
-                    video.play();
+                    video.play().catch(error => {
+                        console.error("Error al intentar reproducir el video:", error);
+                    });
                 } else {
                     video.pause();
                 }
-                // No reiniciar currentTime aquí
             }
         });
     }, [mutedStates, playingStates, activeIndex, videos]);
@@ -52,7 +51,6 @@ const TikHikLatam = () => {
         }));
     };
 
-    // AJUSTE: Solo un video puede estar en play, los demás quedan pausados en su posición
     const handlePlayPause = (idx) => {
         setPlayingStates((prev) => {
             const newStates = {};
@@ -78,14 +76,12 @@ const TikHikLatam = () => {
             [idx]: true,
         }));
     };
-
-    // Para mostrar el botón en touch (mobile)
+    
     const handleVideoClick = (idx) => {
         setHoveredIndex(idx);
         setTimeout(() => setHoveredIndex(null), 2000);
     };
 
-    // Función para formatear números (ej: 1434 -> +1.4k)
     const formatNumber = (num) => {
         if (num >= 1_000_000) return `+${(num / 1_000_000).toFixed(1)}M`;
         if (num >= 1_000) return `+${(num / 1_000).toFixed(1)}k`;
@@ -128,6 +124,8 @@ const TikHikLatam = () => {
                                 className="d-flex flex-column align-items-center text-center video-container"
                                 style={{ transition: 'transform 0.4s', textDecoration: 'none', color: 'inherit' }}
                                 tabIndex={-1}
+                                // AJUSTE DE ACCESIBILIDAD: Label más descriptivo para el enlace principal
+                                aria-label={`Ver video de ${video.description} en TikTok. Vistas: ${formatNumber(video.views)}, Comentarios: ${formatNumber(video.comments)}`}
                                 title={`Ver video de ${video.description} en TikTok`}
                             >
                                 <div
@@ -139,19 +137,21 @@ const TikHikLatam = () => {
                                     <video
                                         ref={el => (videoRefs.current[idx] = el)}
                                         src={video.local_filename}
+                                        poster={video.thumbnail_url} 
+                                        loading={idx < 4 ? "eager" : "lazy"}
                                         muted={mutedStates[idx] !== false}
                                         playsInline
                                         controls={false}
                                         onEnded={() => handleVideoEnded(idx)}
                                         onClick={() => handleVideoClick(idx)}
                                     />
-                                    {/* Botón Play/Pause centrado y visible solo en hover */}
                                     <button
                                         className={`btn btn-playpause-overlay${(hoveredIndex === idx) ? ' visible' : ''}`}
                                         onMouseUp={e => e.currentTarget.blur()}
                                         onClick={e => { e.preventDefault(); handlePlayPause(idx); }}
-                                        tabIndex={-1}
                                         type="button"
+                                        // AJUSTE DE ACCESIBILIDAD: Añade aria-label dinámico
+                                        aria-label={playingStates[idx] ? 'Pausar video' : 'Reproducir video'}
                                     >
                                         <i className={`fa-solid ${playingStates[idx] ? 'fa-pause' : 'fa-play'}`}></i>
                                     </button>
@@ -169,16 +169,16 @@ const TikHikLatam = () => {
                                             <p className='text-suspensory-2lines col'>{video.description}</p>
                                             <div className='row mt-1'>
                                                 <div className='col-4 d-flex flex-column justify-content-center align-items-center'>
-                                                    <i className="fa-solid fa-eye"></i>
-                                                    <p className='fw-bold'>{formatNumber(video.views)}</p>
+                                                    <i className="fa-solid fa-eye" aria-hidden="true"></i> 
+                                                    <p className='fw-bold' aria-label={`${formatNumber(video.views)} vistas`}>{formatNumber(video.views)}</p>
                                                 </div>
                                                 <div className='col-4 border-start border-end border-1 border-white d-flex flex-column justify-content-center align-items-center'>
-                                                    <i className="fa-solid fa-comment"></i>
-                                                    <p className='fw-bold'>{formatNumber(video.comments)}</p>
+                                                    <i className="fa-solid fa-comment" aria-hidden="true"></i>
+                                                    <p className='fw-bold' aria-label={`${formatNumber(video.comments)} comentarios`}>{formatNumber(video.comments)}</p>
                                                 </div>
                                                 <div className='col-4 d-flex flex-column justify-content-center align-items-center'>
-                                                    <i className="fa-solid fa-heart"></i>
-                                                    <p className='fw-bold'>{formatNumber(video.likes)}</p>
+                                                    <i className="fa-solid fa-heart" aria-hidden="true"></i> 
+                                                    <p className='fw-bold' aria-label={`${formatNumber(video.likes)} me gusta`}>{formatNumber(video.likes)}</p>
                                                 </div>
                                             </div>
                                             <div className="d-flex justify-content-between align-items-center botones-tiktok">
@@ -192,6 +192,8 @@ const TikHikLatam = () => {
                                                 <button
                                                     className="btn btn-secondary btn-mute"
                                                     onClick={e => { e.preventDefault(); handleToggleMute(idx); }}
+                                                    // AJUSTE DE ACCESIBILIDAD: Añade aria-label dinámico
+                                                    aria-label={mutedStates[idx] !== false ? "Activar sonido del video" : "Silenciar video"}
                                                 >
                                                     <i className={mutedStates[idx] !== false ? "fa-solid fa-volume-xmark" : "fa-solid fa-volume-high"}></i>
                                                 </button>
