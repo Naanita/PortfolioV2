@@ -13,7 +13,7 @@ const TikHikLatam = () => {
     const [hoveredIndex, setHoveredIndex] = useState(null);
 
     useEffect(() => {
-        setVideos([...videosData].reverse());
+        setVideos([...videosData]);
     }, []);
 
     useEffect(() => {
