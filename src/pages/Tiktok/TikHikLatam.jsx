@@ -44,11 +44,23 @@ const TikHikLatam = () => {
         });
     }, [mutedStates, playingStates, activeIndex, videos]);
 
+    // Función para enviar eventos a Google Analytics
+    const sendTikTokEvent = (action, video) => {
+        if (window.gtag) {
+            window.gtag('event', action, {
+                event_category: 'Tiktok',
+                event_label: video.description,
+                value: video.url
+            });
+        }
+    };
+
     const handleToggleMute = (idx) => {
         setMutedStates((prev) => ({
             ...prev,
             [idx]: !prev[idx],
         }));
+        sendTikTokEvent('toggle_mute', videos[idx]);
     };
 
     const handlePlayPause = (idx) => {
@@ -124,9 +136,9 @@ const TikHikLatam = () => {
                                 className="d-flex flex-column align-items-center text-center video-container"
                                 style={{ transition: 'transform 0.4s', textDecoration: 'none', color: 'inherit' }}
                                 tabIndex={-1}
-                                // AJUSTE DE ACCESIBILIDAD: Label más descriptivo para el enlace principal
                                 aria-label={`Ver video de ${video.description} en TikTok. Vistas: ${formatNumber(video.views)}, Comentarios: ${formatNumber(video.comments)}`}
                                 title={`Ver video de ${video.description} en TikTok`}
+                                onClick={() => sendTikTokEvent('click_video_link', video)}
                             >
                                 <div
                                     className='innerVideo'
@@ -150,7 +162,6 @@ const TikHikLatam = () => {
                                         onMouseUp={e => e.currentTarget.blur()}
                                         onClick={e => { e.preventDefault(); handlePlayPause(idx); }}
                                         type="button"
-                                        // AJUSTE DE ACCESIBILIDAD: Añade aria-label dinámico
                                         aria-label={playingStates[idx] ? 'Pausar video' : 'Reproducir video'}
                                     >
                                         <i className={`fa-solid ${playingStates[idx] ? 'fa-pause' : 'fa-play'}`}></i>
@@ -185,14 +196,20 @@ const TikHikLatam = () => {
                                                 <button
                                                     className="btn btn-white btn-ver-tiktok"
                                                     style={{ color: 'black' }}
-                                                    onClick={e => { e.preventDefault(); window.open(video.url, '_blank'); }}
+                                                    onClick={e => { 
+                                                        e.preventDefault(); 
+                                                        sendTikTokEvent('click_ver_en_tiktok', video);
+                                                        window.open(video.url, '_blank'); 
+                                                    }}
                                                 >
                                                     Ver en TikTok
                                                 </button>
                                                 <button
                                                     className="btn btn-secondary btn-mute"
-                                                    onClick={e => { e.preventDefault(); handleToggleMute(idx); }}
-                                                    // AJUSTE DE ACCESIBILIDAD: Añade aria-label dinámico
+                                                    onClick={e => { 
+                                                        e.preventDefault(); 
+                                                        handleToggleMute(idx); 
+                                                    }}
                                                     aria-label={mutedStates[idx] !== false ? "Activar sonido del video" : "Silenciar video"}
                                                 >
                                                     <i className={mutedStates[idx] !== false ? "fa-solid fa-volume-xmark" : "fa-solid fa-volume-high"}></i>
