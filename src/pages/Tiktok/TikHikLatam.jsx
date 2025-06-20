@@ -76,6 +76,7 @@ const TikHikLatam = () => {
             ...prev,
             [idx]: playingStates[idx] ? true : false,
         }));
+        sendTikTokEvent('play_pause', videos[idx]);
     };
 
     const handleVideoEnded = (idx) => {
