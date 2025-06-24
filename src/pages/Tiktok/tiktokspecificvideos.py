@@ -12,6 +12,7 @@ import random
 
 # --- CONFIGURACIÓN ---
 VIDEOS_A_PROCESAR = [
+    "https://www.tiktok.com/@hikvisionlatam/video/7518742393085054214",
     "https://www.tiktok.com/@hikvisionlatam/video/7516918173078228229",
     "https://www.tiktok.com/@hikvisionlatam/video/7498116270617857335",
     "https://www.tiktok.com/@hikvisionlatam/video/7491838741091192119",
@@ -19,7 +20,7 @@ VIDEOS_A_PROCESAR = [
     "https://www.tiktok.com/@hikvisionlatam/video/7502229067761093893",
 ]
 USERNAME = "hikvisionlatam"
-DOWNLOAD_VIDEOS = True  # Cambia a False si no quieres descargar los videos
+DOWNLOAD_VIDEOS = True  
 
 # Configuración de logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
