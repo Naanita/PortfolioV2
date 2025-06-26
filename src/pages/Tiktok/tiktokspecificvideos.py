@@ -1,275 +1,206 @@
+
 import asyncio
 import os
 import json
 import logging
+import random
+import tempfile
 from datetime import datetime
+from dotenv import load_dotenv
+import boto3
+from botocore.config import Config
 from playwright.async_api import async_playwright
 import yt_dlp
-import requests
-from PIL import Image
 from io import BytesIO
-import random
+from PIL import Image
 
-# --- CONFIGURACIÓN ---
+# ─── CARGAR CONFIGURACIÓN ──────────────────────────────────────────────────────
+load_dotenv()
+ACCOUNT_ID = os.getenv('CF_ACCOUNT_ID')
+ACCESS_KEY = os.getenv('CF_ACCESS_KEY_ID')
+SECRET_KEY = os.getenv('CF_SECRET_ACCESS_KEY')
+BUCKET     = os.getenv('CF_R2_BUCKET')
+ENDPOINT   = f"https://{ACCOUNT_ID}.r2.cloudflarestorage.com"
+
+# Cliente S3 para Cloudflare R2
+s3 = boto3.client(
+    's3',
+    endpoint_url=ENDPOINT,
+    aws_access_key_id=ACCESS_KEY,
+    aws_secret_access_key=SECRET_KEY,
+    region_name='auto',
+    config=Config(s3={'addressing_style': 'path'})
+)
+
+# ─── CONSTANTES ───────────────────────────────────────────────────────────────
 VIDEOS_A_PROCESAR = [
-    "https://www.tiktok.com/@hikvisionlatam/video/7518742393085054214",
-    "https://www.tiktok.com/@hikvisionlatam/video/7516918173078228229",
-    "https://www.tiktok.com/@hikvisionlatam/video/7498116270617857335",
-    "https://www.tiktok.com/@hikvisionlatam/video/7491838741091192119",
-    "https://www.tiktok.com/@hikvisionlatam/video/7510300279997320454",
-    "https://www.tiktok.com/@hikvisionlatam/video/7502229067761093893",
+    'https://www.tiktok.com/@hikvisionlatam/video/7518742393085054214',
+    'https://www.tiktok.com/@hikvisionlatam/video/7516918173078228229',
+    'https://www.tiktok.com/@hikvisionlatam/video/7498116270617857335',
+    'https://www.tiktok.com/@hikvisionlatam/video/7491838741091192119',
+    'https://www.tiktok.com/@hikvisionlatam/video/7510300279997320454',
+    'https://www.tiktok.com/@hikvisionlatam/video/7502229067761093893',
 ]
-USERNAME = "hikvisionlatam"
-DOWNLOAD_VIDEOS = True  
-
-# Configuración de logging
+USERNAME = 'hikvisionlatam'
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# --- RUTAS Y DIRECTORIOS ---
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-COOKIE_FILE = os.path.join(BASE_DIR, "cookies.json")
-IMAGES_DIR = os.path.join(BASE_DIR, "images")
-os.makedirs(IMAGES_DIR, exist_ok=True)
-
-# Ajuste de ruta para archivos descargados
-def ajustar_ruta_local_filename(ruta_absoluta, username=USERNAME):
-    """Convierte una ruta absoluta en una ruta relativa basada en el nombre de usuario."""
-    ruta_unix = ruta_absoluta.replace('\\', '/')
-    idx = ruta_unix.rfind(f"/{username}/")
-    if idx != -1:
-        return ruta_unix[idx:]
-    idx2 = ruta_unix.find(username)
-    if idx2 != -1:
-        return '/' + ruta_unix[idx2:]
-    filename = os.path.basename(ruta_unix)
-    return f"/{username}/{filename}"
-
-async def random_sleep(min_seconds, max_seconds):
-    await asyncio.sleep(random.uniform(min_seconds, max_seconds))
+# ─── AUXILIARES PLAYWRIGHT ──────────────────────────────────────────────────────
+async def random_sleep(min_s, max_s):
+    await asyncio.sleep(random.uniform(min_s, max_s))
 
 async def scroll_page(page):
-    """Hace scroll para cargar más videos en el perfil."""
-    await page.evaluate("window.scrollBy(0, window.innerHeight);")
+    await page.evaluate('window.scrollBy(0, window.innerHeight);')
     await random_sleep(1, 2)
 
-async def save_cookies(context):
-    try:
-        cookies = await context.cookies()
-        with open(COOKIE_FILE, 'w', encoding='utf-8') as f:
-            json.dump(cookies, f, ensure_ascii=False, indent=2)
-        logging.info("Cookies guardadas exitosamente.")
-    except Exception as e:
-        logging.error(f"Error al guardar las cookies: {e}")
-
-async def load_cookies(context):
-    if os.path.exists(COOKIE_FILE):
-        try:
-            with open(COOKIE_FILE, 'r', encoding='utf-8') as f:
-                cookies = json.load(f)
-            await context.add_cookies(cookies)
-            logging.info("Cookies cargadas exitosamente.")
-            return True
-        except Exception as e:
-            logging.error(f"Error al cargar las cookies: {e}")
-    return False
-
 async def handle_captcha(page):
-    """Maneja diálogos de CAPTCHA o banners de cookies que puedan aparecer."""
     try:
-        omitir_btn = page.locator("button", has_text="Omitir")
-        if await omitir_btn.count() and await omitir_btn.is_visible():
-            logging.info("Botón 'Omitir' encontrado, haciendo clic.")
-            await omitir_btn.click()
-            await asyncio.sleep(2)
-        dialog = page.locator('div[role="dialog"]')
-        if await dialog.count() and await dialog.is_visible():
-            logging.warning("Diálogo de CAPTCHA/verificación detectado. Esperando...")
+        btn = page.locator('button', has_text='Omitir')
+        if await btn.count() and await btn.is_visible():
+            await btn.click(); await asyncio.sleep(2)
+        dlg = page.locator('div[role="dialog"]')
+        if await dlg.count() and await dlg.is_visible():
             await page.wait_for_selector('div[role="dialog"]', state='detached', timeout=300000)
-            logging.info("El diálogo ha desaparecido.")
-    except Exception as e:
-        logging.warning(f"No se pudo manejar el CAPTCHA o banner automáticamente: {e}")
+    except:
+        pass
 
 async def hover_and_get_views(page, element):
-    """Hace hover sobre la tarjeta de video y extrae el conteo de vistas."""
     try:
-        await element.hover()
-        await random_sleep(0.5, 1)
-        return await element.evaluate("""
-            el => {
-                const v = el.querySelector('strong[data-e2e="video-views"]');
-                return v ? v.textContent.trim() : 'N/A';
-            }
-        """)
-    except Exception as e:
-        logging.warning(f"Hover fallido para vistas: {e}")
+        await element.hover(); await random_sleep(0.5, 1)
+        return await element.evaluate(
+            'el => el.querySelector("strong[data-e2e=\\"video-views\\"]")?.textContent.trim() || "N/A"'
+        )
+    except:
         return 'N/A'
 
+# ─── METADATOS + MINIATURA ──────────────────────────────────────────────────────
 async def extract_video_info(page, video_url, views):
-    """Extrae información detallada de un video de TikTok."""
-    await page.goto(video_url, wait_until="networkidle")
-    await random_sleep(2, 4)
-    await handle_captcha(page)
-
-    # Usa vistas obtenidas por hover; si no, fallback estático
+    await page.goto(video_url, wait_until='networkidle'); await random_sleep(2, 4); await handle_captcha(page)
     if views == 'N/A':
-        views = await page.evaluate("""
-            () => {
-                const v = document.querySelector('strong[data-e2e="video-views"]');
-                return v ? v.textContent.trim() : 'N/A';
-            }
-        """)
-
-    # Descripción y hashtags
-    desc_data = await page.evaluate("""
-    () => {
-        let desc = '', tags = [];
-        document.querySelectorAll('span[data-e2e="new-desc-span"]').forEach(el => {
-            desc += el.textContent.trim() + ' ';
-            const m = el.textContent.match(/#\\S+/g);
-            if (m) tags.push(...m);
-        });
-        document.querySelectorAll('a.search-common-link strong').forEach(s => {
-            desc += s.textContent.trim() + ' ';
-            tags.push(s.textContent.trim());
-        });
-        return { description: desc.trim(), hashtags: [...new Set(tags)] };
-    }
-    """)
-    description = desc_data['description']
-    hashtags = desc_data['hashtags']
-    first_tag = hashtags[0] if hashtags else ''
-
-    # Métricas adicionales
-    video_info_selectors = await page.evaluate("""
-    () => {
-        const get = sels => {
-            for (let sel of sels) {
-                const el = document.querySelector(sel);
-                if (el && el.textContent.trim()) return el.textContent.trim();
-            }
-            return 'N/A';
-        };
-        return {
-            likes: get(['[data-e2e="like-count"]','[data-e2e="browse-like-count"]']),
-            comments: get(['[data-e2e="comment-count"]','[data-e2e="browse-comment-count"]']),
-            shares: get(['[data-e2e="share-count"]']),
-            bookmarks: get(['[data-e2e="undefined-count"]']),
-            musicTitle: get(['.css-pvx3oa-DivMusicText']),
-            date: get(['span[data-e2e="browser-nickname"] span:last-child'])
-        };
-    }
-    """)
-
+        views = await page.evaluate(
+            '() => document.querySelector("strong[data-e2e=\\"video-views\\"]")?.textContent.trim() || "N/A"'
+        )
+    # descripción y hashtags
+    desc = await page.evaluate(
+        '''() => {
+            let d = '', tags = [];
+            document.querySelectorAll('span[data-e2e="new-desc-span"]').forEach(el => {
+                d += el.textContent.trim() + ' ';
+                const m = el.textContent.match(/#\S+/g);
+                if(m) tags.push(...m);
+            });
+            return {description: d.trim(), hashtags: [...new Set(tags)]};
+        }'''
+    )
+    sel = await page.evaluate(
+        '''() => {
+            const get = sels => {
+                for (const s of sels) {
+                    const el = document.querySelector(s);
+                    if(el?.textContent.trim()) return el.textContent.trim();
+                }
+                return 'N/A';
+            };
+            return {
+                likes: get(['[data-e2e="like-count"]','[data-e2e="browse-like-count"]']),
+                comments: get(['[data-e2e="comment-count"]','[data-e2e="browse-comment-count"]']),
+                shares: get(['[data-e2e="share-count"]']),
+                bookmarks: get(['[data-e2e="undefined-count"]']),
+                music: get(['.css-pvx3oa-DivMusicText']),
+                date: get(['span[data-e2e="browser-nickname"] span:last-child'])
+            };
+        }'''
+    )
     info = {
         'url': video_url,
         'views': views,
-        'description': description,
-        'hashtags': hashtags,
-        'first_hashtag': first_tag,
+        'description': desc['description'],
+        'hashtags': desc['hashtags'],
+        **sel,
         'timestamp': datetime.now().isoformat(),
-        **video_info_selectors
     }
-
-    # Miniatura optimizada a WebP
+    # miniatura en memoria + subida
     try:
         vid_id = video_url.rstrip('/').split('/video/')[1].split('?')[0]
-        thumb_src = await page.evaluate("""
-        () => document.querySelector('div.css-1e263gw-StyledVideoBlurBackground picture img')?.src
-        """)
+        thumb_src = await page.evaluate(
+            '() => document.querySelector("div.css-1e263gw-StyledVideoBlurBackground picture img")?.src'
+        )
         if thumb_src:
-            resp = requests.get(thumb_src, timeout=10)
-            resp.raise_for_status()
-            img = Image.open(BytesIO(resp.content)).convert('RGB')
-            quality = 80
-            buf = BytesIO()
-            img.save(buf, format='WEBP', quality=quality)
-            while buf.tell() > 300 * 1024 and quality > 10:
-                quality -= 10
-                buf = BytesIO()
-                img.save(buf, format='WEBP', quality=quality)
-            fn = f"{vid_id}_poster.webp"
-            path = os.path.join(IMAGES_DIR, fn)
-            with open(path, 'wb') as f:
-                f.write(buf.getvalue())
-            info['thumbnail_url'] = f"/images/{fn}"
-    except Exception as e:
-        logging.error(f"Error al procesar thumbnail de {video_url}: {e}")
+            res = requests.get(thumb_src, timeout=10); res.raise_for_status()
+            img = Image.open(BytesIO(res.content)).convert('RGB')
+            buf = BytesIO(); img.save(buf, format='WEBP', quality=80)
+            key = f'thumbnails/{vid_id}.webp'
+            s3.put_object(Bucket=BUCKET, Key=key, Body=buf.getvalue(), ContentType='image/webp')
+            info['thumbnail_url'] = f"{ENDPOINT}/{BUCKET}/{key}"
+    except:
         info['thumbnail_url'] = None
-
     return info
 
-def download_tiktok_video(video_url, save_path):
-    """Descarga un video de TikTok usando yt-dlp."""
-    opts = {
-        'outtmpl': os.path.join(save_path, '%(id)s.%(ext)s'),
-        'format': 'best',
-        'quiet': True,
-        'noplaylist': True,
-        'cookiefile': COOKIE_FILE if os.path.exists(COOKIE_FILE) else None
-    }
+# ─── DESCARGA + SUBIDA VÍDEO ────────────────────────────────────────────────────
+def download_and_upload_video(video_url):
+    # descarga a archivo temporal
+    with tempfile.NamedTemporaryFile(suffix='.mp4', delete=False) as tmp:
+        path = tmp.name
+    opts = {'outtmpl': path, 'format': 'best', 'quiet': True, 'noplaylist': True}
     try:
         with yt_dlp.YoutubeDL(opts) as ydl:
-            info = ydl.extract_info(video_url, download=True)
-            fn = ydl.prepare_filename(info)
-            logging.info(f"Video descargado: {fn}")
-            return fn
-    except Exception as e:
-        logging.error(f"Error descargando video {video_url}: {e}")
-        return None
+            ydl.download([video_url])
+        # subir el archivo
+        vid_id = video_url.rstrip('/').split('/video/')[1].split('?')[0]
+        ext = os.path.splitext(path)[1].lstrip('.')
+        key = f'videos/{vid_id}.{ext}'
+        s3.upload_file(path, BUCKET, key)
+        r2_url = f"{ENDPOINT}/{BUCKET}/{key}"
+    finally:
+        try:
+            os.remove(path)
+        except:
+            pass
+    return r2_url
 
-async def scrape_videos_especificos(video_urls, username):
-    """Orquesta el scraping: landing para vistas + detalle."""
-    resultados = []
+# ─── SCRAPE + PROCESO COMPLETO ─────────────────────────────────────────────────
+async def scrape_and_upload():
+    results = []
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=False)
         context = await browser.new_context(user_agent='Mozilla/5.0')
-        await load_cookies(context)
+        # extraer vistas
         page = await context.new_page()
-
-        # Fase 1: perfil para vistas
-        profile = await context.new_page()
-        await profile.goto(f"https://www.tiktok.com/@{username}", wait_until="networkidle")
-        await handle_captcha(profile)
-        for _ in range(5):
-            await scroll_page(profile)
-            await handle_captcha(profile)
-        elems = await profile.query_selector_all('div[data-e2e="user-post-item"]')
+        await page.goto(f'https://www.tiktok.com/@{USERNAME}', wait_until='networkidle')
+        await handle_captcha(page)
+        for _ in range(5): await scroll_page(page); await handle_captcha(page)
+        elems = await page.query_selector_all('div[data-e2e="user-post-item"]')
         views_map = {}
         for el in elems:
             href = await el.evaluate('e => e.querySelector("a").href')
-            if href in video_urls:
-                views_map[href] = await hover_and_get_views(profile, el)
-        await profile.close()
-
-        # Fase 2: detalle
-        for url in video_urls:
-            logging.info(f"--- Procesando video: {url} ---")
-            vws = views_map.get(url, 'N/A')
+            if href in VIDEOS_A_PROCESAR:
+                views_map[href] = await hover_and_get_views(page, el)
+        await page.close()
+        # procesar cada vídeo
+        for url, vws in views_map.items():
+            logging.info(f'Procesando {url}')
+            detail = await context.new_page()
             try:
-                info = await extract_video_info(page, url, vws)
-                if DOWNLOAD_VIDEOS:
-                    save_dir = os.path.join(BASE_DIR, username)
-                    os.makedirs(save_dir, exist_ok=True)
-                    fn = download_tiktok_video(url, save_dir)
-                    if fn:
-                        info['local_filename'] = ajustar_ruta_local_filename(fn, username)
-                resultados.append(info)
-                logging.info(f"Info extraída para {url}")
+                info = await extract_video_info(detail, url, vws)
+                # descarga y subida
+                info['video_url'] = download_and_upload_video(url)
+                results.append(info)
+                logging.info(f'OK {url}')
             except Exception as e:
-                logging.error(f"FALLO al procesar {url}: {e}", exc_info=True)
-            await random_sleep(3, 6)
-
-        await save_cookies(context)
+                logging.error(f'Error procesando {url}: {e}', exc_info=True)
+            finally:
+                await detail.close(); await random_sleep(2, 5)
         await browser.close()
-    return resultados
+    return results
 
 async def main():
-    logging.info(f"Iniciando scraping para {len(VIDEOS_A_PROCESAR)} videos de '{USERNAME}'.")
-    data = await scrape_videos_especificos(VIDEOS_A_PROCESAR, USERNAME)
-    out_file = os.path.join(BASE_DIR, f"{USERNAME}_tiktok_videos.json")
-    with open(out_file, 'w', encoding='utf-8') as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-    print(f"Datos guardados en: {out_file}")
+    data = await scrape_and_upload()
+    # imprimir y guardar JSON
+    for item in data: print(json.dumps(item, ensure_ascii=False))
+    out = os.path.join(os.path.dirname(__file__), f'{USERNAME}_tiktok_videos.json')
+    with open(out, 'w', encoding='utf-8') as f:
+        json.dump(data, f, separators=(',', ':'), ensure_ascii=False)
+    print(f'JSON guardado en: {out}')
 
 if __name__ == '__main__':
     asyncio.run(main())
+

@@ -1,0 +1,7 @@
+name = "upload-worker"
+account_id = "7dafcbf9a9623dcf0b4ca6772845106c"
+compatibility_date = "2025-06-26"
+
+[[r2_buckets]]
+binding     = "VIDEOS_BUCKET"
+bucket_name = "hikvideos"

@@ -12,8 +12,10 @@ const TikHikLatam = () => {
     const [playingStates, setPlayingStates] = useState({});
     const [hoveredIndex, setHoveredIndex] = useState(null);
 
+
     useEffect(() => {
         setVideos([...videosData]);
+        console.log("Videos loaded:", videosData);
     }, []);
 
     useEffect(() => {
@@ -128,7 +130,7 @@ const TikHikLatam = () => {
                     className="w-100"
                     style={{ maxWidth: 1200 }}
                 >
-                    {videos.filter(video => video.local_filename).map((video, idx) => (
+                    {videos.filter(video => video.video_url).map((video, idx) => (
                         <SplideSlide key={idx}>
                             <a
                                 href={video.url}
@@ -149,7 +151,7 @@ const TikHikLatam = () => {
                                 >
                                     <video
                                         ref={el => (videoRefs.current[idx] = el)}
-                                        src={video.local_filename}
+                                        src={video.video_url}
                                         poster={video.thumbnail_url} 
                                         loading={idx < 4 ? "eager" : "lazy"}
                                         muted={mutedStates[idx] !== false}
