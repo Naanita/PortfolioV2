@@ -1,4 +1,3 @@
-
 import asyncio
 import os
 import json
@@ -13,6 +12,8 @@ from playwright.async_api import async_playwright
 import yt_dlp
 from io import BytesIO
 from PIL import Image
+import requests
+from botocore.exceptions import ClientError
 
 # ─── CARGAR CONFIGURACIÓN ──────────────────────────────────────────────────────
 load_dotenv()
@@ -21,6 +22,14 @@ ACCESS_KEY = os.getenv('CF_ACCESS_KEY_ID')
 SECRET_KEY = os.getenv('CF_SECRET_ACCESS_KEY')
 BUCKET     = os.getenv('CF_R2_BUCKET')
 ENDPOINT   = f"https://{ACCOUNT_ID}.r2.cloudflarestorage.com"
+PUBLIC_R2  = "https://pub-e8ad2ae91ff542308778fb41b3747009.r2.dev"
+
+# Validar variables de entorno críticas
+if not all([ACCOUNT_ID, ACCESS_KEY, SECRET_KEY, BUCKET]):
+    raise ValueError(
+        f"Faltan variables de entorno requeridas: "
+        f"CF_ACCOUNT_ID={ACCOUNT_ID}, CF_ACCESS_KEY_ID={ACCESS_KEY}, CF_SECRET_ACCESS_KEY={'***' if SECRET_KEY else None}, CF_R2_BUCKET={BUCKET}"
+    )
 
 # Cliente S3 para Cloudflare R2
 s3 = boto3.client(
@@ -121,39 +130,93 @@ async def extract_video_info(page, video_url, views):
     # miniatura en memoria + subida
     try:
         vid_id = video_url.rstrip('/').split('/video/')[1].split('?')[0]
-        thumb_src = await page.evaluate(
-            '() => document.querySelector("div.css-1e263gw-StyledVideoBlurBackground picture img")?.src'
-        )
-        if thumb_src:
-            res = requests.get(thumb_src, timeout=10); res.raise_for_status()
+        key = f'thumbnails/{vid_id}.webp'
+        # Selector robusto para la miniatura
+        thumb_src = await page.evaluate('''
+            () => {
+                const img = document.querySelector('picture img');
+                return img ? img.src : null;
+            }
+        ''')
+        # Verifica si la imagen ya existe en R2
+        exists = False
+        try:
+            s3.head_object(Bucket=BUCKET, Key=key)
+            exists = True
+        except ClientError as e:
+            if e.response['Error']['Code'] != '404':
+                raise
+        if exists:
+            info['thumbnail_url'] = f"{PUBLIC_R2}/{key}"
+        elif thumb_src:
+            res = requests.get(thumb_src, timeout=10)
+            res.raise_for_status()
             img = Image.open(BytesIO(res.content)).convert('RGB')
-            buf = BytesIO(); img.save(buf, format='WEBP', quality=80)
-            key = f'thumbnails/{vid_id}.webp'
-            s3.put_object(Bucket=BUCKET, Key=key, Body=buf.getvalue(), ContentType='image/webp')
-            info['thumbnail_url'] = f"{ENDPOINT}/{BUCKET}/{key}"
-    except:
+            buf = BytesIO()
+            img.save(buf, format='WEBP', quality=80)
+            buf.seek(0)
+            s3.upload_fileobj(buf, BUCKET, key, ExtraArgs={'ContentType': 'image/webp'})
+            info['thumbnail_url'] = f"{PUBLIC_R2}/{key}"
+        else:
+            info['thumbnail_url'] = None
+    except Exception as e:
+        logging.error(f"Error subiendo miniatura: {e}", exc_info=True)
         info['thumbnail_url'] = None
     return info
 
 # ─── DESCARGA + SUBIDA VÍDEO ────────────────────────────────────────────────────
 def download_and_upload_video(video_url):
-    # descarga a archivo temporal
-    with tempfile.NamedTemporaryFile(suffix='.mp4', delete=False) as tmp:
-        path = tmp.name
-    opts = {'outtmpl': path, 'format': 'best', 'quiet': True, 'noplaylist': True}
+    vid_id = video_url.rstrip('/').split('/video/')[1].split('?')[0]
+    temp_dir = tempfile.mkdtemp()
+    local_path = os.path.join(temp_dir, f"{vid_id}.mp4")
+    key = f'videos/{vid_id}.mp4'
+    # Verifica si el video ya existe en R2
     try:
-        with yt_dlp.YoutubeDL(opts) as ydl:
-            ydl.download([video_url])
-        # subir el archivo
-        vid_id = video_url.rstrip('/').split('/video/')[1].split('?')[0]
-        ext = os.path.splitext(path)[1].lstrip('.')
-        key = f'videos/{vid_id}.{ext}'
-        s3.upload_file(path, BUCKET, key)
-        r2_url = f"{ENDPOINT}/{BUCKET}/{key}"
+        s3.head_object(Bucket=BUCKET, Key=key)
+        return f"{PUBLIC_R2}/{key}"
+    except ClientError as e:
+        if e.response['Error']['Code'] != '404':
+            logging.error(f"Error comprobando existencia de video: {e}", exc_info=True)
+            return None
+    r2_url = None
+    ydl_opts = {
+        'outtmpl': local_path,
+        'format': 'best',
+        'quiet': True,
+        'noplaylist': True,
+        'logger': logging.getLogger(),
+        'merge_output_format': 'mp4',
+        'retries': 3,
+        'force_overwrites': True,
+        'no_warnings': True,
+        'ignoreerrors': True,
+        'writesubtitles': False,
+        'writeautomaticsub': False,
+        'postprocessors': [],
+        'noprogress': True,
+        'logtostderr': False,
+        'simulate': False,
+        'prefer_ffmpeg': True,
+    }
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(video_url, download=True)
+        if os.path.exists(local_path) and os.path.getsize(local_path) > 0:
+            s3.upload_file(local_path, BUCKET, key, ExtraArgs={'ContentType': 'video/mp4'})
+            r2_url = f"{PUBLIC_R2}/{key}"
+        else:
+            logging.error(f"Archivo de video no encontrado o vacío: {local_path}")
+            return None
+    except Exception as e:
+        logging.error(f"Error descargando/subiendo video: {e}", exc_info=True)
+        return None
     finally:
         try:
-            os.remove(path)
-        except:
+            if os.path.exists(local_path):
+                os.remove(local_path)
+            if os.path.exists(temp_dir):
+                os.rmdir(temp_dir)
+        except Exception:
             pass
     return r2_url
 
@@ -175,8 +238,9 @@ async def scrape_and_upload():
             if href in VIDEOS_A_PROCESAR:
                 views_map[href] = await hover_and_get_views(page, el)
         await page.close()
-        # procesar cada vídeo
-        for url, vws in views_map.items():
+        # procesar cada vídeo en el orden de VIDEOS_A_PROCESAR
+        for url in VIDEOS_A_PROCESAR:
+            vws = views_map.get(url, 'N/A')
             logging.info(f'Procesando {url}')
             detail = await context.new_page()
             try:
