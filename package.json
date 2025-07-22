@@ -11,10 +11,11 @@
   },
   "dependencies": {
     "@splidejs/react-splide": "^0.7.12",
+    "@studio-freight/lenis": "^1.0.42",
     "@tsparticles/react": "^3.0.0",
     "emailjs-com": "^3.2.0",
     "glightbox": "^3.3.0",
-    "gsap": "^3.12.5",
+    "gsap": "^3.13.0",
     "leaflet": "^1.9.4",
     "leva": "^0.9.35",
     "lottie-web": "^5.12.2",

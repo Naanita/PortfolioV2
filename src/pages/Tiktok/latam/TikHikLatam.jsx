@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import videosData from './hikvisionlatam_tiktok_videos.json';
 import '@splidejs/react-splide/css';
 import { Splide, SplideSlide } from "@splidejs/react-splide";
-import "./tiktok.css";
+import "../tiktok.css";
 import { Helmet } from "react-helmet";
 
 const TikHikLatam = () => {
