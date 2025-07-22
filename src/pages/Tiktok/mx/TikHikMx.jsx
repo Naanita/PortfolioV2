@@ -106,7 +106,7 @@ const TikHikMx = () => {
     return (
         <>
             <Helmet>
-                <title>HikvisionlatamTiktok</title>
+                <title>HikvisionMexicoTiktok</title>
                 <meta name="description" content="Videos destacados de TikTok de Hikvisionlatam. Mira, reproduce y descubre los videos más populares y recientes de la cuenta oficial de Hikvisionlatam en TikTok." />
             </Helmet>
             <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100">
