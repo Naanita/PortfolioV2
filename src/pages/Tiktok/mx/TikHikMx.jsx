@@ -107,7 +107,7 @@ const TikHikMx = () => {
         <>
             <Helmet>
                 <title>HikvisionMexicoTiktok</title>
-                <meta name="description" content="Videos destacados de TikTok de Hikvisionlatam. Mira, reproduce y descubre los videos más populares y recientes de la cuenta oficial de Hikvisionlatam en TikTok." />
+                <meta name="description" content="Videos destacados de TikTok de Hikvisionmx. Mira, reproduce y descubre los videos más populares y recientes de la cuenta oficial de Hikvisionmx en TikTok." />
             </Helmet>
             <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100">
                 <div className="w-100 d-flex justify-content-center">
@@ -180,7 +180,7 @@ const TikHikMx = () => {
                                             <div />
                                             <div className='head'>
                                                 <div className='d-flex align-items-center'>
-                                                    <h1 className='fs-6 text-white me-1 my-0'>Hikvisionlatam</h1>
+                                                    <h1 className='fs-6 text-white me-1 my-0'>hikvisionmx</h1>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#42A5F5" className="bi bi-patch-check-fill" viewBox="0 0 16 16">
                                                         <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708" />
                                                     </svg>
