@@ -15,7 +15,7 @@ import TilemapGrid from './pages/SMB/homeScenario.jsx'
 import Test from './pages/SMB/test.jsx';
 import TikHikLatam from './pages/Tiktok/latam/TikHikLatam.jsx'
 import TikHikMx from './pages/Tiktok/mx/TikHikMx.jsx'
-
+import MexicoCalendarPage from './pages/Calendar/MexicoCalendarPage.jsx';
 
 // ImprovedNoise
 
@@ -35,7 +35,8 @@ function App() {
       <Route path='/smb/home' element={<TilemapGrid/>} />
       <Route path='/smb/test' element={<Test/>} />
       <Route path='/tiktok/latam' element={<TikHikLatam/>}/>
-      <Route path='/tiktok/mx' element={<TikHikMx/>}/>
+      <Route path='/tiktok/mx' element={<TikHikMx />} />
+      <Route path='/mexico-calendar' element={<MexicoCalendarPage />} />
       
       
       {/* <Route path='/counter' element={<Counter targetDate={new Date(2025, 0, 15, 0, 0, 0, 0)} />} /> */}

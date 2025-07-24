@@ -1,0 +1,14 @@
+[
+  {
+    "id": "co1",
+    "titulo": "Reunión de Planificación Q3",
+    "tipo": "Presencial",
+    "fecha": "2025-07-21",
+    "horaInicio": "16:00",
+    "horaFin": "17:30",
+    "descripcion": "Reunión para definir los objetivos del próximo trimestre.",
+    "lugar": "Oficina Principal Bogotá",
+    "organizador": "Equipo de Desarrollo",
+    "link": "https://zoom.us/j/12345"
+  }
+]

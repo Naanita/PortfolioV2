@@ -1,0 +1,50 @@
+[
+  {
+    "id": "mx1",
+    "titulo": "Review Sitio web MX",
+    "tipo": "Virtual",
+    "fecha": "2025-07-21",
+    "horaInicio": "16:30",
+    "horaFin": "20:00",
+    "descripcion": "Sebastián Grajales Morales. le está invitando a una reunión de Zoom programada.",
+    "lugar": "https://us04web.zoom.us/j/74686738976",
+    "organizador": "Sebastián Grajales",
+    "link": "https://us04web.zoom.us/j/74686738976"
+  },
+    {
+    "id": "mx1",
+    "titulo": "Review Sitio web MX",
+    "tipo": "Virtual",
+    "fecha": "2025-07-25",
+    "horaInicio": "16:30",
+    "horaFin": "20:00",
+    "descripcion": "Sebastián Grajales Morales. le está invitando a una reunión de Zoom programada.",
+    "lugar": "https://us04web.zoom.us/j/74686738976",
+    "organizador": "Sebastián Grajales",
+    "link": "https://us04web.zoom.us/j/74686738976"
+  },
+  {
+    "id": "mx1",
+    "titulo": "Review Sitio web MX",
+    "tipo": "Virtual",
+    "fecha": "2025-07-30",
+    "horaInicio": "16:30",
+    "horaFin": "20:00",
+    "descripcion": "Sebastián Grajales Morales. le está invitando a una reunión de Zoom programada.",
+    "lugar": "https://us04web.zoom.us/j/74686738976",
+    "organizador": "Sebastián Grajales",
+    "link": "https://us04web.zoom.us/j/74686738976"
+  },
+    {
+    "id": "mx1",
+    "titulo": "Review Sitio web MX",
+    "tipo": "Virtual",
+    "fecha": "2025-07-23",
+    "horaInicio": "16:30",
+    "horaFin": "20:00",
+    "descripcion": "Sebastián Grajales Morales. le está invitando a una reunión de Zoom programada.",
+    "lugar": "https://us04web.zoom.us/j/74686738976",
+    "organizador": "Sebastián Grajales",
+    "link": "https://us04web.zoom.us/j/74686738976"
+  }
+]
