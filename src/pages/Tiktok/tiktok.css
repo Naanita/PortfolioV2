@@ -20,7 +20,6 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    /* Contenido siempre abajo */
     align-items: stretch;
     position: absolute;
     bottom: 0;
@@ -73,7 +72,6 @@
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 1) 100%);
     -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 1) 100%);
 }
-/* El contenido real debe estar por encima de las capas de blur */
 .innerVideo .contentBottom .head {
     position: relative;
     z-index: 10;
@@ -168,7 +166,6 @@
     }
 }
 
-/* Botón play/pause centrado y solo visible en hover/tap */
 .innerVideo .btn-playpause-overlay {
     position: absolute;
     top: 50%;
@@ -198,7 +195,6 @@
     pointer-events: auto;
 }
 
-/* Opcional: para mejorar experiencia táctil en mobile */
 @media (hover: none) and (pointer: coarse) {
     .innerVideo .btn-playpause-overlay {
         opacity: 1;

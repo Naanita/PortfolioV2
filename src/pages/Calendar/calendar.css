@@ -3,22 +3,106 @@
     --color-secundarioCalendar: #6D6E71;
 }
 
-body {
-    background-color: #f8f9fa;
+/* Centrar el calendario principal ocupando el 100% del ancho */
+.calendar-root-center {
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+/* El calendario ocupa el 100% del ancho disponible, hasta el máximo */
 .calendar-container {
-    /* height: 800px;
-    width: 600px; */
     display: flex;
     flex-direction: column;
     overflow: hidden;
     border: 1px solid #dee2e6;
     border-radius: 0.5rem;
     background-color: white;
+    width: 100%;
+    /* max-width: 1200px; */ /* Elimina o comenta esta línea para ocupar todo el ancho */
+    margin: auto;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
 }
 
 .calendar-body {
     flex-grow: 1;
+    /* Important for flexbox layout to work */
+    display: flex;
+}
+
+/* --- New classes for Animation --- */
+.month-view-wrapper, .day-view-wrapper {
+    transition: flex-basis 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.month-view-wrapper {
+    flex-shrink: 0;
+    flex-basis: 100%;
+}
+
+.month-view-wrapper.shrunk {
+    flex-basis: 50%;
+}
+
+.day-view-wrapper {
+    flex-shrink: 0;
+    flex-basis: 0%;
+}
+
+.day-view-wrapper.visible {
+    flex-basis: 50%;
+}
+
+/* --- New class for DayView's inner scroll --- */
+.day-view-scroll-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.day-view-content {
+    flex-grow: 1;
     overflow-y: auto;
+    position: relative;
+}
+
+/* --- Tooltip styles --- */
+.calendar-tooltip {
+    position: absolute;
+    left: 50%;
+    top: -8px;
+    transform: translate(-50%, -100%) scale(0.95);
+    background: #222;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    white-space: pre-line;
+    z-index: 100;
+    min-width: 160px;
+    max-width: 220px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.22s cubic-bezier(.4,0,.2,1), transform 0.22s cubic-bezier(.4,0,.2,1);
+}
+
+.calendar-tooltip.show {
+    opacity: 0.97;
+    transform: translate(-50%, -100%) scale(1);
+    pointer-events: auto;
+}
+
+.calendar-tooltip::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -7px;
+    transform: translateX(-50%);
+    border-width: 7px 7px 0 7px;
+    border-style: solid;
+    border-color: #222 transparent transparent transparent;
 }

@@ -1,15 +1,21 @@
-import CalendarComponent from '../components/CalendarComponent';
-import colombiaEvents from '../data/colombia.json';
-import mexicoEvents from '../data/mexico.json';
+// LatamCalendarPage.jsx
 
-// Combina datos y define las pestañas para la vista LATAM
+import CalendarComponent from './Calendar';
+import colombiaEvents from './data/colombia.json';
+import mexicoEvents from './data/mexico.json';
+
+// --- MODIFICADO: Se elimina la combinación de eventos para 'LATAM' ---
 const events = {
-    LATAM: [...colombiaEvents, ...mexicoEvents],
+    // Ya no existe la clave LATAM
     Colombia: colombiaEvents,
     México: mexicoEvents,
 };
-const availableTabs = ['LATAM', 'Colombia', 'México'];
-const defaultTab = 'LATAM';
+
+// --- MODIFICADO: Se eliminó 'LATAM' de las pestañas disponibles ---
+const availableTabs = ['Colombia', 'México'];
+
+// --- MODIFICADO: Se establece un país como la pestaña por defecto ---
+const defaultTab = 'Colombia'; // O 'México', el que prefieras que aparezca primero
 
 const LatamCalendarPage = () => {
     return (

@@ -1,87 +1,98 @@
-// src/components/CalendarComponent.jsx
+// src/components/Calendar.jsx
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useLayoutEffect } from 'react';
 import MonthView from './MonthView';
 import DayView from './DayView';
+import PastEventModal from './PastEventModal'; // --- AÑADIDO: Importamos el nuevo modal
 import './calendar.css';
 
-const CalendarComponent = ({ events, availableTabs, defaultTab }) => {
+const Calendar = ({ events, availableTabs, defaultTab }) => {
     const [activeTab, setActiveTab] = useState(defaultTab);
-    const [view, setView] = useState('month');
-    const [selectedDate, setSelectedDate] = useState(new Date());
-
-    // --- NUEVO ESTADO PARA EL MODAL DE EVENTOS PASADOS ---
+    const [selectedDate, setSelectedDate] = useState(null);
     const [showPastEventModal, setShowPastEventModal] = useState(false);
 
+    const monthViewRef = useRef(null);
+    const [contentHeight, setContentHeight] = useState('auto');
+
+    // Esta lógica ya existente es perfecta. Filtrará los eventos automáticamente
+    // cada vez que 'activeTab' cambie.
     const eventsForView = useMemo(() => events[activeTab], [activeTab, events]);
+
+    useLayoutEffect(() => {
+        if (monthViewRef.current) {
+            setContentHeight(`${monthViewRef.current.offsetHeight}px`);
+        }
+    }, [activeTab, eventsForView]);
 
     const handleDayClick = (day) => {
         setSelectedDate(day);
-        setView('day');
+    };
+    
+    const handleCloseDayView = () => {
+        setSelectedDate(null);
     };
 
-    // --- NUEVA FUNCIÓN PARA MOSTRAR EL AVISO DE EVENTO PASADO ---
+    // Esta función ahora activará nuestro nuevo modal de iOS.
     const handlePastEventClick = () => {
         setShowPastEventModal(true);
     };
 
-    const renderView = () => {
-        switch (view) {
-            case 'day':
-                // Se pasa la función para volver a la vista de mes
-                return <DayView date={selectedDate} events={eventsForView} onClose={() => setView('month')} />;
-            case 'month':
-            default:
-                // Se pasan las dos funciones de clic al MonthView
-                return <MonthView onDayClick={handleDayClick} onPastEventClick={handlePastEventClick} events={eventsForView} />;
-        }
-    };
+    const monthViewClass = `month-view-wrapper ${selectedDate ? 'shrunk' : ''}`;
+    const dayViewClass = `day-view-wrapper ${selectedDate ? 'visible' : ''}`;
 
     return (
-        <div className="d-flex flex-column h-100">
-            <header className="p-3 border-bottom">
-                <nav className="nav nav-tabs">
-                    {availableTabs.map(tabName => (
-                        <li className="nav-item" key={tabName}>
-                            <button
-                                className={`nav-link ${activeTab === tabName ? 'active' : ''}`}
-                                onClick={() => setActiveTab(tabName)}
-                                style={activeTab === tabName ? { borderColor: 'var(--color-principalCalendar)', color: 'var(--color-principalCalendar)' } : {}}
-                            >
-                                {tabName}
-                            </button>
-                        </li>
-                    ))}
-                </nav>
-            </header>
+        <div className="calendar-root-center">
+            <div className="calendar-container d-flex flex-column h-100">
+                <header className="">
+                    {/* Lógica para mostrar pestañas solo si hay más de una disponible */}
+                    {availableTabs.length > 1 && (
+                        <ul className="nav nav-pills justify-content-center">
+                            {availableTabs.map(tab => (
+                                <li className="nav-item" key={tab}>
+                                    <a
+                                        className={`nav-link ${activeTab === tab ? 'active' : ''}`}
+                                        href="#"
+                                        onClick={(e) => {
+                                            e.preventDefault(); // Evita que la página se recargue
+                                            setActiveTab(tab);  // Cambia la pestaña activa
+                                            setSelectedDate(null); // Cierra la vista de día si está abierta
+                                        }}
+                                        // Asignamos un color personalizado al estilo 'active'
+                                        style={activeTab === tab ? { backgroundColor: 'var(--color-principalCalendar)', color: 'white' } : {}}
+                                    >
+                                        {tab}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </header>
 
-            <main className="calendar-body">
-                {renderView()}
-            </main>
-
-            {/* --- MODAL PARA EVENTOS PASADOS --- */}
-            {showPastEventModal && (
-                <div className="modal-backdrop fade show" style={{ zIndex: 1060 }}>
-                    <div className="modal fade show d-block" tabIndex="-1">
-                        <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title">Evento Pasado</h5>
-                                    <button type="button" className="btn-close" onClick={() => setShowPastEventModal(false)}></button>
-                                </div>
-                                <div className="modal-body">
-                                    <p>No puedes ingresar porque este evento ya pasó. ¡Te invitamos a registrarte en los próximos!</p>
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" onClick={() => setShowPastEventModal(false)}>Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
+                <main className="calendar-body">
+                    <div className={monthViewClass} ref={monthViewRef}>
+                        <MonthView 
+                            onDayClick={handleDayClick} 
+                            onPastEventClick={handlePastEventClick} // Esto ya estaba bien
+                            events={eventsForView} 
+                        />
                     </div>
-                </div>
-            )}
+                    
+                    <div className={`${dayViewClass} border-start`} style={{ height: contentHeight }}>
+                        {selectedDate && (
+                            <DayView 
+                                date={selectedDate} 
+                                events={eventsForView} 
+                                onClose={handleCloseDayView} 
+                            />
+                        )}
+                    </div>
+                </main>
+
+                {/* --- AÑADIDO: Renderizado condicional del nuevo modal --- */}
+                {showPastEventModal && <PastEventModal onClose={() => setShowPastEventModal(false)} />}
+            </div>
         </div>
     );
 };
 
-export default CalendarComponent;
+export default Calendar;
