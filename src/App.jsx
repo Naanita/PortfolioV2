@@ -17,7 +17,7 @@ import TikHikLatam from './pages/Tiktok/latam/TikHikLatam.jsx'
 import TikHikMx from './pages/Tiktok/mx/TikHikMx.jsx'
 import MexicoCalendarPage from './pages/Calendar/MexicoCalendarPage.jsx';
 import LatamCalendarPage from './pages/Calendar/LatamCalendarPage.jsx';
-import AcuSeek from './pages/Acuseek/FlexVu2GV.jsx';
+import AcuSeek from './pages/Acuseek/AcuSeek.jsx';
 
 // ImprovedNoise
 

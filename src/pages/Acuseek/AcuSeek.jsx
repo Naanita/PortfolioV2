@@ -44,15 +44,11 @@ const AcuSeek = () => {
     useEffect(() => {
         if (loadedImagesCount < totalImages) return;
 
-        // --- LA CORRECCIÓN DEFINITIVA ---
-        // Esperamos 100ms para asegurar que el navegador haya finalizado el renderizado del layout.
         const timer = setTimeout(() => {
             console.log("¡Imágenes listas y renderizadas! Creando Draggable ahora.");
-
             const container = containerRef.current;
             const content = contentRef.current;
 
-            // Chequeos de seguridad por si el componente se desmonta durante el timeout.
             if (!container || !content) return;
 
             if (draggableInstance.current) {
@@ -72,9 +68,8 @@ const AcuSeek = () => {
             });
 
             draggableInstance.current = dragger[0];
-        }, 100); // Pequeño retraso de 100 milisegundos.
+        }, 100); 
 
-        // Limpieza del temporizador si el componente se desmonta.
         return () => clearTimeout(timer);
         
     }, [loadedImagesCount]);

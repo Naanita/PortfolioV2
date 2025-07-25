@@ -2,46 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
 import "./flexvu2.css"; // Import your CSS file for styles
-import img1 from "../../assets/img/flexvu/1.jpg";
-import img2 from "../../assets/img/flexvu/2.jpg";
-import img3 from "../../assets/img/flexvu/3.jpg";
-import img4 from "../../assets/img/flexvu/4.jpg";
-import img5 from "../../assets/img/flexvu/5.jpg";
-import img6 from "../../assets/img/flexvu/6.jpg";
-import img7 from "../../assets/img/flexvu/7.jpg";
-import img8 from "../../assets/img/flexvu/8.jpg";
-import img9 from "../../assets/img/flexvu/9.jpg";
-import img10 from "../../assets/img/flexvu/10.jpg";
-import img11 from "../../assets/img/flexvu/11.jpg";
-import img12 from "../../assets/img/flexvu/12.jpg";
-import img13 from "../../assets/img/flexvu/13.jpg";
-import img14 from "../../assets/img/flexvu/14.jpg";
-import img15 from "../../assets/img/flexvu/15.jpg";
-import img16 from "../../assets/img/flexvu/16.jpg";
-import img17 from "../../assets/img/flexvu/17.jpg";
-import img18 from "../../assets/img/flexvu/18.jpg";
-import img19 from "../../assets/img/flexvu/19.jpg";
-import img20 from "../../assets/img/flexvu/20.jpg";
-import img21 from "../../assets/img/flexvu/21.jpg";
-import img22 from "../../assets/img/flexvu/22.jpg";
-import img23 from "../../assets/img/flexvu/23.jpg";
-import img24 from "../../assets/img/flexvu/24.jpg";
-import img25 from "../../assets/img/flexvu/25.jpg";
-import img26 from "../../assets/img/flexvu/26.jpg";
-import img27 from "../../assets/img/flexvu/27.jpg";
-import img28 from "../../assets/img/flexvu/28.jpg";
-import img29 from "../../assets/img/flexvu/29.jpg";
-import img30 from "../../assets/img/flexvu/30.jpg";
+
 
 gsap.registerPlugin(Draggable);
 
-const images = [
-    img1, img2, img3, img4, img5, img6, img7, img8, img9, img10,
-    img11, img12, img13, img14, img15, img16, img17, img18, img19, img20,
-    img21, img22, img23, img24,
-];
+const totalImages = 24;
+const images = Array.from({ length: totalImages }, (_, i) => 
+    `https://pub-af8c7269060645a3af22294a08e89478.r2.dev/${i + 1}.jpg`
+);
 
-const HorizontalScroller = () => {
+const FlexVu2 = () => {
     const [showOverlay, setShowOverlay] = useState(true);
     const containerRef = useRef(null);
     const contentRef = useRef(null);
@@ -97,7 +67,6 @@ const handleOverlayClick = () => {
                 gsap.to(content, { duration: 0.2, ease: "power1.out", cursor: "grab" });
             },
             onPress: () => {
-                    console.log("Hola  ")
                 if (typeof window.gtag === "function") {
                 window.gtag("event", "inicio_grabbing", {
                     event_category: "Interacción",
@@ -143,4 +112,4 @@ const handleOverlayClick = () => {
     );
 };
 
-export default HorizontalScroller;
+export default FlexVu2;
