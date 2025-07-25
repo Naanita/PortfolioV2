@@ -17,6 +17,7 @@ import TikHikLatam from './pages/Tiktok/latam/TikHikLatam.jsx'
 import TikHikMx from './pages/Tiktok/mx/TikHikMx.jsx'
 import MexicoCalendarPage from './pages/Calendar/MexicoCalendarPage.jsx';
 import LatamCalendarPage from './pages/Calendar/LatamCalendarPage.jsx';
+import AcuSeek from './pages/Acuseek/FlexVu2GV.jsx';
 
 // ImprovedNoise
 
@@ -39,6 +40,7 @@ function App() {
       <Route path='/tiktok/mx' element={<TikHikMx />} />
       <Route path='/mexico-calendar' element={<MexicoCalendarPage />} />
       <Route path='/latam-calendar' element={<LatamCalendarPage />} />
+      <Route path='/acuseek' element={<AcuSeek />} />
       
       
       {/* <Route path='/counter' element={<Counter targetDate={new Date(2025, 0, 15, 0, 0, 0, 0)} />} /> */}
