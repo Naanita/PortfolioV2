@@ -16,14 +16,10 @@
 .calendar-container {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    border: 1px solid #dee2e6;
+    /* overflow: hidden; */
     border-radius: 0.5rem;
-    background-color: white;
     width: 100%;
-    /* max-width: 1200px; */ /* Elimina o comenta esta línea para ocupar todo el ancho */
     margin: auto;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
 }
 
 .calendar-body {
@@ -69,7 +65,7 @@
     position: relative;
 }
 
-/* --- Tooltip styles --- */
+/* --- Tooltip styles for day cells in MonthView --- */
 .calendar-tooltip {
     position: absolute;
     left: 50%;
@@ -82,8 +78,8 @@
     font-size: 13px;
     white-space: pre-line;
     z-index: 100;
-    min-width: 160px;
-    max-width: 220px;
+    min-width: 120px;
+    text-align: center;
     box-shadow: 0 2px 8px rgba(0,0,0,0.18);
     pointer-events: none;
     opacity: 0;
@@ -105,4 +101,48 @@
     border-width: 7px 7px 0 7px;
     border-style: solid;
     border-color: #222 transparent transparent transparent;
+}
+
+/* --- AJUSTE: Estilos para el nuevo tooltip de los filtros --- */
+.filter-tooltip-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.filter-tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    width: max-content; /* El ancho se ajusta al texto */
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 10;
+    bottom: 140%; /* Posiciona el tooltip arriba del botón */
+    left: 50%;
+    transform: translateX(-50%);
+    transition: opacity 0.2s ease-in-out;
+    font-size: 0.8rem;
+    pointer-events: none; /* Evita que el tooltip interfiera con el mouse */
+}
+
+/* Flecha para el tooltip */
+.filter-tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+/* Muestra el tooltip cuando se pasa el mouse sobre el contenedor */
+.filter-tooltip-container:hover .filter-tooltip-text {
+    visibility: visible;
+    opacity: 1;
 }

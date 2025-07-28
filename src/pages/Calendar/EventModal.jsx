@@ -4,30 +4,22 @@ import './EventModal.css';
 const EventModal = ({ event, onClose }) => {
     if (!event) return null;
 
+    // 3. Ajuste para el nuevo formato de hora "HH:mm:ss"
     const formatTimeInfo = (timeStr) => {
         if (!timeStr || typeof timeStr !== 'string') {
             return { time: '', period: '' };
         }
-
-        const hasAm = timeStr.toLowerCase().includes('a');
-        const hasPm = timeStr.toLowerCase().includes('p');
-
-        let cleanedTime = timeStr.replace(/\s*(a\. m\.|p\. m\.|a|p)/gi, '').trim();
-        let [hours, minutes] = cleanedTime.split(':').map(Number);
+        
+        // El formato de entrada es 24-horas (ej: "09:00:00")
+        let [hours, minutes] = timeStr.split(':').map(Number);
 
         if (isNaN(hours) || isNaN(minutes)) {
             return { time: '', period: '' };
         }
-
-        if (hasPm && hours !== 12) {
-            hours += 12;
-        } else if (hasAm && hours === 12) {
-            hours = 0;
-        }
-
+        
         const displayPeriod = hours >= 12 ? 'PM' : 'AM';
         let displayHours = hours % 12;
-        if (displayHours === 0) {
+        if (displayHours === 0) { // Para las 12 PM y 12 AM
             displayHours = 12;
         }
 
@@ -37,8 +29,8 @@ const EventModal = ({ event, onClose }) => {
         };
     };
 
-    const startTime = formatTimeInfo(event.horario_inicio);
-    const endTime = formatTimeInfo(event.horario_fin);
+    const startTime = formatTimeInfo(event.hora_inicio);
+    const endTime = formatTimeInfo(event.hora_fin);
 
     return (
         <div className="event-modal-backdrop" onClick={onClose}>
@@ -50,6 +42,7 @@ const EventModal = ({ event, onClose }) => {
                         <span className="day">{event.dia}</span>
                     </div>
                     <div className="event-info col-8">
+                        <p className='txt-modalidad'>{event.modalidad}</p>
                         <p className="event-title">{event.titulo}</p>
                     </div>
                     <button className="close-button col-2" onClick={onClose}>
@@ -77,7 +70,8 @@ const EventModal = ({ event, onClose }) => {
 
                     <div className="details-section">
                         <i className="fas fa-map-marker-alt icon"></i>
-                        <span>{event.lugar} - {event.direccion_formacion}</span>
+                        {/* 3. Usar el nuevo campo 'direccion' */}
+                        <span>{event.lugar} - {event.direccion}</span>
                     </div>
                 </div>
 

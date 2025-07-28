@@ -1,4 +1,4 @@
-# tiktok_cookies.json <---- required for session management
+# cookies.json <---- required for session management
 
 import asyncio
 import os
@@ -213,7 +213,7 @@ async def scrape_and_upload():
         context = await browser.new_context(user_agent='Mozilla/5.0')
         
         try:
-            with open('tiktok_cookies.json', 'r') as f:
+            with open('cookies.json', 'r') as f:
                 cookies = json.load(f)
             allowed_same_site_values = ['Lax', 'Strict', 'None']
             cleaned_cookies = []
@@ -228,7 +228,7 @@ async def scrape_and_upload():
             await context.add_cookies(cleaned_cookies)
             logging.info("✅ Cookies de sesión cargadas y limpiadas exitosamente.")
         except FileNotFoundError:
-            logging.warning("⚠️ No se encontró 'tiktok_cookies.json'. El script podría fallar.")
+            logging.warning("⚠️ No se encontró 'cookies.json'. El script podría fallar.")
             await browser.close()
             return []
         except Exception as e:
