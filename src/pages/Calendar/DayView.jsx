@@ -29,25 +29,22 @@ const DayView = ({ date, events, onClose }) => {
 
     const todayEvents = useMemo(() => events
         .filter(e => {
-            // --- AJUSTE CLAVE ---
-            // Se asegura que el evento tenga mes y día, y se normaliza el nombre del mes.
             if (!e.mes || !e.dia) return false;
             const capitalizedMonth = e.mes.charAt(0).toUpperCase() + e.mes.slice(1).toLowerCase();
             const eventMonth = monthMapping[capitalizedMonth];
             const eventDay = parseInt(e.dia, 10);
-            
-            // Compara la fecha del evento con la fecha seleccionada en la vista.
+
             return eventMonth !== undefined && getMonth(date) === eventMonth && getDate(date) === eventDay;
         })
         .sort((a, b) => (a.hora_inicio || '').localeCompare(b.hora_inicio || '')),
-    [date, events]);
+        [date, events]);
 
     const calculatePosition = (time) => {
         if (typeof time !== 'string') return 0;
         const [hour, minute] = time.split(':').map(Number);
         return hour * 60 + (minute || 0);
     };
-    
+
     const processedEvents = useMemo(() => {
         const groups = {};
         todayEvents.forEach(event => {
@@ -80,7 +77,7 @@ const DayView = ({ date, events, onClose }) => {
 
         return layoutEvents.sort((a, b) => a.top - b.top);
     }, [todayEvents]);
-    
+
     const hours = Array.from({ length: 24 }, (_, i) => i);
     const textStyle = { whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
     const capitalize = s => s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : '';
@@ -111,7 +108,7 @@ const DayView = ({ date, events, onClose }) => {
                             <div className="w-100 border-start"></div>
                         </div>
                     ))}
-                    
+
                     <div className="position-absolute" style={{ top: 0, bottom: 0, left: '60px', right: '10px' }}>
                         {processedEvents.map((event, index) => (
                             <div
@@ -127,7 +124,7 @@ const DayView = ({ date, events, onClose }) => {
                             >
                                 <p className="fw-bold mb-0" style={textStyle}>{event.titulo}</p>
                                 <p className="mb-0" style={textStyle}>
-                                  {event.hora_inicio?.substring(0,5)} - {event.hora_fin?.substring(0,5)}
+                                    {event.hora_inicio?.substring(0, 5)} - {event.hora_fin?.substring(0, 5)}
                                 </p>
                             </div>
                         ))}

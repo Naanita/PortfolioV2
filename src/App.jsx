@@ -16,7 +16,7 @@ import Test from './pages/SMB/test.jsx';
 import TikHikLatam from './pages/Tiktok/latam/TikHikLatam.jsx'
 import TikHikMx from './pages/Tiktok/mx/TikHikMx.jsx'
 import MexicoCalendarPage from './pages/Calendar/MexicoCalendarPage.jsx';
-import LatamCalendarPage from './pages/Calendar/LatamCalendarPage.jsx';
+// import LatamCalendarPage from './pages/Calendar/LatamCalendarPage.jsx';
 import AcuSeek from './pages/Acuseek/AcuSeek.jsx';
 
 // ImprovedNoise
@@ -39,7 +39,7 @@ function App() {
       <Route path='/tiktok/latam' element={<TikHikLatam/>}/>
       <Route path='/tiktok/mx' element={<TikHikMx />} />
       <Route path='/mexico-calendar' element={<MexicoCalendarPage />} />
-      <Route path='/latam-calendar' element={<LatamCalendarPage />} />
+      {/* <Route path='/latam-calendar' element={<LatamCalendarPage />} /> */}
       <Route path='/acuseek' element={<AcuSeek />} />
       
       

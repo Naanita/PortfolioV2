@@ -45,7 +45,7 @@ const Calendar = ({ events, availableTabs, defaultTab }) => {
 
         //     return !isPast(eventDate) || isToday(eventDate);
         // });
-        return baseEventsForTab;   // Retorna todos los eventos para el tab activo
+        return baseEventsForTab;   // Comentar para filtrar los próximos eventos y descomentar el de arriba si se desea filtrar 
     }, [baseEventsForTab]);
 
     const filteredEventsForDayView = useMemo(() => {
