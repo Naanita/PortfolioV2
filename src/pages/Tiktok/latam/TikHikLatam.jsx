@@ -143,7 +143,7 @@ const TikHikLatam = () => {
                                     rel="noopener noreferrer"
                                     className="d-flex flex-column align-items-center text-center video-container"
                                     style={{ transition: 'transform 0.4s', textDecoration: 'none', color: 'inherit' }}
-                                    tabIndex={-1}
+                                    tabIndex={-1}   
                                     aria-label={`Ver video de ${video.description} en TikTok. Vistas: ${formatNumber(video.views)}, Comentarios: ${formatNumber(video.comments)}`}
                                     title={`Ver video de ${video.description} en TikTok`}
                                     onClick={() => sendTikTokEvent('click_video_link', video)}
