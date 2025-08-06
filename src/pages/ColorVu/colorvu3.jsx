@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
-import beforeImg from "../../assets/img/colorvu/before.png";
-import afterImg from "../../assets/img/colorvu/after.png";
+import beforeImg from "../../assets/img/colorvu/before.jpg";
+import afterImg from "../../assets/img/colorvu/after.jpg";
 import "./colorvu3.css";
 
 const ColorVu3 = () => {
